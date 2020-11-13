@@ -1,0 +1,13 @@
+/* Nav styling */
+
+.navContentLink[aria-expanded='true'] i.fa-bars,
+.navContentLink[aria-expanded='false'] i.fa-times
+{
+    display: none;
+}
+
+.nav-menu i{
+    color: black !important;
+    font-size: 4rem;
+    -webkit-text-stroke: 7px white;
+}
