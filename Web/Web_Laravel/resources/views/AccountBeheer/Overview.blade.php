@@ -47,10 +47,7 @@
                 </div>
             </div>
             <div id="Vakken" class="tab-pane fade">
-                @inject('Controller', '\App\Http\Controllers\Students\StudentController')
-                @foreach($Controller->index() as $value)
-                <li>{{ $value }}</li>
-                @endforeach
+        
             </div>
         </div>
 

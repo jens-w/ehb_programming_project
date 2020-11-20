@@ -21,7 +21,7 @@ use App\Models\Opleiding;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
 });
 
 // custom validation
@@ -45,6 +45,8 @@ Route::post('/Opleidingen/CreatePost', [OpleidingController::class,'createPost']
 Route::get('/Students/Overview', [StudentController::class, 'index']);
 
 Route::get('/Account/overview', [AccountBeheerController::class, 'index'])->name('accountBeheer');
+Route::get('/Account/GetAccountInfo', [AccountBeheerController::class, 'GetAccountInfo'])->name('accountInfo');
+Route::get('/Account/GetJsonDummyDataAccount', [AccountBeheerController::class, 'GetJsonDummyDataAccount'])->name('accountInfoDummy');
 
 Auth::routes();
 Route::get('/createUser', [RegistrationController::class, 'register'])->name('createUser');

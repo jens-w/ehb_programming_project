@@ -13,13 +13,16 @@
                         </a>
                     </div>
 
-                    <div class="col-6 d-flex justify-content-center align-items-center">
+                    <div class="col-md-6 d-flex justify-content-center align-items-center">
                         @auth
-                        <ul class="list-unstyled">
-                            <li>Welkom terug, {{ Auth::user()->voornaam }}!</li>
+                        <div class="col-12 welcome-msg">
+                            <p>Welkom terug,</p>
+                            <p> {{ Auth::user()->voornaam }}!</p>
+                        </div>
+                        <div class="col-12">
                             <!-- Routes benamingen worden gedefiniëerd onder routes/web.php -->
-                            <li><a href="{{route('logout')}}">Uitloggen</a></li>
-                        </ul>
+                            <a href="{{route('logout')}}" class="btn btn-dark">Uitloggen</a>
+                        </div>
                         @endauth
                     </div>
                 </div>
@@ -28,13 +31,28 @@
                 <img src="{{ asset('images/logo/Main_Logo_V1.png')}}" />
             </div>
             <div class="col-md-4 d-flex justify-content-center align-items-center">
-                @auth
                 <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-6">
-                        <a type="button" class="btn btn-light" href="{{ route('accountBeheer')}}">AccountBeheer</a>
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        @auth
+                        <div class="user-link d-flex">
+                            <!-- link naar accountbeheer -->
+                            <a href="{{ route('accountBeheer')}}" class="text-decoration-none d-flex align-items-baseline">
+                                <i class="far fa-user"></i>
+                                {{ Auth::user()-> voornaam }}
+                            </a>
+                            <!-- TODO: Link/route naar statistieken -->
+                            <a href="" class="text-decoration-none d-flex align-items-baseline">
+                                <i class="fas fa-chart-line"></i>
+                            </a>
+                        </div>                      
+                        @endauth
+                        @guest
+                        <!-- Routes benamingen worden gedefiniëerd onder routes/web.php -->
+                        <a href="{{route('login')}}" class="btn btn-dark mx-2">Inloggen</a>
+                        <a href="{{route('createUser')}}" class="btn btn-dark">Registreren</a>
+                        @endguest
                     </div>
                 </div>
-                @endauth
             </div>
         </div>
         <div class="row w-100 collapse" id="navContent">
