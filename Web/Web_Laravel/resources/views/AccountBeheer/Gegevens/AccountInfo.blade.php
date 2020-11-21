@@ -1,6 +1,6 @@
 
 
 <a href="/some/url/">
-    {{$results}}
+    {{$decodedArray -> voornaam }}
 </a>
 <br />
