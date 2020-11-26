@@ -1,0 +1,19 @@
+[
+    {
+      "id":"5",
+      "userkey": "555",
+      "snowflake": "85414894149"
+    },
+
+    {
+      "id":"6",
+      "userkey": "666",
+      "snowflake": ""
+    },
+
+    {
+      "id":"7",
+      "userkey": "777",
+      "snowflake": ""
+    }
+]

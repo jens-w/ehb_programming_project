@@ -1,1 +1,1 @@
-# ehb_programming_project
+# Discordbot
