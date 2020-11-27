@@ -1,0 +1,4 @@
+@font-face {
+    font-family: MontSerrat;
+    src: url('{{ asset("fonts/MontSerrat-Regular.ttf") }}');
+}

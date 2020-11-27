@@ -54,7 +54,7 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         
     
         // return view 
-        return View::make('AccountBeheer/Gegevens.AccountInfo')->with('userViewModel', $user);
+        return View::make('AccountBeheer/Gegevens.AccountInfo')->with('AccountViewModel', $user);
       
     }
 
