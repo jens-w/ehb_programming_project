@@ -5,8 +5,11 @@ namespace Illuminate\Queue;
 use Exception;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Queue\Job;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pipeline\Pipeline;
 use ReflectionClass;
@@ -57,7 +60,15 @@ class CallQueuedHandler
             return $this->handleModelNotFound($job, $e);
         }
 
+        if ($command instanceof ShouldBeUniqueUntilProcessing) {
+            $this->ensureUniqueJobLockIsReleased($command);
+        }
+
         $this->dispatchThroughMiddleware($job, $command);
+
+        if (! $job->isReleased() && ! $command instanceof ShouldBeUniqueUntilProcessing) {
+            $this->ensureUniqueJobLockIsReleased($command);
+        }
 
         if (! $job->hasFailed() && ! $job->isReleased()) {
             $this->ensureNextJobInChainIsDispatched($command);
@@ -154,6 +165,31 @@ class CallQueuedHandler
     }
 
     /**
+     * Ensure the lock for a unique job is released.
+     *
+     * @param  mixed  $command
+     * @return void
+     */
+    protected function ensureUniqueJobLockIsReleased($command)
+    {
+        if (! $command instanceof ShouldBeUnique) {
+            return;
+        }
+
+        $uniqueId = method_exists($command, 'uniqueId')
+                    ? $command->uniqueId()
+                    : ($command->uniqueId ?? '');
+
+        $cache = method_exists($command, 'uniqueVia')
+                    ? $command->uniqueVia()
+                    : $this->container->make(Cache::class);
+
+        $cache->lock(
+            'laravel_unique_job:'.get_class($command).$uniqueId
+        )->forceRelease();
+    }
+
+    /**
      * Handle a model not found exception.
      *
      * @param  \Illuminate\Contracts\Queue\Job  $job
@@ -191,6 +227,10 @@ class CallQueuedHandler
     public function failed(array $data, $e, string $uuid)
     {
         $command = unserialize($data['command']);
+
+        if (! $command instanceof ShouldBeUniqueUntilProcessing) {
+            $this->ensureUniqueJobLockIsReleased($command);
+        }
 
         $this->ensureFailedBatchJobIsRecorded($uuid, $command, $e);
         $this->ensureChainCatchCallbacksAreInvoked($uuid, $command, $e);
