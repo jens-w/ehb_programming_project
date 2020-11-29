@@ -45,6 +45,7 @@ Route::post('/Opleidingen/CreatePost', [OpleidingController::class,'createPost']
 Route::get('/Students/Overview', [StudentController::class, 'index']);
 
 Route::get('/Account/overview', [AccountBeheerController::class, 'index'])->name('accountBeheer');
+Route::post('/Account/update', [AccountBeheerController::class, 'update'])->name('update');
 Route::get('/Account/GetAccountInfo', [AccountBeheerController::class, 'GetAccountInfo'])->name('accountInfo');
 Route::get('/Account/GetJsonDummyDataAccount', [AccountBeheerController::class, 'GetJsonDummyDataAccount'])->name('accountInfoDummy');
 

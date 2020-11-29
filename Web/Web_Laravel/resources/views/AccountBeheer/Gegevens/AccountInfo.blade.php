@@ -5,15 +5,17 @@
             <div class="col-sm-3">
                 <ul class="nav nav-tabs border-0">
                     <li class="d-flex align-items-center">
-                        <a data-toggle="tab" href="#AccountInfoTab"><i class="far fa-user"></i>Account Gegegevens</a>
+                        <a data-toggle="tab" class="d-flex" href="#AccountInfoTab"><i
+                                class="far fa-user"></i><span>Account Gegegevens</span></a>
                     </li>
                     <li class="d-flex align-items-center">
-                        <a data-toggle="tab" href="#AccountStats"><i class="fas fa-book-open"></i>Statistieken</a>
+                        <a data-toggle="tab" class="d-flex" href="#AccountStats"><i
+                                class="fas fa-book-open"></i><span>Statistieken</span></a>
                     </li>
                 </ul>
             </div>
             <!-- tab effective -->
-            <div class="col-sm-9">
+            <div class="col-sm-9">                
                 <div class="tab-content border-0">
                     <div class="tab-pane fade in active" id="AccountInfoTab">
                         <div class="row">
@@ -41,7 +43,32 @@
                             <div class="col-6 sub-title">
                                 <?php echo $AccountViewModel->type ?>
                             </div>
+                            <div class="col-12 d-flex justify-content-end">
+                                <a data-toggle="tab" class="d-flex" href="#AccountEdit"><span>Bewerken</span><i
+                                        class="fas fa-arrow-right"></i></i></a>
+                            </div>
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="AccountEdit">
+                        <form method="post" action="{{ route('update') }}">
+
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="<?php echo $AccountViewModel->id ?>">
+
+                                <label>Voornaam </label>
+                                <input name="voornaam" class="form-control"
+                                    value='<?php echo $AccountViewModel->voornaam ?>'>
+                            </div>
+                            <div class="form-group">
+                                <label>Email: </label>
+                                <input name="email" class="form-control"
+                                    value='<?php echo $AccountViewModel ->email ?>'>
+                            </div>
+
+
+                            <button type="update" class="btn btn-default">Update</button>
+                        </form>
                     </div>
                     <div class="tab-pane fade" id="AccountStats">
                         baihjdpazejfefeqfffe

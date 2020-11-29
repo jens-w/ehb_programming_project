@@ -18,3 +18,13 @@ body {
 
 a:hover {text-decoration: none;}
 a {color:#000}
+
+
+/* Status messages */ 
+
+.status-message-success {
+    margin: 10px 0px;
+    padding: 10px;
+    width: fit-content;
+    background: #D9F7C5;
+}

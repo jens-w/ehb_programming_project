@@ -26,13 +26,29 @@ class User extends Authenticatable
 
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast to native types. 
      *
      * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // setter - its SetFooAttribute ( where Foo is the name of the column from the attribute )
+    public function SettypeAttribute($value){
+       switch($value){
+           case 1:
+            $this->attributes['type'] = 500;
+           break;
+           case 2:
+            $this->attributes['type'] = 400;
+           break;
+           case 3:
+            $this->attributes['type'] = 300;
+           break;
+       }
+        
+    }
     
     public $timestamps = false;
 }

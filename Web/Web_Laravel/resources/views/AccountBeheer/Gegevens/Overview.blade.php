@@ -9,7 +9,18 @@
 
 @section('content')
 <!-- Main account beheer paneel -->
- <!-- div wordt opgevuld door ajax call & dynamisch aangemaakt in partial view _AccountInfo.blade.php -->
+
+<!-- showing any status messages -->
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            @if($errors->any())
+            <h4 class="{{$errors -> first() }}">{{ $errors -> first('test')}}</h4>
+            @endif
+        </div>
+    </div>
+</div>
+<!-- div wordt opgevuld door ajax call & dynamisch aangemaakt in partial view _AccountInfo.blade.php -->
 <div id="AccountInfo" class="my-5">
 </div>
 @endsection
