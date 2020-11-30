@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- Import custom font faces file -->
 <link rel="stylesheet" href="{{ asset('css/fonts/font.css')}}">
+<!-- Import custom keyframes CSS3 logic file -->
+<link rel="stylesheet" href="{{ asset('css/main/keyframes/keyframes.css')}}">
 <!-- Import Main Css file -->
 <link rel="stylesheet" href="{{ asset('css/main/main.css')}}">
 <!-- Import custom Navigation file -->

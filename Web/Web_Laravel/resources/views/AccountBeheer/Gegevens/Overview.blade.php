@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-12">
             @if($errors->any())
-            <h4 class="{{$errors -> first() }}">{{ $errors -> first('test')}}</h4>
+            <h4 class="status-message-success">{{ $errors -> first()}}</h4>
             @endif
         </div>
     </div>

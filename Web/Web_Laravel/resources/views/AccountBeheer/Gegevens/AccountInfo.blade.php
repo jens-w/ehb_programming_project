@@ -10,12 +10,12 @@
                     </li>
                     <li class="d-flex align-items-center">
                         <a data-toggle="tab" class="d-flex" href="#AccountStats"><i
-                                class="fas fa-book-open"></i><span>Statistieken</span></a>
+                                class="fas fa-book-open"></i><span>Vakken</span></a>
                     </li>
                 </ul>
             </div>
             <!-- tab effective -->
-            <div class="col-sm-9">                
+            <div class="col-sm-9">
                 <div class="tab-content border-0">
                     <div class="tab-pane fade in active" id="AccountInfoTab">
                         <div class="row">
@@ -44,8 +44,12 @@
                                 <?php echo $AccountViewModel->type ?>
                             </div>
                             <div class="col-12 d-flex justify-content-end">
-                                <a data-toggle="tab" class="d-flex" href="#AccountEdit"><span>Bewerken</span><i
-                                        class="fas fa-arrow-right"></i></i></a>
+                                <ul class="nav nav-tabs border-0">
+                                    <li class="list-unstyled">
+                                        <a data-toggle="tab" class="d-flex" href="#AccountEdit"><span>Bewerken</span><i
+                                                class="fas fa-arrow-right"></i></i></a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -80,9 +84,20 @@
 </div>
 
 <script>
-// on first load events
-$(document).ready(function() {
-    // init first click on load
-    $('a[href="#AccountInfoTab"]').click();
-})
+
+
+// Javascript to enable link to tab and open the correct one on load
+var hash = document.location.hash;
+var prefix = "tab_";
+if (hash) {
+    $('.nav-tabs a[href="'+hash.replace(prefix,"")+'"]').tab('show');
+}
+else {
+    $('a[href="#AccountInfoTab"]').tab('show');
+}
+
+// Change hash for page-reload
+$('.nav-tabs a').on('shown', function (e) {
+    window.location.hash = e.target.hash.replace("#", "#" + prefix);
+});
 </script>

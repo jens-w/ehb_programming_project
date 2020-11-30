@@ -21,7 +21,7 @@ use App\Models\Opleiding;
 */
 
 Route::get('/', function () {
-    return view('main');
+    return view('home');
 });
 
 // custom validation

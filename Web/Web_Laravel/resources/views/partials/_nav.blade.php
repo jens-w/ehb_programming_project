@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <img src="{{ asset('images/logo/Main_Logo_V1.png')}}" />
+                <a class="w-25" href="{{ route('home')}}"><img class="w-100 h-auto" src="{{asset('images\home\banner-home.png')}}" /></a>
             </div>
             <div class="col-md-4 d-flex justify-content-center align-items-center">
                 <div class="row d-flex justify-content-center align-items-center">
