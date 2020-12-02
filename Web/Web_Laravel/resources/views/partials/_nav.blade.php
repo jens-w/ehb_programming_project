@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <a class="" href="{{ route('home')}}"><img class="" src="{{asset('images\home\banner-home_1.png')}}" /></a>
+                <a class="" href="{{ route('homepage')}}"><img class="" src="{{asset('images\home\banner-home_1.png')}}" /></a>
             </div>
             <div class="col-md-4 d-flex justify-content-center align-items-center">
                 <div class="row d-flex justify-content-center align-items-center">
@@ -53,20 +53,19 @@
         </div>
         <div class="row w-100 collapse" id="navContent">
             <div class="col-12 d-flex justify-content-start">
-                @guest
-                <ul class="list-unstyled">
-                    <!-- Routes benamingen worden gedefiniëerd onder routes/web.php -->
-                    <li class=""><a href="{{route('createUser')}}">Registreren</a></li>
-                    <li><a href="{{route('loginInit')}}">Inloggen</a></li>
-                </ul>
-                @endguest
-                @auth
+               @if(session()->has('userData'))              
                 <ul class="list-unstyled">
                     <li>
                         <!-- AUTH CONTENT MENU -->
                     </li>
                 </ul>
-                @endauth
+                @else
+                <ul class="list-unstyled">
+                    <!-- Routes benamingen worden gedefiniëerd onder routes/web.php -->
+                    <li class=""><a href="{{route('createUser')}}">Registreren</a></li>
+                    <li><a href="{{route('loginInit')}}">Inloggen</a></li>
+                </ul>
+                @endif
             </div>
         </div>
     </div>

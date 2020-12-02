@@ -38,13 +38,13 @@ class User extends Authenticatable
     public function SettypeAttribute($value){
        switch($value){
            case 1:
-            $this->attributes['type'] = 500;
+            $this->attributes['type'] = "Admin";
            break;
            case 2:
-            $this->attributes['type'] = 400;
+            $this->attributes['type'] = "Leraar";
            break;
            case 3:
-            $this->attributes['type'] = 300;
+            $this->attributes['type'] = "Student";
            break;
        }
         

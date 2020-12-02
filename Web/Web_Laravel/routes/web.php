@@ -22,7 +22,7 @@ use App\Models\Opleiding;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('homepage');
 
 // custom validation
 

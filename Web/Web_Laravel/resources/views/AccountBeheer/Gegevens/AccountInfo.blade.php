@@ -5,12 +5,10 @@
             <div class="col-sm-3">
                 <ul class="nav nav-tabs border-0">
                     <li class="d-flex align-items-center">
-                        <a data-toggle="tab" class="d-flex" href="#AccountInfoTab"><i
-                                class="far fa-user"></i><span>Account Gegegevens</span></a>
+                        <a data-toggle="tab" class="d-flex" href="#AccountInfoTab"><i class="far fa-user"></i><span>Account Gegegevens</span></a>
                     </li>
                     <li class="d-flex align-items-center">
-                        <a data-toggle="tab" class="d-flex" href="#AccountStats"><i
-                                class="fas fa-book-open"></i><span>Vakken</span></a>
+                        <a data-toggle="tab" class="d-flex" href="#AccountCourses"><i class="fas fa-book-open"></i><span>Vakken</span></a>
                     </li>
                 </ul>
             </div>
@@ -35,7 +33,7 @@
                                 Email:
                             </div>
                             <div class="col-6 sub-title">
-                                <?php echo $AccountViewModel ->email ?>
+                                <?php echo $AccountViewModel->email ?>
                             </div>
                             <div class="col-6">
                                 Type:
@@ -46,8 +44,7 @@
                             <div class="col-12 d-flex justify-content-end">
                                 <ul class="nav nav-tabs border-0">
                                     <li class="list-unstyled">
-                                        <a data-toggle="tab" class="d-flex" href="#AccountEdit"><span>Bewerken</span><i
-                                                class="fas fa-arrow-right"></i></i></a>
+                                        <a data-toggle="tab" class="d-flex" href="#AccountEdit"><span>Bewerken</span><i class="fas fa-arrow-right"></i></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -55,31 +52,41 @@
                     </div>
                     <div class="tab-pane fade" id="AccountEdit">
                         <form method="post" action="{{ route('update') }}">
-
+                            <input type="hidden" name="id" value="<?php echo $AccountViewModel->id ?>">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="form-group">
-                                <input type="hidden" name="id" value="<?php echo $AccountViewModel->id ?>">
-
-                                <label>Voornaam </label>
-                                <input name="voornaam" class="form-control"
-                                    value='<?php echo $AccountViewModel->voornaam ?>'>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Voornaam </label>
+                                        <input name="voornaam" class="form-control" value='<?php echo $AccountViewModel->voornaam ?>'>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Familienaam </label>
+                                        <input name="familienaam" class="form-control" value='<?php echo $AccountViewModel->familienaam?>'>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Email: </label>
-                                <input name="email" class="form-control"
-                                    value='<?php echo $AccountViewModel ->email ?>'>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email: </label>
+                                        <input name="email" class="form-control" value='<?php echo $AccountViewModel->email ?>'>
+                                    </div>
+                                </div>
                             </div>
-
-
-                            <button type="update" class="btn btn-default">Update</button>
+                            <button type="update" class="btn btn-dark">Update</button>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="AccountStats">
-                        baihjdpazejfefeqfffe
+                    <div class="tab-pane fade" id="AccountCourses">
+                        @foreach($vakkenViewModel as $vak){
+                           <?php echo $vak->Naam ?>
+                        }
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

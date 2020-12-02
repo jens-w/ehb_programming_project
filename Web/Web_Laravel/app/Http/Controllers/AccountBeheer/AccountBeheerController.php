@@ -8,33 +8,57 @@ use \App\Models\Users\Student;
 use \App\Models\Users\Teacher;
 use \App\Models\Users\Admin;
 use \App\Models\User;
+use \App\Models\Vakken\Vak;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use View;
+use Illuminate\Support\Collection;
 use Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Redirect;
 use Illuminate\Support\Facades\Http;
+use PhpParser\Node\Expr\List_;
+
 class AccountBeheerController extends \App\Http\Controllers\Controller
 {
 
     public function index()
     {
-        // request naar api ( momenteel is dit onze dummy data, onze lokale user storage dus)
-        $AccountViewModel = new User();  
-        // check wether you have a session active  
+        
+        // check wether you have a session active (komende dus van verificatie api) 
         if(!Session::has('userData')){
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen!']);
+            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
         }
+        
+        /* ACCOUNT */
+         
         // if not, get the data and create model
         $sessionData = Session::get('userData');
+        $AccountViewModel = new User(); 
         //encode request to proper json
         $decodedAsArray = json_encode($sessionData, true);
         //decode request to proper array (thats why second param. = true !!)
         $result = json_decode($decodedAsArray, true);
         $AccountViewModel->forceFill($result);
-        return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel',$AccountViewModel);
+
+        /* VAKKEN */ 
+        $vak1 = new Vak();
+        $vak1->Id = 1;
+        $vak1->Naam = "Java";
+        $vak1->jaar = "2020";
+        $vak1->opleidingsId = 12244;
+        
+        $vak2 = new Vak();
+        $vak2->Id = 2;
+        $vak2->Naam = "Programming Project";
+        $vak2->jaar = "2020";
+        $vak2->opleidingsId = 12244;
+        new Collection(array($vak2->toAtt));
+        $vakkenViewModel =  $vak2->array();
+
+
+        return view('AccountBeheer/Gegevens.Overview', compact('AccountViewModel','vakkenViewModel'));
     }
 
     public function GetJsonDummyDataAccount(){

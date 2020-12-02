@@ -47,10 +47,11 @@ class AuthController extends Controller
 
         if(request('email') == "michaelbracke@hotmail.com" && request('password') == "Becosoft2020!"){
             $user = new User();
+            $user -> id = 1;
             $user -> email = request('email');
             $user -> voornaam = "Jantje";
-            $user -> Familienaam = "Vermeulen";
-            $user -> type = "Student";
+            $user -> familienaam = "Vermeulen";
+            $user -> type = 1;
             Session::put('userData', $user);
             Session::save();
             // return view 
