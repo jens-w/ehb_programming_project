@@ -30,12 +30,17 @@ Route::get('/', function () {
 
  
 
+// test ////
 
+Route::get('/test',[AccountBeheerController::class, 'TestApiRequest'])->name('test');
+
+
+/// -- end test ///
 
 Route::get('/loginInit', [AuthController::class, 'loginInit'])->name('loginInit');
-Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginPost');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
- 
+Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginApi');
+Route::get('/logout', [AuthController::class, 'logout'])->name('forgetSession');
+
 Route::post('/authenticate',[LoginController::class, 'authenticate'])->name('authenticate');
 
 Route::get('/Opleidingen/Overview', [OpleidingController::class, 'index']);

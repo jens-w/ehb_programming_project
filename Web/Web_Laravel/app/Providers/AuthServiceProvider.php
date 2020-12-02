@@ -1,30 +1,29 @@
 <?php
 
 namespace App\Providers;
-
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-
+use Auth;
+use App\Providers\CustomUserProvider;
+use Illuminate\Support\ServiceProvider;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
-    protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-    ];
-
-    /**
-     * Register any authentication / authorization services.
+     * Perform post-registration booting of services.
      *
      * @return void
      */
     public function boot()
     {
-        $this->registerPolicies();
-
+        \Illuminate\Support\Facades\Auth::provider('coursequiz', function($app, array $config) {
+            return new CustomUserProvider($app['hash'], $config['model']);
+        });
+    }
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
         //
     }
 }

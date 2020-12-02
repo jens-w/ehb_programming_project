@@ -23,17 +23,24 @@ class LoginController extends Controller
             'password'  => Request('password'),
             'email'     => Request('email')
         );
+
+        if(Auth::guard('coursequiz')){
+            echo 'SUCCESS!';
+            echo  Auth::user()->uname;
+        }
+        /*
         if (Auth::attempt($userdata,true)) {
 
             // validation successful!
             // redirect them to the secure section or whatever
             // return Redirect::to('secure');
             // for now we'll just echo success (even though echoing in a controller is bad)
-            //return Redirect::to('Home');
+            // return Redirect::to('Home');
+
             echo 'SUCCESS!';
             echo  Auth::user()->uname;
-
         }
+        */
         else {
             redirect()->back();
         }

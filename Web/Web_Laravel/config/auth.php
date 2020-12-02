@@ -39,13 +39,18 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-        ],
+         ],
 
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'externalApiAuth' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ]
     ],
 
     /*
@@ -67,10 +72,16 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'coursequiz',
             'model' => App\Models\User::class,
-        ],
 
+            /* CUSTOM API DRIVER */
+            /* ref = https://www.georgebuckingham.com/laravel-52-auth-custom-user-providers-drivers/ */
+            /* 'driver' => 'coursequiz' */
+
+            
+        ],
+        
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

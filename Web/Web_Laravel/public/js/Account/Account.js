@@ -1,38 +1,18 @@
 // ACCOUNT.JS -- ENKEL OP DE ACCOUNT PAGINA GERENDERD // 
 
 
-$(document).ready(function(){
-    GetJsonDummyDataAccount();
+// Change hash for page-reload
+$('.nav-tabs a').on('shown', function (e) {
+    window.location.hash = e.target.hash.replace("#", "#" + prefix);
+});
+
+$(document).ready(function () {
+    // Javascript to enable link to tab and open the correct one on load
+    var hash = document.location.hash;
+    var prefix = "tab_";
+    if (hash) {
+        $('.nav-tabs a[href="' + hash.replace(prefix, "") + '"]').tab('show');
+    } else {
+        $('a[href="#AccountInfoTab"]').tab('show');
+    }
 })
-
-
-function GetJsonDummyDataAccount(){
-
-// eerste ajax call, nu word deze data gevoed met dummy data
-    // deze data gaat dan normaliter van de API komen 
-    $.ajax( {
-        type: 'GET',
-        dataType: 'json',
-        url: 'GetJsonDummyDataAccount',
-        success: function(json){
-            GetAccountInfo(json)
-        }
-    })
-}
-
-// Populate account info div based on retrieved Json
-function GetAccountInfo(retrievedJson) {
-   
-    $.ajax({
-        type: 'GET',
-        url: 'GetAccountInfo',
-        dataType: "html",
-        data: { request : retrievedJson},
-        success: function (data) {
-                $("#AccountInfo").html(data);        
-            
-        }
-    });
-}
-
-

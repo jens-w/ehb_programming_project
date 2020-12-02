@@ -2,10 +2,22 @@
 
 
 @section('content')
+<!-- showing any status messages -->
+
+    <div class="row d-flex justify-content-center my-2">
+        <div class="col-md-6">
+            @if($errors->any())
+            <h4 class="alert-danger">{{ $errors -> first()}}</h4>
+            @endif
+        </div>
+    </div>
+
+
+
 <div class="row d-flex justify-content-center">
     <div class="col-md-6">
         <h2>Inloggen</h2>
-        <form autocomplete="off" method="POST" action="{{ route('login') }}">
+        <form autocomplete="off" method="POST" action="{{ route('loginApi') }}">
             {{ csrf_field() }}
             <!--since chrome autocompletes first two inputs, create two hidden ones to prevent rest from autocompleting. -->
             <input style="display:none">
@@ -15,7 +27,7 @@
                 <input type="email" class="form-control" id="email" name="email">
             </div>
             <div class="form-group">
-                <label for="userkey">Userkey:</label>
+                <label for="userkey">Paswoord:</label>
                 <input type="password" autocomplete="false" class="form-control disabled show" id="password"
                     name="password">                
             </div>

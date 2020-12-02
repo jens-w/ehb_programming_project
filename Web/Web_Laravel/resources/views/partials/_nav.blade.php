@@ -5,7 +5,7 @@
         <div class="row w-100">
             <div class="col-md-4 nav-menu d-flex align-items-center">
                 <div class="row d-flex align-items-center">
-                    <div class="col-6 d-flex justify-content-start align-items-center">
+                    <div class="col-md-4 d-flex justify-content-start align-items-center">
                         <a class="navContentLink" data-toggle="collapse" href="#navContent" role="button"
                             aria-expanded="false" aria-controls="navbar">
                             <i class="fas fa-bars"></i>
@@ -13,44 +13,40 @@
                         </a>
                     </div>
 
-                    <div class="col-md-6 d-flex justify-content-center align-items-center">
-                        @auth
+                    <div class="col-md-8 d-flex justify-content-center align-items-center">
+                     @if(session()->has('userData'))
                         <div class="col-12 welcome-msg">
                             <p>Welkom terug,</p>
-                            <p> {{ Auth::user()->voornaam }}!</p>
-                        </div>
-                        <div class="col-12">
-                            <!-- Routes benamingen worden gedefiniëerd onder routes/web.php -->
-                            <a href="{{route('logout')}}" class="btn btn-dark">Uitloggen</a>
-                        </div>
-                        @endauth
+                            <p>  {{ session('userData')['voornaam']}} !</p>
+                        </div>                      
+                     @endif
                     </div>
                 </div>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <a class="w-25" href="{{ route('home')}}"><img class="w-100 h-auto" src="{{asset('images\home\banner-home.png')}}" /></a>
+                <a class="" href="{{ route('home')}}"><img class="" src="{{asset('images\home\banner-home_1.png')}}" /></a>
             </div>
             <div class="col-md-4 d-flex justify-content-center align-items-center">
                 <div class="row d-flex justify-content-center align-items-center">
                     <div class="col-12 d-flex justify-content-center align-items-center">
-                        @auth
+                      @if(session()->has('userData'))
                         <div class="user-link d-flex">
                             <!-- link naar accountbeheer -->
                             <a href="{{ route('accountBeheer')}}" class="text-decoration-none d-flex align-items-baseline">
                                 <i class="far fa-user"></i>
-                                {{ Auth::user()-> voornaam }}
+                                {{ session('userData')['voornaam']}}
                             </a>
                             <!-- TODO: Link/route naar statistieken -->
                             <a href="" class="text-decoration-none d-flex align-items-baseline">
                                 <i class="fas fa-chart-line"></i>
                             </a>
+                            <a href="{{ route('forgetSession')}}" class="btn btn-dark">Uitloggen</a>
                         </div>                      
-                        @endauth
-                        @guest
+                        @else
                         <!-- Routes benamingen worden gedefiniëerd onder routes/web.php -->
-                        <a href="{{route('login')}}" class="btn btn-dark mx-2">Inloggen</a>
-                        <a href="{{route('createUser')}}" class="btn btn-dark">Registreren</a>
-                        @endguest
+                        <a href="{{route('loginInit')}}" class="btn btn-dark mx-2">Inloggen</a>
+                        <a href="{{route('createUser')}}" class="btn btn-dark">Registreren</a>                                              
+                        @endif
                     </div>
                 </div>
             </div>

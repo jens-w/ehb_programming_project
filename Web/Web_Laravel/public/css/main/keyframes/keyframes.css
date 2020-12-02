@@ -1,7 +1,7 @@
 /* ---- FADE IN EFFECTS ---- 
 ___________________________________________________
 usage in css files :
-ZZZZZ
+
      animation: fadein 2s;
     -moz-animation: fadein 2s; /* Firefox 
     -webkit-animation: fadein 2s; /* Safari and Chrome 
@@ -41,5 +41,98 @@ ___________________________________________________
     }
     to {
         opacity: 1;
+    }
+}
+
+/* ---- FADE IN LEFT  ---- 
+___________________________________________________
+usage in css files :
+
+     animation: fadein-left 2s;
+    -moz-animation: fadein 2s; /* Firefox 
+    -webkit-animation: fadein 2s; /* Safari and Chrome 
+    -o-animation: fadein 2s; /* Opera 
+
+___________________________________________________
+*/
+
+
+@keyframes fadein-left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@-moz-keyframes fadein-left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@-webkit-keyframes fadein-left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@-o-keyframes fadein-left {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+/* ---- FADE IN RIGHT  ---- 
+___________________________________________________
+usage in css files :
+
+     animation: fadein-right 2s;
+    -moz-animation: fadein-right 2s; /* Firefox 
+    -webkit-animation: fadein-right 2s; /* Safari and Chrome 
+    -o-animation: fadein-right 2s; /* Opera 
+
+___________________________________________________
+*/
+
+
+@keyframes fadein-right {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@-moz-keyframes fadein-right {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@-webkit-keyframes fadein-right {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@-o-keyframes fadein-right {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
     }
 }

@@ -9,7 +9,6 @@
 
 @section('content')
 <!-- Main account beheer paneel -->
-
 <!-- showing any status messages -->
 <div class="container">
     <div class="row">
@@ -20,8 +19,9 @@
         </div>
     </div>
 </div>
-<!-- div wordt opgevuld door ajax call & dynamisch aangemaakt in partial view _AccountInfo.blade.php -->
+
 <div id="AccountInfo" class="my-5">
+  @include('AccountBeheer/Gegevens.AccountInfo')
 </div>
 @endsection
 
