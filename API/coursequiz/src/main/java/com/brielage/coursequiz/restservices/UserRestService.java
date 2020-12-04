@@ -26,23 +26,20 @@ public class UserRestService {
     @SuppressWarnings("rawtypes")
     public Map createUser(JsonNode jsonNode) {
         /*
-            expected JSON request
-
+            REQUEST
             {
-                    "voornaam" : "mijn_voornaam",
-                    "familienaam" : "mijn_familienaam",
-                    "email" : "mijn@ema.il",
-                    "password" : "mijn_password12!34"
+                "voornaam" : "mijn_voornaam",
+                "familienaam" : "mijn_familienaam",
+                "email" : "mijn@ema.il",
+                "password" : "mijn_password12!34"
             }
 
-            expected succes JSON response
-
+            RESPONSE SUCCESS
             {
                 "success" : true
             }
 
-            expected fail JSON response
-
+            RESPONSE FAIL
             {
                 "success" : false,
                 "error" : [
@@ -96,8 +93,10 @@ public class UserRestService {
             jsonResponse.add("errors", fouten);
         } else {
             User u = new User(voornaam, familienaam, email, "");
-            logger.info("user info:\n");
+            u.setAvatarPad("\\public\\images\\account\\accountinfo\\avatar_default.png");
+            logger.info("\nuser info:");
             logger.info(u.toString());
+            logger.info("\n");
 
             try {
                 userService.create(u);
@@ -110,6 +109,10 @@ public class UserRestService {
         }
 
         //noinspection ConstantConditions
+
+        logger.info("\n");
+        logger.info(jsonResponse.getContent().toString());
+
         return jsonResponse.getContent();
     }
 }

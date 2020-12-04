@@ -56,7 +56,6 @@ public class User {
         return this.id + " " +
                 this.voornaam + " " +
                 this.familienaam + " " +
-                this.familienaam + " " +
                 this.email + " " +
                 this.userkey + " " +
                 this.avatarPad;
