@@ -21,23 +21,29 @@ public class User {
     @NotBlank
     @Column
     private String email;
-    @NotBlank
     @Column
     private String userkey;
-    @NotBlank
     @Column
     private String avatarPad;
 
     protected User() {
     }
 
-    public User(long id,
-                @NotBlank String voornaam,
+    public User(@NotBlank String voornaam,
                 @NotBlank String familienaam,
                 @NotBlank String email,
-                @NotBlank String userkey,
                 String avatarPad) {
-        this.id = id;
+        this.voornaam = voornaam;
+        this.familienaam = familienaam;
+        this.email = email;
+        this.avatarPad = avatarPad;
+    }
+
+    public User(@NotBlank String voornaam,
+                @NotBlank String familienaam,
+                @NotBlank String email,
+                String userkey,
+                String avatarPad) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
@@ -54,5 +60,49 @@ public class User {
                 this.email + " " +
                 this.userkey + " " +
                 this.avatarPad;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getVoornaam() {
+        return voornaam;
+    }
+
+    public void setVoornaam(String voornaam) {
+        this.voornaam = voornaam;
+    }
+
+    public String getFamilienaam() {
+        return familienaam;
+    }
+
+    public void setFamilienaam(String familienaam) {
+        this.familienaam = familienaam;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserkey() {
+        return userkey;
+    }
+
+    public void generateUserkey() {
+        this.userkey = "userkey1234";
+    }
+
+    public String getAvatarPad() {
+        return avatarPad;
+    }
+
+    public void setAvatarPad(String avatarPad) {
+        this.avatarPad = avatarPad;
     }
 }

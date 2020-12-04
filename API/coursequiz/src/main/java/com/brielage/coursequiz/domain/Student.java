@@ -20,15 +20,13 @@ public class Student extends User {
         this.opleidingid = opleidingid;
     }
 
-    public Student(long id,
-                   @NotBlank String voornaam,
+    public Student(@NotBlank String voornaam,
                    @NotBlank String familienaam,
                    @NotBlank String email,
-                   @NotBlank String userkey,
+                   String userkey,
                    String avatarPad,
                    @NotBlank long opleidingid) {
         super(
-                id,
                 voornaam,
                 familienaam,
                 email,

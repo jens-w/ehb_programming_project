@@ -27,4 +27,9 @@ public class DefaultUserService
     public Optional<User> findById(long id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    public void create(User u) {
+        userRepository.create(u);
+    }
 }

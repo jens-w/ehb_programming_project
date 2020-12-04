@@ -18,8 +18,7 @@ public class StudentRepositoryTest {
 
     @Test
     void findById() {
-        Student student = new Student(1,
-                "voornaam",
+        Student student = new Student("voornaam",
                 "familienaam",
                 "e@ma.il",
                 "userkey",

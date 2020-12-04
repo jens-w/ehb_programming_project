@@ -9,4 +9,6 @@ public interface UserService {
     List<User> findAll();
 
     Optional<User> findById(long id);
+
+    void create(User u);
 }

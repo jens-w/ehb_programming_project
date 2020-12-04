@@ -13,17 +13,12 @@ public class Docent extends User {
     protected Docent() {
     }
 
-    public Docent(@NotBlank long userid) {
-    }
-
-    public Docent(long id,
-                  @NotBlank String voornaam,
+    public Docent(@NotBlank String voornaam,
                   @NotBlank String familienaam,
                   @NotBlank String email,
                   @NotBlank String userkey,
                   String avatarPad) {
         super(
-                id,
                 voornaam,
                 familienaam,
                 email,
