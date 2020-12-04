@@ -10,7 +10,7 @@ public class JsonResponse {
 
     public JsonResponse(boolean succes) {
         this.content = new LinkedHashMap();
-        this.content.put("succes", succes);
+        this.content.put("success", succes);
     }
 
     public void add(String s1, String s2) {
