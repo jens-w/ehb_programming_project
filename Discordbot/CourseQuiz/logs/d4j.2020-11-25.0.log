@@ -9,7 +9,7 @@
 2020-11-25 10:25:08.793 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@7ce7db6a{map=java.util.Collections.SynchronizedMap}}
 2020-11-25 10:25:08.796 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
 2020-11-25 10:25:08.797 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@3958cfb3{map=java.util.concurrent.ConcurrentHashMap}}
-2020-11-25 10:25:08.797 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@1b43ebbb{map=java.util.concurrent.ConcurrentHashMap}}
+2020-11-25 10:25:08.797 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : com.programmingproject.coursequiz.User storage        : ForwardingStore{forwardingTo=JdkStore@1b43ebbb{map=java.util.concurrent.ConcurrentHashMap}}
 2020-11-25 10:25:08.798 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@490d2336{map=java.util.concurrent.ConcurrentHashMap}
 2020-11-25 10:25:08.873 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:23443bbf, S:0] Acquiring gateway endpoint
 2020-11-25 10:25:08.874 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:11326fc2] GET /gateway
@@ -36,7 +36,7 @@
 2020-11-25 10:25:36.278 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@67837c8a{map=java.util.Collections.SynchronizedMap}}
 2020-11-25 10:25:36.281 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
 2020-11-25 10:25:36.281 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@7dacd36a{map=java.util.concurrent.ConcurrentHashMap}}
-2020-11-25 10:25:36.281 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@4657df3e{map=java.util.concurrent.ConcurrentHashMap}}
+2020-11-25 10:25:36.281 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : com.programmingproject.coursequiz.User storage        : ForwardingStore{forwardingTo=JdkStore@4657df3e{map=java.util.concurrent.ConcurrentHashMap}}
 2020-11-25 10:25:36.282 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@c6b5261{map=java.util.concurrent.ConcurrentHashMap}
 2020-11-25 10:25:36.356 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:34d841e5, S:0] Acquiring gateway endpoint
 2020-11-25 10:25:36.356 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:8a9d2bf] GET /gateway
@@ -63,7 +63,7 @@
 2020-11-25 10:28:32.261 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@20e5c831{map=java.util.Collections.SynchronizedMap}}
 2020-11-25 10:28:32.266 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
 2020-11-25 10:28:32.267 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@302eb7fb{map=java.util.concurrent.ConcurrentHashMap}}
-2020-11-25 10:28:32.267 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@7b49332c{map=java.util.concurrent.ConcurrentHashMap}}
+2020-11-25 10:28:32.267 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : com.programmingproject.coursequiz.User storage        : ForwardingStore{forwardingTo=JdkStore@7b49332c{map=java.util.concurrent.ConcurrentHashMap}}
 2020-11-25 10:28:32.268 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@720dbd26{map=java.util.concurrent.ConcurrentHashMap}
 2020-11-25 10:28:32.343 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:5c38b80c, S:0] Acquiring gateway endpoint
 2020-11-25 10:28:32.343 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:e4725e0] GET /gateway
