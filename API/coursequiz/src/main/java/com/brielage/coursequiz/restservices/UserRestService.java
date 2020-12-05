@@ -17,6 +17,7 @@ public class UserRestService {
     private final UserService userService;
     private final Validator validator = new Validator();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final String defaultAvatarPad = "\\public\\images\\account\\accountinfo\\avatar_default.png";
 
     public UserRestService(UserService userService) {
         this.userService = userService;
@@ -93,7 +94,7 @@ public class UserRestService {
             jsonResponse.add("errors", fouten);
         } else {
             User u = new User(voornaam, familienaam, email, "");
-            u.setAvatarPad("\\public\\images\\account\\accountinfo\\avatar_default.png");
+            u.setAvatarPad(defaultAvatarPad);
             logger.info("\nuser info:");
             logger.info(u.toString());
             logger.info("\n");
