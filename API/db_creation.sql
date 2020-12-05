@@ -41,6 +41,19 @@ UNLOCK TABLES;
     create tables that depend on other tables existing
 ***/
 
+DROP TABLE IF EXISTS `rollen`;
+CREATE TABLE `rollen` (
+  `userId` int NOT NULL AUTO_INCREMENT,
+  `rol` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`userId`),
+  KEY `rol_userId_idx` (`userId`),
+  CONSTRAINT `rol__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+);
+
+LOCK TABLES `rollen` WRITE;
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+UNLOCK TABLES;
+
 DROP TABLE IF EXISTS `vakken`;
 CREATE TABLE `vakken` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -271,16 +284,33 @@ LOCK TABLES `afgenomenquizzen` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
 UNLOCK TABLES;
 
+DROP TABLE IF EXISTS `afgenomenquizvragen`;
+CREATE TABLE `afgenomenquizvragen` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `afgenomenQuizId` int NOT NULL,
+  `vraagId` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `afgenomenvraag_quizId_idx` (`afgenomenQuizId`),
+  KEY `afgenomenvraag_vraagId_idx` (`vraagId`),
+  CONSTRAINT `afgenomenvraag__afgenomenQuizId` FOREIGN KEY (`afgenomenQuizId`) REFERENCES `afgenomenquizzen` (`id`),
+  CONSTRAINT `afgenomenvraag__vraagId` FOREIGN KEY (`vraagId`) REFERENCES `vragen` (`id`)
+);
+
+LOCK TABLES `afgenomenquizvragen` WRITE;
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+UNLOCK TABLES;
+
+
 DROP TABLE IF EXISTS `afgenomenquizantwoorden`;
 CREATE TABLE `afgenomenquizantwoorden` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `afgenomenQuizId` int NOT NULL,
+  `afgenomenQuizVraagId` int NOT NULL,
   `antwoordId` int NOT NULL,
   `juistBeantwoord` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `afgenomenantwoord_quizId_idx` (`afgenomenQuizId`),
+  KEY `afgenomenantwoord_afgenomenQuizVraagId_idx` (`afgenomenQuizVraagId`),
   KEY `afgenomenantwoord_antwoordId_idx` (`antwoordId`),
-  CONSTRAINT `afgenomenantwoord__afgenomenQuizId` FOREIGN KEY (`afgenomenQuizId`) REFERENCES `afgenomenquizzen` (`id`),
+  CONSTRAINT `afgenomenantwoord__afgenomenQuizVraagId` FOREIGN KEY (`afgenomenQuizVraagId`) REFERENCES `afgenomenquizvragen` (`id`),
   CONSTRAINT `afgenomenantwoord__antwoordId` FOREIGN KEY (`antwoordId`) REFERENCES `antwoorden` (`id`)
 );
 
