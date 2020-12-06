@@ -42,23 +42,31 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         $result = json_decode($decodedAsArray, true);
         $AccountViewModel->forceFill($result);
 
+
+        
+
         /* VAKKEN */ 
         $vak1 = new Vak();
         $vak1->Id = 1;
         $vak1->Naam = "Java";
         $vak1->jaar = "2020";
-        $vak1->opleidingsId = 12244;
-        
+        $vak1->opleidingsId = 1244;
+        // to array
+        $vak1Array = (array) $vak1;
+
         $vak2 = new Vak();
-        $vak2->Id = 2;
-        $vak2->Naam = "Programming Project";
+        $vak2->Id = "2";
+        $vak2->Naam = "Wiskunde";
         $vak2->jaar = "2020";
-        $vak2->opleidingsId = 12244;
-        new Collection(array($vak2->toAtt));
-        $vakkenViewModel =  $vak2->array();
+        $vak2->opleidingsId = "122451";
+        // to array
+        $vak2Array = (array) $vak2;
+
+        $collection = collect($vak1Array,$vak2Array);
+       
 
 
-        return view('AccountBeheer/Gegevens.Overview', compact('AccountViewModel','vakkenViewModel'));
+        return view('AccountBeheer/Gegevens.Overview', compact('AccountViewModel','collection'));
     }
 
     public function GetJsonDummyDataAccount(){

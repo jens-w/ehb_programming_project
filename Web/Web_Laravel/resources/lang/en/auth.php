@@ -1,19 +1,10 @@
 <?php
 
-return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
-];
+// authentication error messages
+return [ 
+    'voornaam_ongeldig' => 'voornaam is ongeldig.',
+    'familienaam_ongeldig' => 'familienaam is ongeldig',
+    'email_ongeldig' => 'Email is ongeldig',
+    'email_bestaat_al' => 'Email bestaat al reeds',
+    'password_ongeldig' => 'Wachtwoord is ongeldig' ]
+   ?>

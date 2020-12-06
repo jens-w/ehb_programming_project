@@ -80,10 +80,10 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="AccountCourses">
-                        @foreach($vakkenViewModel as $vak){
-                           <?php echo $vak->Naam ?>
-                        }
-                        @endforeach
+                        
+                           <!--?php echo $collection ?>-->
+                        
+                      
                     </div>
                 </div>
             </div>

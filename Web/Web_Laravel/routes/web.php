@@ -56,6 +56,6 @@ Route::get('/Account/GetJsonDummyDataAccount', [AccountBeheerController::class, 
 
 Auth::routes();
 Route::get('/createUser', [RegistrationController::class, 'register'])->name('createUser');
-Route::post('/registration/store', [RegistrationController::class, 'create']);
+Route::post('/registration/store', [RegistrationController::class, 'create'])->name('storeUser');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

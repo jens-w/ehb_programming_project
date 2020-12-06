@@ -48,3 +48,10 @@ a {color:#000}
     -webkit-animation: fadein-right 2s; /* Safari and Chrome */
     -o-animation: fadein-right 2s; /* Opera */
 }
+
+.fadein-left {
+    animation: fadein-left 2s;
+    -moz-animation: fadein-left  2s; /* Firefox */
+    -webkit-animation: fadein-left 2s; /* Safari and Chrome */
+    -o-animation: fadein-left  2s; /* Opera */
+}
