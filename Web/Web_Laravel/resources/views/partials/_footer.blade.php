@@ -1,79 +1,45 @@
 <!-- Footer -->
-<footer >
+<footer>
 
-  <!-- Footer Links -->
-  <div >
+    <div class="container-fluid bg-light p-2">
+        <div class="row">
+            <div class="col-sm-6 col-md-3 ftr-social d-flex">
+                <ul class="list-unstyled">
+                    <li> <i class="fab fa-twitter"></i> </li>
+                    <li> <i class="fab fa-facebook"></i> </li>
+                    <li> <i class="fab fa-google-plus-g"></i> </li>
+                    <li> <i class="fab fa-linkedin-in"></i> </li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-3 ftr-sitemap d-flex">
+                <ul class="list-unstyled">
+                    <li>
+                        <h3>Algemeen</h3>
+                    </li>
+                    <li> <a href="">Home</a> </li>
+                    <li> <a href="">Nieuws</a> </li>
+                    <li> <a href="">Sitemap</a> </li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-3 d-flex">
+                <ul class="list-unstyled">
+                    <li>
+                        <h3>Contact</h3>
+                    </li>
+                    <li>
+                        <p>Opdracht in functie van EHB</p>
+                        <p>Nijverheidskaai 170 </p>
+                        <p>1070 Anderlecht</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-3 d-flex">
 
-   <!-- Grid row -->
-   <div >
+            </div>
 
-    <!-- Grid column -->
-    <div >
-
-     <!-- Content -->
-     <h5 >Footer Content</h5>
-     <p>bla bla bla bla.</p>
-
+        </div>
     </div>
-    <!-- Grid column -->
-
-    <hr >
-
-    <!-- Grid column -->
-    <div >
-
-      <!-- Links -->
-      <h5 >Links</h5>
-
-      <ul >
-       <li>
-        <a href="#!">Link 1</a>
-       </li>
-       <li>
-        <a href="#!">Link 2</a>
-       </li>
-       <li>
-        <a href="#!">Link 3</a>
-       </li>
-       <li>
-        <a href="#!">Link 4</a>
-       </li>
-      </ul>
-
-     </div>
-     <!-- Grid column -->
-
-     <!-- Grid column -->
-     <div >
-
-      <!-- Links -->
-      <h5 >Links</h5>
-
-      <ul >
-       <li>
-        <a href="#!">Link 1</a>
-       </li>
-       <li>
-        <a href="#!">Link 2</a>
-       </li>
-       <li>
-        <a href="#!">Link 3</a>
-       </li>
-       <li>
-        <a href="#!">Link 4</a>
-       </li>
-      </ul>
-
-     </div>
-     <!-- Grid column -->
-
-   </div>
-   <!-- Grid row -->
-
-  </div>
-  <!-- Footer Links -->
 
 
-
- </footer>
- <!-- Footer -->
+</footer>
+<!-- Footer -->

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use View;
 use Redirect;
+use Illuminate\Support\Facades\Input;
 
 class RegistrationController extends Controller
 {
@@ -63,7 +64,7 @@ class RegistrationController extends Controller
                 }              
             }
             if($key === 'errors'){
-                return Redirect::back()->withErrors($output);
+                return Redirect::back()->withErrors($output)->withInput($request->all());;
             }
         }
         // fallback
