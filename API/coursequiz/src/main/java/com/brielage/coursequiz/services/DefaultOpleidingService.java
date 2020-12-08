@@ -27,4 +27,9 @@ public class DefaultOpleidingService
     public Optional<Opleiding> findById(long id) {
         return opleidingRepository.findById(id);
     }
+
+    @Override
+    public void create(Opleiding opleiding) {
+        opleidingRepository.create(opleiding);
+    }
 }

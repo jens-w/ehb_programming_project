@@ -9,4 +9,6 @@ public interface OpleidingService {
     List<Opleiding> findAll();
 
     Optional<Opleiding> findById(long id);
+
+    void create(Opleiding opleiding);
 }
