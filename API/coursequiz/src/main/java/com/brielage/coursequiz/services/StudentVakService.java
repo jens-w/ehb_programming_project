@@ -3,10 +3,13 @@ package com.brielage.coursequiz.services;
 import com.brielage.coursequiz.domain.StudentVak;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentVakService {
+    void create(StudentVak studentVak);
+
     List<StudentVak> findAll();
 
-    Optional<StudentVak> findById(long id);
+    List<StudentVak> findByStudentId(long studentId);
+
+    List<StudentVak> findByVakId(long vakId);
 }

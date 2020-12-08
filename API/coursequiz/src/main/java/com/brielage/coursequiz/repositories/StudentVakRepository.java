@@ -1,8 +1,15 @@
 package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.StudentVak;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StudentVakRepository
-        extends JpaRepository<StudentVak, Long> {
+import java.util.List;
+
+public interface StudentVakRepository {
+    void create(StudentVak studentVak);
+
+    List<StudentVak> findAll();
+
+    List<StudentVak> findByStudentId(long studentId);
+
+    List<StudentVak> findByVakId(long vakId);
 }

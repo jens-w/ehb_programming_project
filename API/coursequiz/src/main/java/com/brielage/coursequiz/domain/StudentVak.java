@@ -2,19 +2,20 @@ package com.brielage.coursequiz.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @SuppressWarnings("unused")
 @Entity
+@IdClass(StudentVak.class)
 @Table(name = "studentenvakken")
-public class StudentVak {
-    @NotBlank
+public class StudentVak implements Serializable {
+    @Id
     private long userId;
-    @NotBlank
+    @Id
     private long vakId;
-    // TODELETE
-    private String id;
 
     protected StudentVak() {
     }
@@ -25,12 +26,11 @@ public class StudentVak {
         this.vakId = vakId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public long getUserId() {
+        return userId;
     }
 
-    @Id
-    public String getId() {
-        return id;
+    public long getVakId() {
+        return vakId;
     }
 }

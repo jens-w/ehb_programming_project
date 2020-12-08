@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,12 +18,22 @@ public class DefaultStudentVakService
     }
 
     @Override
+    public void create(StudentVak studentVak) {
+        studentVakRepository.create(studentVak);
+    }
+
+    @Override
     public List<StudentVak> findAll() {
         return studentVakRepository.findAll();
     }
 
     @Override
-    public Optional<StudentVak> findById(long id) {
-        return studentVakRepository.findById(id);
+    public List<StudentVak> findByStudentId(long studentId) {
+        return studentVakRepository.findByStudentId(studentId);
+    }
+
+    @Override
+    public List<StudentVak> findByVakId(long vakId) {
+        return studentVakRepository.findByVakId(vakId);
     }
 }
