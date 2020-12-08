@@ -107,11 +107,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rollen`;
 CREATE TABLE `rollen` (
-  `userId` int NOT NULL AUTO_INCREMENT,
+  `userid` int NOT NULL AUTO_INCREMENT,
   `rol` int NOT NULL,
-  PRIMARY KEY (`userId`),
-  KEY `rol_userId_idx` (`userId`),
-  CONSTRAINT `rol__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  PRIMARY KEY (`userid`),
+  KEY `rol_userid_idx` (`userid`),
+  CONSTRAINT `rol__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
 );
 
 LOCK TABLES `rollen` WRITE;
@@ -138,7 +138,7 @@ INSERT INTO `rollen` (
 )
 VALUES (
   3,
-  2
+  1
 );
 UNLOCK TABLES;
 
@@ -183,10 +183,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `docenten`;
 CREATE TABLE `docenten` (
-  `userId` int NOT NULL,
-  PRIMARY KEY (`userId`),
-  KEY `docent_userId_idx` (`userId`),
-  CONSTRAINT `docent__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  `userid` int NOT NULL,
+  PRIMARY KEY (`userid`),
+  KEY `docent_userid_idx` (`userid`),
+  CONSTRAINT `docent__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
 );
 
 LOCK TABLES `docenten` WRITE;
@@ -195,19 +195,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studenten`;
 CREATE TABLE `studenten` (
-  `userId` int NOT NULL,
+  `userid` int NOT NULL,
   `opleidingId` int NOT NULL,
   PRIMARY KEY (`userid`),
-  KEY `student_userId_idx` (`userId`),
+  KEY `student_userid_idx` (`userid`),
   KEY `student_opleidingId_idx` (`opleidingId`),
   CONSTRAINT `student__opleidingId` FOREIGN KEY (`opleidingId`) REFERENCES `opleidingen` (`id`),
-  CONSTRAINT `student__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  CONSTRAINT `student__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
 );
 
 LOCK TABLES `studenten` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
 INSERT INTO `studenten` (
-  `userId`,
+  `userid`,
   `opleidingId`
 )
 VALUES (
@@ -215,7 +215,7 @@ VALUES (
   1
 );
 INSERT INTO `studenten` (
-  `userId`,
+  `userid`,
   `opleidingId`
 )
 VALUES (
@@ -229,10 +229,10 @@ CREATE TABLE `hoofdstukken` (
   `id` int NOT NULL AUTO_INCREMENT,
   `titel` varchar(255) DEFAULT NULL,
   `nummer` float DEFAULT NULL,
-  `vakId` int NOT NULL,
+  `vakid` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `hoofdstuk_vakId_idx` (`vakId`),
-  CONSTRAINT `hoofdstuk__vakId` FOREIGN KEY (`vakId`) REFERENCES `vakken` (`id`)
+  KEY `hoofdstuk_vakid_idx` (`vakid`),
+  CONSTRAINT `hoofdstuk__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`)
 );
 
 LOCK TABLES `hoofdstukken` WRITE;
@@ -241,28 +241,28 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studentenvakken`;
 CREATE TABLE `studentenvakken` (
-  `userId` int NOT NULL,
-  `vakId` int NOT NULL,
-  KEY `studentenvak_userId_idx` (`userId`),
-  KEY `studentenvak_vakId_idx` (`vakId`),
-  PRIMARY KEY (userId, vakId),
-  CONSTRAINT `studentenvak__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
-  CONSTRAINT `studentenvak__vakId` FOREIGN KEY (`vakId`) REFERENCES `vakken` (`id`)
+  `userid` int NOT NULL,
+  `vakid` int NOT NULL,
+  KEY `studentenvak_userid_idx` (`userid`),
+  KEY `studentenvak_vakid_idx` (`vakid`),
+  PRIMARY KEY (userid, vakid),
+  CONSTRAINT `studentenvak__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
+  CONSTRAINT `studentenvak__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`)
 );
 
 LOCK TABLES `studentenvakken` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
 INSERT INTO `studentenvakken` (
-  `userId`,
-  `vakId`
+  `userid`,
+  `vakid`
 )
 VALUES (
   3,
   1
 );
 INSERT INTO `studentenvakken` (
-  `userId`,
-  `vakId`
+  `userid`,
+  `vakid`
 )
 VALUES (
   3,
@@ -272,13 +272,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `docentenvakken`;
 CREATE TABLE `docentenvakken` (
-  `userId` int NOT NULL,
-  `vakId` int NOT NULL,
-  KEY `docentenvak_userId_idx` (`userId`),
-  KEY `docentenvak_vakId_idx` (`vakId`),
-  PRIMARY KEY (userId, vakId),
-  CONSTRAINT `docentenvak__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
-  CONSTRAINT `docentenvak__vakId` FOREIGN KEY (`vakId`) REFERENCES `vakken` (`id`)
+  `userid` int NOT NULL,
+  `vakid` int NOT NULL,
+  KEY `docentenvak_userid_idx` (`userid`),
+  KEY `docentenvak_vakid_idx` (`vakid`),
+  PRIMARY KEY (userid, vakid),
+  CONSTRAINT `docentenvak__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
+  CONSTRAINT `docentenvak__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`)
 );
 
 LOCK TABLES `docentenvakken` WRITE;
@@ -287,13 +287,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `docentenvakken`;
 CREATE TABLE `docentenvakken` (
-  `userId` int NOT NULL,
-  `vakId` int NOT NULL,
-  KEY `docentenvak_userId_idx` (`userId`),
-  KEY `docentenvak_vakId_idx` (`vakId`),
-  PRIMARY KEY (userId, vakId),
-  CONSTRAINT `docentenvak__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
-  CONSTRAINT `docentenvak__vakId` FOREIGN KEY (`vakId`) REFERENCES `vakken` (`id`)
+  `userid` int NOT NULL,
+  `vakid` int NOT NULL,
+  KEY `docentenvak_userid_idx` (`userid`),
+  KEY `docentenvak_vakid_idx` (`vakid`),
+  PRIMARY KEY (userid, vakid),
+  CONSTRAINT `docentenvak__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
+  CONSTRAINT `docentenvak__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`)
 );
 
 LOCK TABLES `docentenvakken` WRITE;
@@ -365,12 +365,12 @@ CREATE TABLE `quizzen` (
   `naam` varchar(255) DEFAULT NULL,
   `omschrijving` varchar(255) DEFAULT NULL,
   `isBeschikbaar` tinyint DEFAULT NULL,
-  `vakId` int NOT NULL,
+  `vakid` int NOT NULL,
   `hoofdstukId` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `quiz_vakId_idx` (`vakId`),
+  KEY `quiz_vakid_idx` (`vakid`),
   KEY `quiz_hoofdstukId_idx` (`hoofdstukId`),
-  CONSTRAINT `quiz__vakId` FOREIGN KEY (`vakId`) REFERENCES `vakken` (`id`),
+  CONSTRAINT `quiz__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`),
   CONSTRAINT `quiz__hoofdstukId` FOREIGN KEY (`hoofdstukId`) REFERENCES `hoofdstukken` (`id`)
 );
 
@@ -414,14 +414,14 @@ DROP TABLE IF EXISTS `afgenomenquizzen`;
 CREATE TABLE `afgenomenquizzen` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quizId` int NOT NULL,
-  `userId` int NOT NULL,
+  `userid` int NOT NULL,
   `timestamp` datetime DEFAULT NULL,
   `score` decimal(3,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `afgenomenquiz_quizId_idx` (`quizId`),
-  KEY `afgenomenquiz_userId_idx` (`userId`),
+  KEY `afgenomenquiz_userid_idx` (`userid`),
   CONSTRAINT `afgenomenquiz__quizId` FOREIGN KEY (`quizId`) REFERENCES `quizzen` (`id`),
-  CONSTRAINT `afgenomenquiz__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  CONSTRAINT `afgenomenquiz__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
 );
 
 LOCK TABLES `afgenomenquizzen` WRITE;
