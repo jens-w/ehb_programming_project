@@ -22,14 +22,14 @@ public class JpaStudentVakRepository
 
     @Override
     public List<StudentVak> findAll() {
-        return manager.createQuery("select sv from StudentVak sv order by sv.userId",
+        return manager.createQuery("select sv from StudentVak sv order by sv.userid",
                 StudentVak.class).getResultList();
     }
 
     @Override
     public List<StudentVak> findByStudentId(long studentId) {
         return manager.createQuery(
-                "select sv from StudentVak sv where sv.userId = :studentId order by sv.vakId",
+                "select sv from StudentVak sv where sv.userid = :studentId order by sv.vakid",
                 StudentVak.class)
                 .setParameter("studentId", studentId)
                 .getResultList();
@@ -38,7 +38,7 @@ public class JpaStudentVakRepository
     @Override
     public List<StudentVak> findByVakId(long vakId) {
         return manager.createQuery(
-                "select sv from StudentVak sv where sv.vakId = :vakId order by sv.vakId",
+                "select sv from StudentVak sv where sv.vakid = :vakId order by sv.userid",
                 StudentVak.class).getResultList();
     }
 }
