@@ -19,7 +19,7 @@ public class Vak {
     @NotBlank
     private int jaar;
     @NotBlank
-    private long opledingId;
+    private long opleidingid;
 
     protected Vak() {
     }
@@ -27,10 +27,38 @@ public class Vak {
     public Vak(long id,
                @NotBlank String naam,
                @NotBlank int jaar,
-               @NotBlank long opledingId) {
+               @NotBlank long opleidingId) {
         this.id = id;
         this.naam = naam;
         this.jaar = jaar;
-        this.opledingId = opledingId;
+        this.opleidingid = opleidingId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getNaam() {
+        return naam;
+    }
+
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    public int getJaar() {
+        return jaar;
+    }
+
+    public void setJaar(int jaar) {
+        this.jaar = jaar;
+    }
+
+    public long getOpledingId() {
+        return opleidingid;
+    }
+
+    public void setOpledingId(long opleidingId) {
+        this.opleidingid = opleidingId;
     }
 }

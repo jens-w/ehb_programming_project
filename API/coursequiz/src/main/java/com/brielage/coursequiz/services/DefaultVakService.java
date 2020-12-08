@@ -19,6 +19,11 @@ public class DefaultVakService
     }
 
     @Override
+    public void create(Vak vak) {
+        vakRepository.create(vak);
+    }
+
+    @Override
     public List<Vak> findAll() {
         return vakRepository.findAll();
     }
