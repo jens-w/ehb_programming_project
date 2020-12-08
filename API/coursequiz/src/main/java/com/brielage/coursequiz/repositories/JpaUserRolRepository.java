@@ -2,8 +2,6 @@ package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.UserRol;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,7 +12,6 @@ import java.util.Optional;
 public class JpaUserRolRepository
         implements UserRolRepository {
     private final EntityManager manager;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public JpaUserRolRepository(EntityManager manager) {
         this.manager = manager;
