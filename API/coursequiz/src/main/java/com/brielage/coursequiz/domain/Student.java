@@ -41,4 +41,12 @@ public class Student extends User {
         return super.toString() + " " +
                 this.opleidingid;
     }
+
+    public long getOpleidingid() {
+        return opleidingid;
+    }
+
+    public void setOpleidingid(long opleidingid) {
+        this.opleidingid = opleidingid;
+    }
 }
