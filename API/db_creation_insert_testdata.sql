@@ -88,6 +88,14 @@ VALUES (
   1,
   "testopleiding"
 );
+INSERT INTO `opleidingen` (
+  `id`,
+  `naam`
+)
+VALUES (
+  2,
+  "testopleiding2"
+);
 UNLOCK TABLES;
 
 
@@ -108,6 +116,14 @@ CREATE TABLE `rollen` (
 
 LOCK TABLES `rollen` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+INSERT INTO `rollen` (
+  `userid`,
+  `rol`
+)
+VALUES (
+  1,
+  "ADMIN"
+);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vakken`;
