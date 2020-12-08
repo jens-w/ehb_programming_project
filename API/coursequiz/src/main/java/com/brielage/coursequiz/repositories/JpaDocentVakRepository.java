@@ -22,14 +22,14 @@ public class JpaDocentVakRepository
 
     @Override
     public List<DocentVak> findAll() {
-        return manager.createQuery("select dv from DocentVak dv order by dv.userId",
+        return manager.createQuery("select dv from DocentVak dv order by dv.userid",
                 DocentVak.class).getResultList();
     }
 
     @Override
     public List<DocentVak> findByDocentId(long docentId) {
         return manager.createQuery(
-                "select dv from DocentVak dv where dv.userId = :docentId order by dv.vakId",
+                "select dv from DocentVak dv where dv.userid = :docentId order by dv.vakid",
                 DocentVak.class)
                 .setParameter("docentId", docentId)
                 .getResultList();
@@ -38,7 +38,7 @@ public class JpaDocentVakRepository
     @Override
     public List<DocentVak> findByVakId(long vakId) {
         return manager.createQuery(
-                "select dv from DocentVak dv where dv.vakId = :vakId order by dv.vakId",
+                "select dv from DocentVak dv where dv.vakid = :vakId order by dv.userid",
                 DocentVak.class).getResultList();
     }
 }

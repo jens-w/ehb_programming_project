@@ -13,24 +13,24 @@ import java.io.Serializable;
 public class DocentVak
         implements Serializable {
     @Id
-    private long userId;
+    private long userid;
     @Id
-    private long vakId;
+    private long vakid;
 
     protected DocentVak() {
     }
 
     public DocentVak(long userId,
                      long vakId) {
-        this.userId = userId;
-        this.vakId = vakId;
+        this.userid = userId;
+        this.vakid = vakId;
     }
 
     public long getUserId() {
-        return userId;
+        return userid;
     }
 
     public long getVakId() {
-        return vakId;
+        return vakid;
     }
 }
