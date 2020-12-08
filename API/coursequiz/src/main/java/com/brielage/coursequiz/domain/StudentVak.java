@@ -21,8 +21,8 @@ public class StudentVak
     protected StudentVak() {
     }
 
-    public StudentVak(@NotBlank long userId,
-                      @NotBlank long vakId) {
+    public StudentVak(long userId,
+                      long vakId) {
         this.userId = userId;
         this.vakId = vakId;
     }
