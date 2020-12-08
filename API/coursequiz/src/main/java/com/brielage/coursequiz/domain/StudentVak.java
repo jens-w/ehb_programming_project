@@ -11,7 +11,8 @@ import java.io.Serializable;
 @Entity
 @IdClass(StudentVak.class)
 @Table(name = "studentenvakken")
-public class StudentVak implements Serializable {
+public class StudentVak
+        implements Serializable {
     @Id
     private long userId;
     @Id
