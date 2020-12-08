@@ -108,7 +108,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `rollen`;
 CREATE TABLE `rollen` (
   `userId` int NOT NULL AUTO_INCREMENT,
-  `rol` varchar(255) DEFAULT NULL,
+  `rol` int NOT NULL,
   PRIMARY KEY (`userId`),
   KEY `rol_userId_idx` (`userId`),
   CONSTRAINT `rol__userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
@@ -122,7 +122,23 @@ INSERT INTO `rollen` (
 )
 VALUES (
   1,
-  "ADMIN"
+  3
+);
+INSERT INTO `rollen` (
+  `userid`,
+  `rol`
+)
+VALUES (
+  2,
+  1
+);
+INSERT INTO `rollen` (
+  `userid`,
+  `rol`
+)
+VALUES (
+  3,
+  2
 );
 UNLOCK TABLES;
 
@@ -131,14 +147,38 @@ CREATE TABLE `vakken` (
   `id` int NOT NULL AUTO_INCREMENT,
   `naam` varchar(255) DEFAULT NULL,
   `jaar` int DEFAULT NULL,
-  `opleidingId` int NOT NULL,
+  `opleidingid` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `vak_opleidingId_idx` (`opleidingId`),
-  CONSTRAINT `vak__opleidingId` FOREIGN KEY (`opleidingId`) REFERENCES `opleidingen` (`id`)
+  KEY `vak_opleidingid_idx` (`opleidingid`),
+  CONSTRAINT `vak__opleidingid` FOREIGN KEY (`opleidingid`) REFERENCES `opleidingen` (`id`)
 );
 
 LOCK TABLES `vakken` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+INSERT INTO `vakken` (
+  `id`,
+  `naam`,
+  `jaar`,
+  `opleidingid`
+)
+VALUES (
+  1,
+  "testvak numero uno",
+  1,
+  1
+);
+INSERT INTO `vakken` (
+  `id`,
+  `naam`,
+  `jaar`,
+  `opleidingId`
+)
+VALUES (
+  2,
+  ".NET essentials",
+  1,
+  1
+);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `docenten`;
@@ -212,6 +252,22 @@ CREATE TABLE `studentenvakken` (
 
 LOCK TABLES `studentenvakken` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+INSERT INTO `studentenvakken` (
+  `userId`,
+  `vakId`
+)
+VALUES (
+  3,
+  1
+);
+INSERT INTO `studentenvakken` (
+  `userId`,
+  `vakId`
+)
+VALUES (
+  3,
+  2
+);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `docentenvakken`;
