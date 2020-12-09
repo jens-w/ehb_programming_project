@@ -11,4 +11,6 @@ public interface UserService {
     Optional<User> findById(long id);
 
     void create(User u);
+
+    List<User> findByEmail(String email);
 }

@@ -32,4 +32,9 @@ public class DefaultUserService
     public void create(User u) {
         userRepository.create(u);
     }
+
+    @Override
+    public List<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

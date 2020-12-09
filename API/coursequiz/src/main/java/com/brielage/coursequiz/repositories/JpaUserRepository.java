@@ -31,4 +31,13 @@ public class JpaUserRepository
         return manager.createQuery("select u from User u order by u.id",
                 User.class).getResultList();
     }
+
+    @Override
+    public List<User> findByEmail(String email) {
+        return manager.createQuery(
+                "select u from User u where u.email = :email",
+                User.class)
+                .setParameter("email", email)
+                .getResultList();
+    }
 }
