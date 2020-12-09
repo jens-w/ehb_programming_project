@@ -16,6 +16,7 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `userkey` varchar(100) DEFAULT NULL,
   `avatarpad` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -27,15 +28,17 @@ INSERT INTO `users` (
   familienaam,
   email,
   userkey,
-  avatarpad
+  avatarpad,
+  password
 )
 VALUES (
   1,
   "Admin",
   "Admin",
   "admin@localhost",
-  "abc123",
-  "\\public\\images\\account\\accountinfo\\avatar_default.png"
+  "xyz098",
+  "\\public\\images\\account\\accountinfo\\avatar_default.png",
+  "$2y$10$jGO0uCWVffN8r36s9U8coO7gw3A9jwr7aO7WNv1gpwGNmxtgd0eh2"
 );
 INSERT INTO `users` (
   id,
@@ -43,7 +46,8 @@ INSERT INTO `users` (
   familienaam,
   email,
   userkey,
-  avatarpad
+  avatarpad,
+  password
 )
 VALUES (
   2,
@@ -51,7 +55,8 @@ VALUES (
   "Verhulst",
   "tom.verhulst@hotmail.com",
   "abc123",
-  "\\public\\images\\account\\accountinfo\\avatar_default.png"
+  "\\public\\images\\account\\accountinfo\\avatar_default.png",
+  "$2y$10$jGO0uCWVffN8r36s9U8coO7gw3A9jwr7aO7WNv1gpwGNmxtgd0eh2"
 );
 INSERT INTO `users` (
   id,
@@ -59,7 +64,8 @@ INSERT INTO `users` (
   familienaam,
   email,
   userkey,
-  avatarpad
+  avatarpad,
+  password
 )
 VALUES (
   3,
@@ -67,7 +73,26 @@ VALUES (
   "Dewolf",
   "jos.dewolf@outlook.com",
   "def456",
-  "\\public\\images\\account\\accountinfo\\avatar_default.png"
+  "\\public\\images\\account\\accountinfo\\avatar_default.png",
+  "$2y$10$jGO0uCWVffN8r36s9U8coO7gw3A9jwr7aO7WNv1gpwGNmxtgd0eh2"
+);
+INSERT INTO `users` (
+  id,
+  voornaam,
+  familienaam,
+  email,
+  userkey,
+  avatarpad,
+  password
+)
+VALUES (
+  4,
+  "Lisbeth",
+  "de Backer",
+  "ldebacker@sky.net",
+  "ghi789",
+  "\\public\\images\\account\\accountinfo\\avatar_default.png",
+  "$2y$10$jGO0uCWVffN8r36s9U8coO7gw3A9jwr7aO7WNv1gpwGNmxtgd0eh2"
 );
 UNLOCK TABLES;
 
@@ -116,6 +141,7 @@ CREATE TABLE `rollen` (
 
 LOCK TABLES `rollen` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* admin */
 INSERT INTO `rollen` (
   `userid`,
   `rol`
@@ -124,6 +150,7 @@ VALUES (
   1,
   3
 );
+/* student */
 INSERT INTO `rollen` (
   `userid`,
   `rol`
@@ -132,6 +159,7 @@ VALUES (
   2,
   1
 );
+/* student */
 INSERT INTO `rollen` (
   `userid`,
   `rol`
@@ -139,6 +167,15 @@ INSERT INTO `rollen` (
 VALUES (
   3,
   1
+);
+/* docent */
+INSERT INTO `rollen` (
+  `userid`,
+  `rol`
+)
+VALUES (
+  4,
+  2
 );
 UNLOCK TABLES;
 
@@ -191,6 +228,12 @@ CREATE TABLE `docenten` (
 
 LOCK TABLES `docenten` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+INSERT INTO `docenten` (
+  `userid`
+)
+VALUES (
+  4
+);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `studenten`;
@@ -268,6 +311,14 @@ VALUES (
   3,
   2
 );
+INSERT INTO `studentenvakken` (
+  `userid`,
+  `vakid`
+)
+VALUES (
+  2,
+  2
+);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `docentenvakken`;
@@ -283,21 +334,22 @@ CREATE TABLE `docentenvakken` (
 
 LOCK TABLES `docentenvakken` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `docentenvakken`;
-CREATE TABLE `docentenvakken` (
-  `userid` int NOT NULL,
-  `vakid` int NOT NULL,
-  KEY `docentenvak_userid_idx` (`userid`),
-  KEY `docentenvak_vakid_idx` (`vakid`),
-  PRIMARY KEY (userid, vakid),
-  CONSTRAINT `docentenvak__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
-  CONSTRAINT `docentenvak__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`)
+INSERT INTO `docentenvakken` (
+  `userid`,
+  `vakid`
+)
+VALUES (
+  4,
+  1
 );
-
-LOCK TABLES `docentenvakken` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+INSERT INTO `docentenvakken` (
+  `userid`,
+  `vakid`
+)
+VALUES (
+  4,
+  2
+);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vragen`;

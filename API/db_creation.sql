@@ -16,6 +16,7 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `userkey` varchar(100) DEFAULT NULL,
   `avatarpad` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -123,21 +124,6 @@ CREATE TABLE `studentenvakken` (
 );
 
 LOCK TABLES `studentenvakken` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `docentenvakken`;
-CREATE TABLE `docentenvakken` (
-  `userid` int NOT NULL,
-  `vakid` int NOT NULL,
-  KEY `docentenvak_userid_idx` (`userid`),
-  KEY `docentenvak_vakid_idx` (`vakid`),
-  PRIMARY KEY (userid, vakid),
-  CONSTRAINT `docentenvak__userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
-  CONSTRAINT `docentenvak__vakid` FOREIGN KEY (`vakid`) REFERENCES `vakken` (`id`)
-);
-
-LOCK TABLES `docentenvakken` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
 UNLOCK TABLES;
 
@@ -299,7 +285,6 @@ CREATE TABLE `afgenomenquizvragen` (
 LOCK TABLES `afgenomenquizvragen` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
 UNLOCK TABLES;
-
 
 DROP TABLE IF EXISTS `afgenomenquizantwoorden`;
 CREATE TABLE `afgenomenquizantwoorden` (

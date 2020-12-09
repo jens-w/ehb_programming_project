@@ -2,6 +2,7 @@ package com.brielage.coursequiz.domain;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -37,7 +38,19 @@ public class JsonResponse {
             this.content.put(s, m);
     }
 
+    public void add(String s, List l) {
+        if (s != null &&
+                !s.isEmpty() &&
+                l != null &&
+                !l.isEmpty())
+            this.content.put(s, l);
+    }
+
     public Map getContent() {
         return content;
+    }
+
+    public void add(String rol, Rol rol1) {
+        this.content.put(rol, rol1);
     }
 }
