@@ -137,9 +137,6 @@ public class UserRestService {
             User u = new User(voornaam, familienaam, email, "", password);
             String defaultAvatarPad = "\\public\\images\\account\\accountinfo\\avatar_default.png";
             u.setAvatarPad(defaultAvatarPad);
-            logger.info("\nuser info:");
-            logger.info(u.toString());
-            logger.info("\n");
 
             try {
                 userService.create(u);
@@ -160,9 +157,6 @@ public class UserRestService {
             }
 
         }
-
-        logger.info("\n");
-        logger.info(jsonResponse.getContent().toString());
 
         return jsonResponse.getContent();
     }
@@ -257,8 +251,6 @@ public class UserRestService {
         Optional<Student> optionalStudent = studentService.findById(user.getId());
 
         if (optionalStudent.isPresent()) {
-            logger.info("student!");
-
             Student student = optionalStudent.get();
             Optional<Opleiding> optionalOpleiding = opleidingService.findById(student.getOpleidingid());
 
@@ -272,12 +264,9 @@ public class UserRestService {
                 jsonResponse.add("opleiding", opleidingWaardes);
             }
 
-            logger.info("\n" + student.getId() + "\n");
-
             List<StudentVak> studentVakList = studentVakService.findByStudentId(student.getId());
 
             if (!studentVakList.isEmpty()) {
-                logger.info("\nstudentenvakken\n");
                 LinkedHashMap vakkenMap = new LinkedHashMap();
                 @SuppressWarnings("DuplicatedCode")
                 int i = 1;
@@ -298,9 +287,6 @@ public class UserRestService {
                     }
                 }
 
-                logger.info("");
-                logger.info(vakkenMap.toString());
-                logger.info("");
                 if (!vakkenMap.isEmpty()) jsonResponse.add("vakken", vakkenMap);
             }
         }
@@ -308,8 +294,6 @@ public class UserRestService {
         Optional<Docent> optionalDocent = docentService.findById(user.getId());
 
         if (optionalDocent.isPresent()) {
-            logger.info("docent!");
-
             Docent docent = optionalDocent.get();
             List<DocentVak> docentVakList = docentVakService.findByDocentId(docent.getId());
 
