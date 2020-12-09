@@ -32,6 +32,8 @@ public class User {
     private String userkey;
     @Column
     private String avatarPad;
+    @Column
+    private String password;
 
     protected User() {
     }
@@ -39,23 +41,27 @@ public class User {
     public User(@NotBlank String voornaam,
                 @NotBlank String familienaam,
                 @NotBlank String email,
-                String avatarPad) {
+                String avatarPad,
+                String password) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
         this.avatarPad = avatarPad;
+        this.password = password;
     }
 
     public User(@NotBlank String voornaam,
                 @NotBlank String familienaam,
                 @NotBlank String email,
                 String userkey,
-                String avatarPad) {
+                String avatarPad,
+                String password) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
         this.userkey = userkey;
         this.avatarPad = avatarPad;
+        this.password = password;
     }
 
     @Override
@@ -110,5 +116,13 @@ public class User {
 
     public void setAvatarPad(String avatarPad) {
         this.avatarPad = avatarPad;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
