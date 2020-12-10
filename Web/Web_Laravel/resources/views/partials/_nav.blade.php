@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
-                <a class="" href="{{ route('homepage')}}"><img class="" src="{{asset('images\home\banner-home_1.png')}}" /></a>
+                <a class="" href="{{ route('homepage')}}"><img class="" src="{{asset('/images/home/banner-home_1.png')}}" /></a>
             </div>
             <div class="col-md-4 d-flex justify-content-center align-items-center">
                 <div class="row d-flex justify-content-center align-items-center">

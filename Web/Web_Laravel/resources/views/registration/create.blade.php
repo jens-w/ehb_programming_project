@@ -8,7 +8,7 @@
     <div class="col-md-6">
         @if($errors->any())
             @foreach($errors->getMessages() as $key => $message)
-            <!-- 
+            <!--          
             $key bevat de foutcode (bv. voornaam_ongeldig ), 
             Deze is terug te vinden in de 'lang/en/auth.php' file, met respectievelijk zijn waarde
             om deze waarde aan te roepen gebruik je FILENAME.STRINGKEYWAARDE

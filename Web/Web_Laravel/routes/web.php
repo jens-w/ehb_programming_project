@@ -28,7 +28,9 @@ Route::get('/', function () {
 
 // Definiëren van routes()
 
- 
+// PASSWORD PAGE TEMP
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('loginPasswordPage'); 
 
 // test ////
 

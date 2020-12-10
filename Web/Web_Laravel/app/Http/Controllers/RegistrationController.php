@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Users\Salt\UserSalt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use View;
+use Illuminate\Support\Str;
 use Redirect;
 use Illuminate\Support\Facades\Input;
 
@@ -34,40 +37,63 @@ class RegistrationController extends Controller
      */
     protected function create(Request $request)
     {
+        $user = DB::table('users')->where('email', $request->input('email'))->first();
+        // if user exists
+        if ($user != null) { // if user does exist inform client that user exist
+            // create key
+            $key = array('gebruiker_bestaat_al');
+            // create array and fill it with the key
+            $a = array_fill_keys($key, 'error');
+            return Redirect::back()->withErrors($a)->withInput($request->all());
+        } else {
+            // if user doesn't exist continue creating new user
+            $salt = $this->GetRandomSalt();
+            $psswrdSalt = $request['password'] . $salt;
+            $hashedmd5 = md5($psswrdSalt);
+        }
         
-       
         /* api request om user aan te maken */
-        $response = Http::post('api.brielage.com:8088/user/create/', [
+        $response = Http::post('http://api.brielage.com:8081/user/create/', [
             'voornaam' => $request->input('voornaam'),
             'familienaam' => $request->input('familienaam'),
-            'email' =>$request->input('email'),
-            'password' => Hash::make($request['password']),
-        ]); 
+            'email' => $request->input('email'),
+            'password' => $hashedmd5,
+        ]);
 
         /*   test response when api is down
         $response = '{
 			"success" : true
 		}';   */
-        
+
         // 'true' parameter zorgt ervoor om een array terug te geven ipv een object
 
         $decodedArray = json_decode($response, true);
-        
+
         // check response 
-        foreach($decodedArray as $key => $output) {
-            if($key === 'success') {
-                if(boolval($output)){ //true, registered in api
+        foreach ($decodedArray as $key => $output) {
+            if ($key === 'success') {
+                if (boolval($output)) { //true, registered in api
+                    $userLocalDb = new UserSalt;
+                    $userLocalDb->email = $request['email'];
+                    $userLocalDb->salt = $salt;
+                    $userLocalDb->save();
                     return View::make('registration/success');
-                }
-                else { // false
+                } else { // false
                     // preservering space for actions when succes is false BEFORE checking the errors                 
-                }              
+                }
             }
-            if($key === 'errors'){
+            if ($key === 'errors') {
                 return Redirect::back()->withErrors($output)->withInput($request->all());;
             }
         }
-        // fallback
-        return View::make('test/test')->with('testResponse', $decodedArray );
+        // fallback & testing
+        return View::make('test/test')->with('testResponse',  Hash::make($request['password']));
+    }
+
+
+    protected function GetRandomSalt()
+    {
+        /* salt aanmaken */
+        return Str::random(12);
     }
 }
