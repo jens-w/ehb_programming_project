@@ -2,7 +2,7 @@ package com.brielage.coursequiz.restservices;
 
 import com.brielage.coursequiz.domain.Docent;
 import com.brielage.coursequiz.domain.DocentVak;
-import com.brielage.coursequiz.domain.JsonResponse;
+import com.brielage.coursequiz.domain.JsonUser;
 import com.brielage.coursequiz.domain.Opleiding;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.Student;
@@ -10,7 +10,8 @@ import com.brielage.coursequiz.domain.StudentVak;
 import com.brielage.coursequiz.domain.User;
 import com.brielage.coursequiz.domain.UserRol;
 import com.brielage.coursequiz.domain.Vak;
-import com.brielage.coursequiz.domain.Validator;
+import com.brielage.coursequiz.restresponses.JsonResponse;
+import com.brielage.coursequiz.restresponses.JsonUserResponse;
 import com.brielage.coursequiz.services.DocentService;
 import com.brielage.coursequiz.services.DocentVakService;
 import com.brielage.coursequiz.services.OpleidingService;
@@ -19,12 +20,13 @@ import com.brielage.coursequiz.services.StudentVakService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.services.VakService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +42,8 @@ public class UserRestService {
     private final DocentService docentService;
     private final DocentVakService docentVakService;
     private final OpleidingService opleidingService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final Validator validator = new Validator();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserRestService(UserService userService,
@@ -64,7 +66,7 @@ public class UserRestService {
 
 
     @SuppressWarnings("rawtypes")
-    public Map createUser(JsonNode jsonNode) {
+    public String createUser(JsonNode jsonNode) throws JsonProcessingException {
         /*
             REQUEST
             {
@@ -92,77 +94,84 @@ public class UserRestService {
             }
          */
 
-        JsonResponse jsonResponse;
-        String voornaam = "";
-        String familienaam = "";
-        String email = "";
-        String password = "";
+        // LOG
+        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
 
-        Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
 
-        while (fields.hasNext()) {
-            Map.Entry<String, JsonNode> entry = fields.next();
-            String key = entry.getKey();
-            String value = entry.getValue().asText();
+            // LOG
+            logger.info("\njsonUser:\n" + jsonUser.toString());
 
-            switch (key) {
-                case "voornaam" -> voornaam = value;
-                case "familienaam" -> familienaam = value;
-                case "email" -> email = value;
-                case "password" -> password = value;
-            }
-        }
+            boolean voornaamGeldig = jsonUser.checkVoornaam();
+            boolean familienaamGeldig = jsonUser.checkFamielienaam();
+            boolean emailGeldig = jsonUser.checkEmail();
+            boolean passwordGeldig = jsonUser.checkPassword();
 
-        boolean voornaamGeldig = validator.validateName(voornaam);
-        boolean familienaamGeldig = validator.validateName(familienaam);
-        boolean emailGeldig = validator.validateEmail(email);
-        boolean passwordGeldig = validator.validatePassword(password);
-
-        if (!voornaamGeldig ||
-                !familienaamGeldig ||
-                !emailGeldig ||
-                !passwordGeldig) {
-            List errorList = new ArrayList();
-            LinkedHashMap fouten = new LinkedHashMap();
-            jsonResponse = new JsonResponse(false);
-
-            if (!voornaamGeldig) fouten.put("voornaam_ongeldig", true);
-            if (!familienaamGeldig) fouten.put("familienaam_ongeldig", true);
-            if (!emailGeldig) fouten.put("email_ongeldig", true);
-            if (!passwordGeldig) fouten.put("password_ongeldig", true);
-
-            errorList.add(fouten);
-            jsonResponse.add("errors", errorList);
-        } else {
-            User u = new User(voornaam, familienaam, email, "", password);
-            String defaultAvatarPad = "\\public\\images\\account\\accountinfo\\avatar_default.png";
-            u.setAvatarPad(defaultAvatarPad);
-
-            try {
-                userService.create(u);
-                UserRol ur = new UserRol(u.getId(), Rol.USER);
-                userRolService.create(ur);
-                jsonResponse = new JsonResponse(true);
-                return jsonResponse.getContent();
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-
-                List errorList = new ArrayList();
+            if (!voornaamGeldig ||
+                    !familienaamGeldig ||
+                    !emailGeldig ||
+                    !passwordGeldig) {
                 LinkedHashMap fouten = new LinkedHashMap();
-                jsonResponse = new JsonResponse(false);
 
-                fouten.put("andere", true);
-                errorList.add(fouten);
-                jsonResponse.add("errors", errorList);
+                if (!voornaamGeldig) fouten.put("voornaam_ongeldig", true);
+                if (!familienaamGeldig) fouten.put("familienaam_ongeldig", true);
+                if (!emailGeldig) fouten.put("email_ongeldig", true);
+                if (!passwordGeldig) fouten.put("password_ongeldig", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            } else {
+                String defaultAvatarPad = "\\public\\images\\account\\accountinfo\\avatar_default.png";
+                User u = new User(
+                        jsonUser.getVoornaam(),
+                        jsonUser.getFamilienaam(),
+                        jsonUser.getEmail(),
+                        defaultAvatarPad,
+                        jsonUser.getPassword()
+                );
+
+                try {
+                    userService.create(u);
+
+                    UserRol ur = new UserRol(u.getId(), Rol.USER);
+                    userRolService.create(ur);
+
+                    // LOG
+                    logJsonResponse(new JsonResponse(true));
+
+                    return objectMapper.writeValueAsString(new JsonResponse(true));
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    LinkedHashMap fouten = new LinkedHashMap();
+                    fouten.put("andere", true);
+
+                    // LOG
+                    logger.error("\n" + e.getMessage());
+                    logJsonResponse(new JsonResponse(false, fouten));
+
+                    return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
 
+            LinkedHashMap fouten = new LinkedHashMap();
+            fouten.put("andere", true);
+
+            // LOG
+            logger.info("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
         }
-
-        return jsonResponse.getContent();
     }
 
     @SuppressWarnings("rawtypes")
-    public Map login(JsonNode jsonNode) {
+    public String login(JsonNode jsonNode) throws JsonProcessingException {
         /*
             REQUEST
             {
@@ -201,125 +210,143 @@ public class UserRestService {
             }
          */
 
-        JsonResponse jsonResponse;
-        String email = "";
-        String password = "";
-        Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+        // LOG
+        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
 
-        while (fields.hasNext()) {
-            Map.Entry<String, JsonNode> entry = fields.next();
-            String key = entry.getKey();
-            String value = entry.getValue().asText();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-            switch (key) {
-                case "email" -> email = value;
-                case "password" -> password = value;
-            }
-        }
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
 
-        boolean emailGeldig = validator.validateEmail(email);
-        boolean passwordGeldig = validator.validatePassword(password);
+            // LOG
+            logger.info("\njsonUser" + jsonUser.toString());
 
-        if (!emailGeldig || !passwordGeldig)
-            return new JsonResponse(false).getContent();
+            boolean emailGeldig = jsonUser.checkEmail();
+            boolean passwordGeldig = jsonUser.checkPassword();
 
-        List<User> userList = userService.findByEmail(email);
+            if (!emailGeldig || !passwordGeldig) {
+                // LOG
+                logJsonResponse(new JsonResponse(false));
 
-        if (userList.size() != 1) return new JsonResponse(false).getContent();
-
-        User user = userList.get(0);
-
-        if (!password.equals(user.getPassword())) return new JsonResponse(false).getContent();
-
-        jsonResponse = new JsonResponse(true);
-        LinkedHashMap message = new LinkedHashMap();
-
-        jsonResponse.add("userkey", user.getUserkey());
-        jsonResponse.add("voornaam", user.getVoornaam());
-        jsonResponse.add("familienaam", user.getFamilienaam());
-        jsonResponse.add("email", user.getEmail());
-        jsonResponse.add("avatarpad", user.getAvatarPad());
-
-        Optional<UserRol> optionalUserRol = userRolService.findByUserId(user.getId());
-
-        if (optionalUserRol.isPresent()) {
-            jsonResponse.add("eigenrol", optionalUserRol.get().getRol());
-        } else {
-            jsonResponse.add("eigenrol", "USER");
-        }
-
-        Optional<Student> optionalStudent = studentService.findById(user.getId());
-
-        if (optionalStudent.isPresent()) {
-            Student student = optionalStudent.get();
-            Optional<Opleiding> optionalOpleiding = opleidingService.findById(student.getOpleidingid());
-
-            if (optionalOpleiding.isPresent()) {
-                Opleiding opleiding = optionalOpleiding.get();
-                LinkedHashMap opleidingWaardes = new LinkedHashMap();
-
-                opleidingWaardes.put("id", opleiding.getId());
-                opleidingWaardes.put("naam", opleiding.getNaam());
-
-                jsonResponse.add("opleiding", opleidingWaardes);
+                return objectMapper.writeValueAsString(new JsonResponse(false));
             }
 
-            List<StudentVak> studentVakList = studentVakService.findByStudentId(student.getId());
+            List<User> userList = userService.findByEmail(jsonUser.getEmail());
 
-            if (!studentVakList.isEmpty()) {
-                LinkedHashMap vakkenMap = new LinkedHashMap();
-                @SuppressWarnings("DuplicatedCode")
-                int i = 1;
+            if (userList.size() != 1) {
+                // LOG
+                logJsonResponse(new JsonResponse(false));
 
-                //noinspection DuplicatedCode
-                for (StudentVak sv : studentVakList) {
-                    Optional<Vak> optionalVak = vakService.findById(sv.getVakId());
+                return objectMapper.writeValueAsString(new JsonResponse(false));
+            }
+
+            User user = userList.get(0);
+
+            if (!jsonUser.getPassword().equals(user.getPassword())) {
+                // LOG
+                logJsonResponse(new JsonResponse(false));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false));
+            }
+
+            JsonUserResponse jsonUserResponse = new JsonUserResponse(
+                    true,
+                    user.getUserkey(),
+                    user.getVoornaam(),
+                    user.getFamilienaam(),
+                    user.getEmail(),
+                    user.getAvatarPad()
+            );
+            Optional<UserRol> optionalUserRol = userRolService.findByUserId(user.getId());
+
+            if (optionalUserRol.isEmpty()) {
+                userRolService.create(new UserRol(user.getId(), Rol.USER));
+                jsonUserResponse.setRol(Rol.USER);
+            } else {
+                jsonUserResponse.setRol(optionalUserRol.get().getRol());
+            }
+
+            Optional<Student> optionalStudent = studentService.findById(user.getId());
+            boolean isStudent = false;
+
+            if (optionalStudent.isPresent()) {
+                isStudent = true;
+                Student student = optionalStudent.get();
+                Optional<Opleiding> optionalOpleiding = opleidingService.findById(student.getOpleidingid());
+
+                if (optionalOpleiding.isPresent()) {
+                    Opleiding opleiding = optionalOpleiding.get();
+                    LinkedHashMap opleidingMap = new LinkedHashMap();
+
+                    opleidingMap.put("id", opleiding.getId());
+                    opleidingMap.put("naam", opleiding.getNaam());
+
+                    jsonUserResponse.setOpleiding(opleidingMap);
+                }
+            }
+
+            Optional<Docent> optionalDocent = docentService.findById(user.getId());
+            boolean isDocent = optionalDocent.isPresent();
+
+            List userVakkenList = null;
+
+            if (isStudent) {
+                userVakkenList = studentVakService.findByStudentId(user.getId());
+            } else if (isDocent) {
+                userVakkenList = docentVakService.findByDocentId(user.getId());
+            }
+
+            if (userVakkenList != null && !userVakkenList.isEmpty()) {
+                List vakkenList = new ArrayList();
+
+                for (Object o : userVakkenList) {
+                    Optional<Vak> optionalVak;
+
+                    if (isStudent) {
+                        StudentVak sv = (StudentVak) o;
+                        optionalVak = vakService.findById(sv.getVakId());
+                    } else {
+                        DocentVak dv = (DocentVak) o;
+                        optionalVak = vakService.findById(dv.getVakId());
+                    }
 
                     if (optionalVak.isPresent()) {
                         Vak v = optionalVak.get();
-                        LinkedHashMap map = new LinkedHashMap();
+                        Map map = new LinkedHashMap();
 
                         map.put("id", v.getId());
                         map.put("naam", v.getNaam());
 
-                        vakkenMap.put("vak" + i, map);
-                        i++;
+                        vakkenList.add(map);
                     }
                 }
 
-                if (!vakkenMap.isEmpty()) jsonResponse.add("vakken", vakkenMap);
+                if (!vakkenList.isEmpty()) jsonUserResponse.setVakken(vakkenList);
             }
+
+            // LOG
+            logger.info("\n" + jsonUser.toString());
+            logJsonResponse(jsonUserResponse);
+
+            return objectMapper.writeValueAsString(jsonUserResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false));
         }
+    }
 
-        Optional<Docent> optionalDocent = docentService.findById(user.getId());
+    public void logJsonResponse(JsonUserResponse jsonUserResponse) throws JsonProcessingException {
+        JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsString(jsonUserResponse));
+        logger.info("\nresponse:\n" + jsonNode.toPrettyString());
+    }
 
-        if (optionalDocent.isPresent()) {
-            Docent docent = optionalDocent.get();
-            List<DocentVak> docentVakList = docentVakService.findByDocentId(docent.getId());
-
-            if (!docentVakList.isEmpty()) {
-                LinkedHashMap vakkenMap = new LinkedHashMap();
-                int i = 1;
-
-                for (DocentVak dv : docentVakList) {
-                    Optional<Vak> optionalVak = vakService.findById(dv.getVakId());
-
-                    if (optionalVak.isPresent()) {
-                        Vak v = optionalVak.get();
-                        LinkedHashMap map = new LinkedHashMap();
-
-                        map.put("id", v.getId());
-                        map.put("naam", v.getNaam());
-
-                        vakkenMap.put("vak" + i, map);
-                        i++;
-                    }
-                }
-
-                if (!vakkenMap.isEmpty()) jsonResponse.add("vakken", vakkenMap);
-            }
-        }
-
-        return jsonResponse.getContent();
+    public void logJsonResponse(JsonResponse jsonResponse) throws JsonProcessingException {
+        JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsString(jsonResponse));
+        logger.info("\nresponse:\n" + jsonNode.toPrettyString());
     }
 }

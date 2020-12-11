@@ -9,13 +9,12 @@ import com.brielage.coursequiz.services.StudentVakService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.services.VakService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 @RestController
@@ -59,19 +58,17 @@ public class UserRestController {
                 opleidingService);
     }
 
-    @SuppressWarnings("rawtypes")
     @PostMapping(value = "/create",
             consumes = "application/json",
             produces = "application/json")
-    public Map createUser(@RequestBody JsonNode jsonNode) {
+    public String createUser(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
         return userRestService.createUser(jsonNode);
     }
 
-    @SuppressWarnings("rawtypes")
     @PostMapping(value = "/login",
             consumes = "application/json",
             produces = "application/json")
-    public Map login(@RequestBody JsonNode jsonNode) {
+    public String login(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
         return userRestService.login(jsonNode);
     }
 }
