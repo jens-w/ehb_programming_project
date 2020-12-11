@@ -17,13 +17,13 @@ public class Docent extends User {
                   @NotBlank String familienaam,
                   @NotBlank String email,
                   @NotBlank String userkey,
-                  String avatarPad) {
+                  String avatarpad) {
         super(
                 voornaam,
                 familienaam,
                 email,
                 userkey,
-                avatarPad
+                avatarpad
         );
     }
 }

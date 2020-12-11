@@ -2,18 +2,19 @@ package com.brielage.coursequiz.restresponses;
 
 import com.brielage.coursequiz.domain.Rol;
 
-import java.util.List;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unused", "FieldCanBeLocal"})
 public class JsonUserResponse
         extends JsonResponse {
-    private final String userkey, voornaam, familienaam, email, avatarPad;
-    private List vakken;
+    private final String userkey, voornaam, familienaam, email, avatarpad;
     @JsonInclude(Include.NON_NULL)
     private Map opleiding;
+    private List vakken;
     private Rol rol;
 
     public JsonUserResponse(boolean success,
@@ -21,13 +22,13 @@ public class JsonUserResponse
                             String voornaam,
                             String familienaam,
                             String email,
-                            String avatarPad) {
+                            String avatarpad) {
         super(success);
         this.userkey = userkey;
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
-        this.avatarPad = avatarPad;
+        this.avatarpad = avatarpad;
     }
 
     public void setRol(Rol rol) {
@@ -58,8 +59,8 @@ public class JsonUserResponse
         return email;
     }
 
-    public String getAvatarPad() {
-        return avatarPad;
+    public String getAvatarpad() {
+        return avatarpad;
     }
 
     public List getVakken() {

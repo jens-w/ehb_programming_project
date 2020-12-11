@@ -20,9 +20,11 @@ import com.brielage.coursequiz.services.StudentVakService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.services.VakService;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "DuplicatedCode"})
 public class UserRestService {
     private final UserService userService;
     private final UserRolService userRolService;
@@ -156,6 +158,17 @@ public class UserRestService {
                     return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
                 }
             }
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            LinkedHashMap fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -212,8 +225,6 @@ public class UserRestService {
 
         // LOG
         logger.info("\nrequest:\n" + jsonNode.toPrettyString());
-
-        ObjectMapper objectMapper = new ObjectMapper();
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
@@ -329,6 +340,17 @@ public class UserRestService {
             logJsonResponse(jsonUserResponse);
 
             return objectMapper.writeValueAsString(jsonUserResponse);
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            LinkedHashMap fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
 
@@ -337,6 +359,165 @@ public class UserRestService {
             logJsonResponse(new JsonResponse(false));
 
             return objectMapper.writeValueAsString(new JsonResponse(false));
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public String edit(JsonNode jsonNode) throws JsonProcessingException {
+        /*
+        	REQUEST
+                {
+                    "userkey" : "userkey1234",
+                    "voornaam" : "mijn_voornaam",
+                    "familienaam" : "mijn_familienaam",
+                    "email" : "mijn@ema.il",
+                    "avatarpad" : "/pad/naar/avatar",
+                    "password" : "mijn_password12!34"
+                }
+
+            RESPONSE SUCCESS
+                {
+                    "success" : true,
+                    "eigenrol" : "rol",
+                    "voornaam" : "mijn_voornaam",
+                    "familienaam" : "mijn_familienaam",
+                    "email" : "mijn@ema.il",
+                    "avatarpad" : "/pad/naar/avatar"
+                }
+
+            RESPONSE FAIL
+                {
+                    "success" : false,
+                    "error" : [
+                        "voornaam_ongeldig" : true,
+                        "familienaam_ongeldig" : true,
+                        "email_ongeldig" : true,
+                        "email_bestaat_al" : true,
+                        "avatarpad_ongeldig" : true,
+                        "password_ongeldig" : true,
+                        "andere" : true
+                    ]
+                }
+         */
+
+        // LOG
+        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
+
+            // LOG
+            logger.info("\njsonUser" + jsonUser.toString());
+
+            if (jsonUser.getVoornaam() != null && !jsonUser.checkVoornaam()) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("voornaam_ongeldig", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            if (jsonUser.getFamilienaam() != null && !jsonUser.checkFamielienaam()) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("familienaam_ongeldig", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            if (jsonUser.getEmail() != null && !jsonUser.checkEmail()) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("email_ongeldig", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            if (jsonUser.getAvatarpad() != null && !jsonUser.checkAvatarpad()) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("avatarpad_ongeldig", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            if (jsonUser.getPassword() != null && !jsonUser.checkPassword()) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("password_ongeldig", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            List<User> userListByEmail = userService.findByEmail(jsonUser.getEmail());
+
+            if (userListByEmail.size() != 0) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("email_bestaat_al", true);
+
+                // LOG
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            List<User> userListByUserkey = userService.findByUserkey(jsonUser.getUserkey());
+
+            if (userListByUserkey.size() != 1) {
+                LinkedHashMap fouten = new LinkedHashMap();
+                fouten.put("andere", true);
+
+                // LOG
+                logger.info("\nUSERKEY BESTAAT NIET OF MEERDERE KEREN");
+                logJsonResponse(new JsonResponse(false, fouten));
+
+                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            }
+
+            User user = userListByUserkey.get(0);
+
+            if (jsonUser.getVoornaam() != null) user.setVoornaam(jsonUser.getVoornaam());
+            if (jsonUser.getFamilienaam() != null) user.setFamilienaam(jsonUser.getFamilienaam());
+            if (jsonUser.getEmail() != null) user.setEmail(jsonUser.getEmail());
+            if (jsonUser.getAvatarpad() != null) user.setAvatarPad(jsonUser.getAvatarpad());
+            if (jsonUser.getPassword() != null) user.setPassword(jsonUser.getPassword());
+
+            // LOG
+            logJsonResponse(new JsonResponse(true));
+
+            return objectMapper.writeValueAsString(new JsonResponse(true));
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            LinkedHashMap fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            LinkedHashMap fouten = new LinkedHashMap();
+            fouten.put("andere", true);
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
         }
     }
 

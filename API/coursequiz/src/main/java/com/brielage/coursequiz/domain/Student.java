@@ -1,6 +1,9 @@
 package com.brielage.coursequiz.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @SuppressWarnings("unused")
@@ -8,15 +11,14 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "studenten")
 @PrimaryKeyJoinColumn(name = "userid")
 public class Student extends User {
-    @NotBlank
     @Column
     private long opleidingid;
 
     protected Student() {
     }
 
-    public Student(@NotBlank long userid,
-                   @NotBlank long opleidingid) {
+    public Student(long userid,
+                   long opleidingid) {
         this.opleidingid = opleidingid;
     }
 
@@ -24,14 +26,14 @@ public class Student extends User {
                    @NotBlank String familienaam,
                    @NotBlank String email,
                    String userkey,
-                   String avatarPad,
-                   @NotBlank long opleidingid) {
+                   String avatarpad,
+                   long opleidingid) {
         super(
                 voornaam,
                 familienaam,
                 email,
                 userkey,
-                avatarPad
+                avatarpad
         );
         this.opleidingid = opleidingid;
     }

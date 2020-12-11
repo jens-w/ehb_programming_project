@@ -13,4 +13,6 @@ public interface UserService {
     void create(User u);
 
     List<User> findByEmail(String email);
+
+    List<User> findByUserkey(String userkey);
 }

@@ -71,4 +71,11 @@ public class UserRestController {
     public String login(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
         return userRestService.login(jsonNode);
     }
+
+    @PostMapping(value = "/edit",
+            consumes = "application/json",
+            produces = "application/json")
+    public String edit(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+        return userRestService.edit(jsonNode);
+    }
 }

@@ -2,6 +2,7 @@ package com.brielage.coursequiz.services;
 
 import com.brielage.coursequiz.domain.User;
 import com.brielage.coursequiz.repositories.UserRepository;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,5 +37,10 @@ public class DefaultUserService
     @Override
     public List<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findByUserkey(String userkey) {
+        return userRepository.findByUserkey(userkey);
     }
 }

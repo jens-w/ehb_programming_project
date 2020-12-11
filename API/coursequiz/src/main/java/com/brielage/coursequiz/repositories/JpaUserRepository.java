@@ -1,6 +1,7 @@
 package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.User;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -38,6 +39,15 @@ public class JpaUserRepository
                 "select u from User u where u.email = :email",
                 User.class)
                 .setParameter("email", email)
+                .getResultList();
+    }
+
+    @Override
+    public List<User> findByUserkey(String userkey) {
+        return manager.createQuery(
+                "select u from User u where u.userkey = :userkey",
+                User.class)
+                .setParameter("userkey",userkey)
                 .getResultList();
     }
 }
