@@ -17,7 +17,7 @@
                      @if(session()->has('userData'))
                         <div class="col-12 welcome-msg">
                             <p>Welkom terug,</p>
-                            <p>  {{ session('userData')['voornaam']}} !</p>
+                            <p>  {{ session('userData')->voornaam}} !</p>
                         </div>                      
                      @endif
                     </div>
@@ -34,7 +34,7 @@
                             <!-- link naar accountbeheer -->
                             <a href="{{ route('accountBeheer')}}" class="text-decoration-none d-flex align-items-baseline">
                                 <i class="far fa-user"></i>
-                                {{ session('userData')['voornaam']}}
+                                {{ session('userData')->voornaam }}
                             </a>
                             <!-- TODO: Link/route naar statistieken -->
                             <a href="" class="text-decoration-none d-flex align-items-baseline">

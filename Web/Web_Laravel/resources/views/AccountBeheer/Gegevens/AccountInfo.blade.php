@@ -64,7 +64,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Familienaam </label>
-                                        <input name="familienaam" class="form-control" value='<?php echo $AccountViewModel->familienaam?>'>
+                                        <input name="familienaam" class="form-control" value='<?php echo $AccountViewModel->familienaam ?>'>
                                     </div>
                                 </div>
                             </div>
@@ -80,10 +80,23 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="AccountCourses">
-                        
-                           <!--?php echo $collection ?>-->
-                        
+                        <div class="row">
+                            @foreach($AccountViewModel->vakken as $vak)
+                            <div class="col-6 sub-title">
+                                <?php echo $vak->naam ?>
+                            </div>
+                            <div class="col-6 ">
+                                <ul class="nav nav-tabs border-0">
+                                    <li class="list-unstyled">
+                                        <a data-toggle="tab" class="d-flex" href="#AccountEdit"><span>Quiz aanvragen</span><i class="fas fa-arrow-right"></i></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            @endforeach
+
+                        </div>
                       
+
                     </div>
                 </div>
             </div>

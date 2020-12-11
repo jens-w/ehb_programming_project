@@ -3,7 +3,7 @@
 
     <div class="container-fluid bg-light p-2">
         <div class="row">
-            <div class="col-sm-6 col-md-3 ftr-social d-flex">
+            <div class="col-sm-6 col-md-4 ftr-social d-flex">
                 <ul class="list-unstyled">
                     <li> <i class="fab fa-twitter"></i> </li>
                     <li> <i class="fab fa-facebook"></i> </li>
@@ -11,7 +11,7 @@
                     <li> <i class="fab fa-linkedin-in"></i> </li>
                 </ul>
             </div>
-            <div class="col-sm-6 col-md-3 ftr-sitemap d-flex">
+            <div class="col-sm-6 col-md-4 ftr-sitemap d-flex">
                 <ul class="list-unstyled">
                     <li>
                         <h3>Algemeen</h3>
@@ -21,7 +21,7 @@
                     <li> <a href="">Sitemap</a> </li>
                 </ul>
             </div>
-            <div class="col-sm-6 col-md-3 d-flex">
+            <div class="col-sm-6 col-md-4 d-flex">
                 <ul class="list-unstyled">
                     <li>
                         <h3>Contact</h3>
@@ -33,9 +33,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-6 col-md-3 d-flex">
-
-            </div>
+           
 
         </div>
     </div>

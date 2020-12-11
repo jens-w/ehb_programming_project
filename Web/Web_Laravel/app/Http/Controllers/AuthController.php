@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Validator, Redirect, Response;
-use App\Models\User; // USE USER MODEL
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Session; // USE SESSION VAR.
 use View;
+
+use Illuminate\Http\Request;
+use Validator, Redirect, Response;
+
+use App\Models\Users\User;
+use App\Models\Users\UserList;
+use App\Models\Users\Leraar; // USE USER MODELS
+
+use App\Models\Vakken\Vak;
+use App\Models\Vakken\VakkenList;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Mockery\Undefined;
+use phpDocumentor\Reflection\Types\This;
 
 // created controller through artisan command
 // php artisan make:controller AuthController
@@ -42,16 +50,47 @@ class AuthController extends Controller
         $user = DB::table('users')->where('email', $request->input('email'))->first();
         // if user exists
         if ($user != null) { // create md5 hashing appended with salt retrieved from local db
-            $hashedPassword = md5($request->input('email') . $user->salt);
+            $hashedPassword = md5($request->input('password') . $user->salt);
         } else {
             // if user doesn't exist don't return will error messages
             return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
         }
+
+        // UNCOMMENT REQUEST TO API WHEN DONE TESTING 
+
         // try to login with email & hashed ( password + salt )
         $response = Http::post('http://api.brielage.com:8081/user/login/', [
-            'email' => $request->input('email'),
-            'password' => $hashedPassword,
+            /*'email' => $request->input('email'),
+            'password' => $hashedPassword, */
+            'email' => 'ldebacker@sky.net',
+            'password' => 'abc12345'
         ]);
+         /*
+        $response = '{
+            "success" : true,
+            "userkey" : "def456",
+            "voornaam" : "Jos",
+            "familienaam" : "Dewolf",
+            "email": "jos@live.be",
+            "eigenrol":"hahaha",
+            "opleiding" : {
+                "id" : 1,
+                "naam": "testopleiding"
+            },
+            "vakken" : {
+
+                "vak1" : {
+                    "id": 1,
+                    "naam": "testvak numero uno"
+                },
+                "vak2" : {
+                "id" : 2,
+                "naam" : ".Net advanced"
+                }
+
+            }
+        }';
+        */
 
         //  serialize data
         // 'true' parameter zorgt ervoor om een array terug te geven ipv een object
@@ -84,17 +123,35 @@ class AuthController extends Controller
                                 break;
                             case 'eigenrol':
                                 break;
+                            case 'opleiding':
+                                foreach ($output as $key => $innerOutput) { }
+                                break;
+                            case 'vakken':
+                                $vakkenList = [];
+                                foreach($output as $key => $out){
+                                    // define vak with class - init the var.
+                                    $vak = new Vak();
+                                    // fill the object (vak) with the array data
+                                    $vak->fill($out);
+                                    // add each 'vak' to an array called 'vakkenList'
+                                    $vakkenList[] = $vak;
+                                }
+                                $user->vakken = $vakkenList;
+                                break;
                         }
                     }
+                    // put user data in session called 'userData'
                     Session::put('userData', $user);
+                    // save the session
                     Session::save();
                     return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
                 } else { // success is false -> login failed
-                    return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());                
+                    return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
                 }
-            }          
+            }
         }
-
+       
+        return View::make('test/test')->with('testResponse',  $decodedArray);
         // fall back 
         return View::make('test/test')->with('testResponse',  'Error: End of line auth');
     }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use \App\Models\Users\Student;
 use \App\Models\Users\Teacher;
 use \App\Models\Users\Admin;
-use \App\Models\User;
+use \App\Models\Users\User;
 use View;
 use Session;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -1,4 +1,5 @@
+<h3><?php
 
-<h3><?php 
-echo json_encode($testResponse);
-?> </h3>
+echo json_encode($testResponse->vakken[0]['naam'])
+
+?></h3>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use \App\Models\Users\Student;
 use \App\Models\Users\Teacher;
 use \App\Models\Users\Admin;
-use \App\Models\User;
+use \App\Models\Users\User;
 use \App\Models\Vakken\Vak;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -34,39 +34,18 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         /* ACCOUNT */
          
         // if not, get the data and create model
-        $sessionData = Session::get('userData');
+        $sessionData = Session::get('userData');     
+        //decode request to proper object (thats why second param. = true !!)
+        //$result = json_encode( $sessionData, true);
+
         $AccountViewModel = new User(); 
-        //encode request to proper json
-        $decodedAsArray = json_encode($sessionData, true);
-        //decode request to proper array (thats why second param. = true !!)
-        $result = json_decode($decodedAsArray, true);
-        $AccountViewModel->forceFill($result);
+        $AccountViewModel->fill($sessionData);
 
 
-        
-
-        /* VAKKEN */ 
-        $vak1 = new Vak();
-        $vak1->Id = 1;
-        $vak1->Naam = "Java";
-        $vak1->jaar = "2020";
-        $vak1->opleidingsId = 1244;
-        // to array
-        $vak1Array = (array) $vak1;
-
-        $vak2 = new Vak();
-        $vak2->Id = "2";
-        $vak2->Naam = "Wiskunde";
-        $vak2->jaar = "2020";
-        $vak2->opleidingsId = "122451";
-        // to array
-        $vak2Array = (array) $vak2;
-
-        $collection = collect($vak1Array,$vak2Array);
        
 
-
-        return view('AccountBeheer/Gegevens.Overview', compact('AccountViewModel','collection'));
+        
+        return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel',$AccountViewModel);
     }
 
     public function GetJsonDummyDataAccount(){
