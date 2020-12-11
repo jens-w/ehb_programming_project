@@ -31,7 +31,7 @@ public class User {
     @Column
     private String userkey;
     @Column
-    private String avatarPad;
+    private String avatarpad;
     @Column
     private String password;
 
@@ -41,12 +41,12 @@ public class User {
     public User(@NotBlank String voornaam,
                 @NotBlank String familienaam,
                 @NotBlank String email,
-                String avatarPad,
+                String avatarpad,
                 String password) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
-        this.avatarPad = avatarPad;
+        this.avatarpad = avatarpad;
         this.password = password;
     }
 
@@ -54,13 +54,13 @@ public class User {
                 @NotBlank String familienaam,
                 @NotBlank String email,
                 String userkey,
-                String avatarPad,
+                String avatarpad,
                 String password) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
         this.userkey = userkey;
-        this.avatarPad = avatarPad;
+        this.avatarpad = avatarpad;
         this.password = password;
     }
 
@@ -71,7 +71,7 @@ public class User {
                 this.familienaam + " " +
                 this.email + " " +
                 this.userkey + " " +
-                this.avatarPad;
+                this.avatarpad;
     }
 
     public long getId() {
@@ -111,11 +111,11 @@ public class User {
     }
 
     public String getAvatarPad() {
-        return avatarPad;
+        return avatarpad;
     }
 
-    public void setAvatarPad(String avatarPad) {
-        this.avatarPad = avatarPad;
+    public void setAvatarPad(String avatarpad) {
+        this.avatarpad = avatarpad;
     }
 
     public String getPassword() {

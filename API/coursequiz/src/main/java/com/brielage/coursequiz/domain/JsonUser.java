@@ -2,7 +2,7 @@ package com.brielage.coursequiz.domain;
 
 public class JsonUser {
     private long id;
-    private String voornaam, familienaam, email, userkey, avatarPad, password;
+    private String voornaam, familienaam, email, userkey, avatarpad, password;
     private Rol rol;
 
     public JsonUser() {
@@ -23,13 +23,13 @@ public class JsonUser {
                     String familienaam,
                     String email,
                     String userkey,
-                    String avatarPad,
+                    String avatarpad,
                     String password) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
         this.userkey = userkey;
-        this.avatarPad = avatarPad;
+        this.avatarpad = avatarpad;
         this.password = password;
     }
 
@@ -38,14 +38,14 @@ public class JsonUser {
                     String familienaam,
                     String email,
                     String userkey,
-                    String avatarPad,
+                    String avatarpad,
                     String password) {
         this.id = id;
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.email = email;
         this.userkey = userkey;
-        this.avatarPad = avatarPad;
+        this.avatarpad = avatarpad;
         this.password = password;
     }
 
@@ -85,12 +85,12 @@ public class JsonUser {
         this.userkey = userkey;
     }
 
-    public String getAvatarPad() {
-        return avatarPad;
+    public String getAvatarpad() {
+        return avatarpad;
     }
 
-    public void setAvatarPad(String avatarPad) {
-        this.avatarPad = avatarPad;
+    public void setAvatarpad(String avatarpad) {
+        this.avatarpad = avatarpad;
     }
 
     public String getPassword() {
@@ -129,6 +129,11 @@ public class JsonUser {
         return validator.validatePassword(this.password);
     }
 
+    public boolean checkAvatarpad() {
+        // TODO write logic
+        return true;
+    }
+
     @Override
     public String toString() {
         return id + "; " +
@@ -136,7 +141,7 @@ public class JsonUser {
                 familienaam + "; " +
                 email + "; " +
                 userkey + "; " +
-                avatarPad + "; " +
+                avatarpad + "; " +
                 password;
     }
 }
