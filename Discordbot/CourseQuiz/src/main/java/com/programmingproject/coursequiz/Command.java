@@ -2,6 +2,7 @@ package com.programmingproject.coursequiz;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import discord4j.core.event.domain.message.MessageCreateEvent;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -40,11 +41,23 @@ public class Command {
         return output;
     }
 
+
+    //Utils
+
+
+    public static void displayCommands(MessageCreateEvent event) {
+        for(Command command : Command.commandHelpList){
+            BotUtil.botSendMessage(event, command.getHelp());
+        }
+    }
+
     public static final List<Command> commandHelpList = new ArrayList<>();
     static{
-        commandHelpList.add(new Command("ping", "pong", "!quiz ping  ---  Hello bot? You there?"));
-        commandHelpList.add(new Command("register", "!quiz register  ---  Register with your user key to link Discord account."));
-        commandHelpList.add(new Command("!quiz <vak>  ---  Displays a list of the available quizzes for a particular course."));
+        commandHelpList.add(new Command("ping", "pong", "!ping  ---  Hello bot? You there?"));
+        commandHelpList.add(new Command("!registreer  ---  Register with your user key to link Discord account."));
+        commandHelpList.add(new Command("!vakken  ---  Welke vakken heb ik?"));
+        commandHelpList.add(new Command("!vraag <vak>  ---  Geeft een random vraag van een vak."));
+        commandHelpList.add(new Command("!vraag <vak> <hoofdstuk>  ---  Geeft een random vraag van een hoofdstuk"));
     }
 
     public static final List<Command> vakHelpList = new ArrayList<>();
@@ -53,6 +66,8 @@ public class Command {
             vakHelpList.add(new Command("!quiz "+vak.getNaam()));
         }
     }
+
+
 
 
 

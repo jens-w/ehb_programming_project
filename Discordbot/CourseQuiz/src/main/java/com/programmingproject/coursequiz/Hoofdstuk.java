@@ -33,7 +33,7 @@ public class Hoofdstuk {
                 hoofdstukken += "!quiz " + vak.getNaam() + " " + hoofdstuk.getTitel() + System.lineSeparator();
             }
         }
-        Bot.botSendMessage(event, hoofdstukken);
+        BotUtil.botSendMessage(event, hoofdstukken);
     }
 
     public static List<Hoofdstuk> hoofdstukList = new ArrayList<>();

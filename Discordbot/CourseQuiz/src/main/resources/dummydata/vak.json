@@ -1,16 +1,19 @@
 [
   {
     "id":"1",
+    "opleidingId": "1",
     "naam": "ServerOs"
   },
 
   {
     "id":"2",
+    "opleidingId": "1",
     "naam": "ItEssentials"
   },
 
   {
     "id":"3",
+    "opleidingId": "1",
     "naam": "BusinessFrench"
   }
 ]

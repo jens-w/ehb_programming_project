@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private int id;
+    private int id, opleidingId;
     private String userkey;
     private String snowflake;
 
     public User(){}
 
-    public User(int id, String userkey, String snowflake){
+    public User(int id, int opleidingId, String userkey, String snowflake){
         this.id = id;
+        this.opleidingId = opleidingId;
         this.userkey = userkey;
         this.snowflake = snowflake;
     }
@@ -25,12 +26,24 @@ public class User {
         return userkey;
     }
 
+    public void setOpleidingId(int opleidingId) {
+        this.opleidingId = opleidingId;
+    }
+
+    public int getOpleidingId() {
+        return opleidingId;
+    }
+
     public void setSnowflake(String snowflake) {
         this.snowflake = snowflake;
     }
 
     public String getSnowflake() {
         return this.snowflake;
+    }
+
+    public boolean isRegistered() {
+        return this.getSnowflake() != null;
     }
 
     public User getUserByUserKey(String userkey){
@@ -51,23 +64,21 @@ public class User {
         return null;
     }
 
-    public void registerUser(MessageCreateEvent event, User user, String[] commandSplit, String snowflake){
+    public void registerUser(MessageCreateEvent event, User user, String[] messageSplit, String snowflake){
 
-        if(commandSplit.length > 1){
-            if(user.getUserByUserKey(commandSplit[1]) != null){
-                user = user.getUserByUserKey(commandSplit[1]);
+        if(messageSplit.length > 1){
+            if(user.getUserByUserKey(messageSplit[1]) != null){
+                user = user.getUserByUserKey(messageSplit[1]);
                 user.setSnowflake(snowflake);
-                //Bot.botSendMessage(event, user.getSnowflake());//just to test if set correctly
+                BotUtil.botSendMessage(event, user.getSnowflake());//just to test if set correctly
             }else{
                 event.getMessage().getAuthor().get().getPrivateChannel().block().createMessage("User key niet gevonden.").block();
             }
         }
         else{
-            event.getMessage().getAuthor().get().getPrivateChannel().block().createMessage("Typ hier !registreer <user key>  -  User key is terug te vinden op de CourseQuiz website.").block();
+            event.getMessage().getAuthor().get().getPrivateChannel().block().createMessage("Typ hier '!registreer <user key>' (Jouw user key is terug te vinden op de CourseQuiz website)").block();
         }
     }
-
-
 
     public static List<User> userList = new ArrayList<>();
 }

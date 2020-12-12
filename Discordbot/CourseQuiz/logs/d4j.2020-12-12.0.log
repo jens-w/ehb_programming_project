@@ -1,0 +1,623 @@
+2020-12-12 14:29:09.252 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 14:29:09.346 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:1c807b1d] GET /gateway/bot
+2020-12-12 14:29:10.404 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:1c807b1d] Read 200 OK in PT1.0054527S
+2020-12-12 14:29:10.405 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 14:29:10.523 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@23a81597{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:29:10.524 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@24ccb9de{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:29:10.525 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@3b090383{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:29:10.526 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@7f370f13{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 14:29:10.526 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@31650708{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 14:29:10.529 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 14:29:10.529 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@76542d10{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:29:10.530 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@2922d52c{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:29:10.530 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@488f5c30{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 14:29:10.605 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:7d10d177, S:0] Acquiring gateway endpoint
+2020-12-12 14:29:10.605 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:1d3923b3] GET /gateway
+2020-12-12 14:29:10.740 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:1d3923b3, G:7d10d177, S:0] Read 200 OK in PT0.1347476S
+2020-12-12 14:29:10.741 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 14:29:10.868 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] [connected] PooledConnection{channel=[id: 0x4a977520, L:/192.168.0.193:62018 - R:gateway.discord.gg/162.159.130.234:443]}
+2020-12-12 14:29:10.876 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0x4a977520, L:/192.168.0.193:62018 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 14:29:10.876 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x4a977520, L:/192.168.0.193:62018 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 14:29:11.066 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x4a977520, L:/192.168.0.193:62018 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 14:29:11.105 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 14:29:11.109 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Identifying to Gateway
+2020-12-12 14:29:11.304 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Heartbeat acknowledged after PT0.1991652S
+2020-12-12 14:29:11.549 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Connected to Gateway
+2020-12-12 14:29:11.551 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:7d10d177, S:0] Shard connected
+2020-12-12 14:29:11.555 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 62e8f862 to MessageCreateEvent created
+2020-12-12 14:29:28.480 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:1b04c4e0] POST /channels/773900436708130819/messages
+2020-12-12 14:29:28.788 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:1b04c4e0] Read 200 OK in PT0.3072027S
+2020-12-12 14:29:28.788 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:29:28.791 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:78a82de2] POST /channels/773900436708130819/messages
+2020-12-12 14:29:29.086 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:78a82de2] Read 200 OK in PT0.2950024S
+2020-12-12 14:29:29.086 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:29:29.088 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:30b14bff] POST /channels/773900436708130819/messages
+2020-12-12 14:29:29.391 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:30b14bff] Read 200 OK in PT0.3029035S
+2020-12-12 14:29:29.391 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:29:29.394 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:50ec3c3e] POST /channels/773900436708130819/messages
+2020-12-12 14:29:29.740 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:50ec3c3e] Read 200 OK in PT0.345212S
+2020-12-12 14:29:29.741 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:29:29.742 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6d72c107] POST /channels/773900436708130819/messages
+2020-12-12 14:29:30.064 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6d72c107] Read 200 OK in PT0.3213948S
+2020-12-12 14:29:30.064 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6d72c107] Delaying next request by PT3.765S
+2020-12-12 14:29:33.831 [d4j-parallel-1-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:29:52.362 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Sending heartbeat PT41.0576506S after last ACK
+2020-12-12 14:29:52.488 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Heartbeat acknowledged after PT0.1264882S
+2020-12-12 14:30:06.610 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:548c3676] POST /channels/773900436708130819/messages
+2020-12-12 14:30:06.885 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:548c3676] Read 200 OK in PT0.2746575S
+2020-12-12 14:30:06.885 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:30:06.887 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6e5861ab] POST /channels/773900436708130819/messages
+2020-12-12 14:30:07.262 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6e5861ab] Read 200 OK in PT0.3755605S
+2020-12-12 14:30:07.263 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:30:18.167 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:5fe4ad92] POST /channels/773900436708130819/messages
+2020-12-12 14:30:18.442 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:5fe4ad92] Read 200 OK in PT0.2749553S
+2020-12-12 14:30:18.443 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:30:23.810 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:3ee37ac5] POST /users/@me/channels
+2020-12-12 14:30:24.090 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:3ee37ac5] Read 200 OK in PT0.279581S
+2020-12-12 14:30:24.091 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24] Ready to consume next request after cancel
+2020-12-12 14:30:24.092 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3103e29d] POST /channels/782627022635139134/messages
+2020-12-12 14:30:24.368 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3103e29d] Read 200 OK in PT0.2754932S
+2020-12-12 14:30:24.368 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:30:24.370 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:455e09bf] POST /channels/773900436708130819/messages
+2020-12-12 14:30:24.620 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:455e09bf] Read 200 OK in PT0.2499511S
+2020-12-12 14:30:24.620 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 14:30:30.830 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:67a1cb02] POST /users/@me/channels
+2020-12-12 14:30:31.087 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:67a1cb02] Read 200 OK in PT0.2569103S
+2020-12-12 14:30:31.088 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24] Ready to consume next request after cancel
+2020-12-12 14:30:31.089 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:42b1a061] POST /channels/782627022635139134/messages
+2020-12-12 14:30:31.344 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:42b1a061] Read 200 OK in PT0.2553832S
+2020-12-12 14:30:31.345 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:30:31.346 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:6c88b5a0] GET /channels/782627022635139134
+2020-12-12 14:30:31.641 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:6c88b5a0] Read 200 OK in PT0.2942849S
+2020-12-12 14:30:31.641 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:30:31.642 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:592e5a7f] POST /channels/782627022635139134/messages
+2020-12-12 14:30:31.931 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:592e5a7f] Read 200 OK in PT0.2887727S
+2020-12-12 14:30:31.931 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:30:33.605 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Sending heartbeat PT41.1164895S after last ACK
+2020-12-12 14:30:33.736 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Heartbeat acknowledged after PT0.1311163S
+2020-12-12 14:30:37.152 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:30be6383] GET /channels/782627022635139134
+2020-12-12 14:30:37.513 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:30be6383] Read 200 OK in PT0.3603149S
+2020-12-12 14:30:37.514 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:30:37.515 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:7fc36f5d] POST /channels/782627022635139134/messages
+2020-12-12 14:30:37.831 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:7fc36f5d] Read 200 OK in PT0.315213S
+2020-12-12 14:30:37.831 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:31:14.856 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Sending heartbeat PT41.1207061S after last ACK
+2020-12-12 14:31:14.980 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Heartbeat acknowledged after PT0.1246225S
+2020-12-12 14:31:56.106 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Sending heartbeat PT41.1247522S after last ACK
+2020-12-12 14:31:56.228 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Heartbeat acknowledged after PT0.1223679S
+2020-12-12 14:32:10.167 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:56cff0b0] GET /channels/782627022635139134
+2020-12-12 14:32:10.384 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:56cff0b0] Read 200 OK in PT0.2160518S
+2020-12-12 14:32:10.385 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:10.386 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:7d99a5b4] POST /channels/782627022635139134/messages
+2020-12-12 14:32:10.684 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:7d99a5b4] Read 200 OK in PT0.2979954S
+2020-12-12 14:32:10.684 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:10.686 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:3e7863ff] GET /channels/782627022635139134
+2020-12-12 14:32:10.891 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:3e7863ff] Read 200 OK in PT0.205928S
+2020-12-12 14:32:10.891 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:10.893 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:5aa54aea] POST /channels/782627022635139134/messages
+2020-12-12 14:32:11.177 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:5aa54aea] Read 200 OK in PT0.2838855S
+2020-12-12 14:32:11.177 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:11.178 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:73c66b7e] GET /channels/782627022635139134
+2020-12-12 14:32:11.385 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:73c66b7e] Read 200 OK in PT0.2061095S
+2020-12-12 14:32:11.385 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:11.387 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:4342c4b7] POST /channels/782627022635139134/messages
+2020-12-12 14:32:12.097 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:4342c4b7] Read 200 OK in PT0.7109156S
+2020-12-12 14:32:12.097 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:12.098 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:3e5820bb] GET /channels/782627022635139134
+2020-12-12 14:32:12.322 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:3e5820bb] Read 200 OK in PT0.2228421S
+2020-12-12 14:32:12.322 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:12.324 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:4e5adf80] POST /channels/782627022635139134/messages
+2020-12-12 14:32:12.648 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:4e5adf80] Read 200 OK in PT0.3238563S
+2020-12-12 14:32:12.648 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:12.650 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:e07d0ae] GET /channels/782627022635139134
+2020-12-12 14:32:12.862 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:e07d0ae] Read 200 OK in PT0.2121376S
+2020-12-12 14:32:12.863 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:12.864 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:5bb5daa5] POST /channels/782627022635139134/messages
+2020-12-12 14:32:13.110 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:5bb5daa5] Read 200 OK in PT0.2450559S
+2020-12-12 14:32:13.111 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:5bb5daa5] Delaying next request by PT2.521S
+2020-12-12 14:32:14.910 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:24977490] GET /channels/782627022635139134
+2020-12-12 14:32:15.157 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:24977490] Read 200 OK in PT0.2467053S
+2020-12-12 14:32:15.158 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:15.634 [d4j-parallel-1-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:15.634 [d4j-parallel-1-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:1ebc46ba] POST /channels/782627022635139134/messages
+2020-12-12 14:32:15.872 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:1ebc46ba] Read 200 OK in PT0.2370764S
+2020-12-12 14:32:15.872 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:15.874 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:3ca9095d] GET /channels/782627022635139134
+2020-12-12 14:32:16.110 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:3ca9095d] Read 200 OK in PT0.236996S
+2020-12-12 14:32:16.111 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:16.112 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:c9b3cc6] POST /channels/782627022635139134/messages
+2020-12-12 14:32:16.405 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:c9b3cc6] Read 200 OK in PT0.2929241S
+2020-12-12 14:32:16.406 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:16.407 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:790eaf02] GET /channels/782627022635139134
+2020-12-12 14:32:16.617 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:790eaf02] Read 200 OK in PT0.20987S
+2020-12-12 14:32:16.618 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:16.619 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:66a27747] POST /channels/782627022635139134/messages
+2020-12-12 14:32:16.884 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:66a27747] Read 200 OK in PT0.2657828S
+2020-12-12 14:32:16.884 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:16.886 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:12b5792f] GET /channels/782627022635139134
+2020-12-12 14:32:17.151 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:12b5792f] Read 200 OK in PT0.265695S
+2020-12-12 14:32:17.152 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:17.153 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:471d1ab3] POST /channels/782627022635139134/messages
+2020-12-12 14:32:17.429 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:471d1ab3] Read 200 OK in PT0.2766033S
+2020-12-12 14:32:17.430 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:17.431 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:4be7dbed] GET /channels/782627022635139134
+2020-12-12 14:32:17.648 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:4be7dbed] Read 200 OK in PT0.2163267S
+2020-12-12 14:32:17.649 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:17.650 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3e8a9599] POST /channels/782627022635139134/messages
+2020-12-12 14:32:17.970 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3e8a9599] Read 200 OK in PT0.31922S
+2020-12-12 14:32:17.971 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3e8a9599] Delaying next request by PT2.955S
+2020-12-12 14:32:20.928 [d4j-parallel-1-10] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:22.703 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:7cfff66] GET /channels/782627022635139134
+2020-12-12 14:32:22.928 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:7cfff66] Read 200 OK in PT0.2252266S
+2020-12-12 14:32:22.929 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:22.930 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:28a8a5ae] POST /channels/782627022635139134/messages
+2020-12-12 14:32:23.168 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:28a8a5ae] Read 200 OK in PT0.2381481S
+2020-12-12 14:32:23.168 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:23.169 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:5d652be5] GET /channels/782627022635139134
+2020-12-12 14:32:23.387 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:5d652be5] Read 200 OK in PT0.2171307S
+2020-12-12 14:32:23.387 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:23.389 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:37a94b8d] POST /channels/782627022635139134/messages
+2020-12-12 14:32:23.649 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:37a94b8d] Read 200 OK in PT0.2601156S
+2020-12-12 14:32:23.649 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:23.650 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:4f65b6d1] GET /channels/782627022635139134
+2020-12-12 14:32:23.913 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:4f65b6d1] Read 200 OK in PT0.262058S
+2020-12-12 14:32:23.913 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:23.914 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:228dff46] POST /channels/782627022635139134/messages
+2020-12-12 14:32:24.178 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:228dff46] Read 200 OK in PT0.2639739S
+2020-12-12 14:32:24.179 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:24.180 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:5643d2f1] GET /channels/782627022635139134
+2020-12-12 14:32:24.394 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:5643d2f1] Read 200 OK in PT0.2139121S
+2020-12-12 14:32:24.394 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:24.396 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:2bcb0e97] POST /channels/782627022635139134/messages
+2020-12-12 14:32:24.638 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:2bcb0e97] Read 200 OK in PT0.2428318S
+2020-12-12 14:32:24.638 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:24.639 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:49fae601] GET /channels/782627022635139134
+2020-12-12 14:32:24.847 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:49fae601] Read 200 OK in PT0.2078159S
+2020-12-12 14:32:24.847 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:32:24.848 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:44047b7] POST /channels/782627022635139134/messages
+2020-12-12 14:32:25.119 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:44047b7] Read 200 OK in PT0.2707275S
+2020-12-12 14:32:25.119 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:44047b7] Delaying next request by PT3.061S
+2020-12-12 14:32:28.182 [d4j-parallel-1-9] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:32:37.355 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:7d10d177, S:0] Sending heartbeat PT41.1263798S after last ACK
+2020-12-12 14:32:37.493 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:7d10d177, S:0] Heartbeat acknowledged after PT0.138633S
+2020-12-12 14:41:36.172 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 14:41:36.266 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:5851bd4f] GET /gateway/bot
+2020-12-12 14:41:37.292 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:5851bd4f] Read 200 OK in PT0.9773955S
+2020-12-12 14:41:37.293 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 14:41:37.411 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@7af35f2a{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:41:37.412 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@6f47c169{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:41:37.413 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@2420866f{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:41:37.413 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@214874ae{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 14:41:37.413 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@7add3fe7{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 14:41:37.416 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 14:41:37.416 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@fa41443{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:41:37.417 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@2b376563{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 14:41:37.417 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@4fce1655{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 14:41:37.488 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:8bdcc25, S:0] Acquiring gateway endpoint
+2020-12-12 14:41:37.489 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:57fe9a20] GET /gateway
+2020-12-12 14:41:37.630 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:57fe9a20, G:8bdcc25, S:0] Read 200 OK in PT0.1411596S
+2020-12-12 14:41:37.630 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 14:41:37.771 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] [connected] PooledConnection{channel=[id: 0x59803b00, L:/192.168.0.193:62198 - R:gateway.discord.gg/162.159.130.234:443]}
+2020-12-12 14:41:37.782 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0x59803b00, L:/192.168.0.193:62198 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 14:41:37.783 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x59803b00, L:/192.168.0.193:62198 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 14:41:37.953 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x59803b00, L:/192.168.0.193:62198 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 14:41:37.990 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 14:41:37.993 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Identifying to Gateway
+2020-12-12 14:41:38.167 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Heartbeat acknowledged after PT0.1758224S
+2020-12-12 14:41:38.447 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Connected to Gateway
+2020-12-12 14:41:38.449 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:8bdcc25, S:0] Shard connected
+2020-12-12 14:41:38.454 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 29b732a2 to MessageCreateEvent created
+2020-12-12 14:41:45.261 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:6fa3a0d2] GET /channels/782627022635139134
+2020-12-12 14:41:45.627 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:6fa3a0d2] Read 200 OK in PT0.365104S
+2020-12-12 14:41:45.627 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:41:45.636 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:1f04d4a2] POST /channels/782627022635139134/messages
+2020-12-12 14:41:45.920 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:1f04d4a2] Read 200 OK in PT0.2831154S
+2020-12-12 14:41:45.920 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:42:19.244 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Sending heartbeat PT41.0774916S after last ACK
+2020-12-12 14:42:19.368 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Heartbeat acknowledged after PT0.1245479S
+2020-12-12 14:43:00.491 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Sending heartbeat PT41.1222923S after last ACK
+2020-12-12 14:43:00.616 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Heartbeat acknowledged after PT0.1249145S
+2020-12-12 14:43:00.994 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:39c9c327] GET /channels/782627022635139134
+2020-12-12 14:43:01.241 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:39c9c327] Read 200 OK in PT0.2453438S
+2020-12-12 14:43:01.241 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:43:01.242 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:11c8fc8] POST /channels/782627022635139134/messages
+2020-12-12 14:43:01.525 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:11c8fc8] Read 200 OK in PT0.2822718S
+2020-12-12 14:43:01.525 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:43:01.527 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:8ad802] GET /channels/782627022635139134
+2020-12-12 14:43:01.838 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:8ad802] Read 200 OK in PT0.3104983S
+2020-12-12 14:43:01.838 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:43:01.840 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3992ad75] POST /channels/782627022635139134/messages
+2020-12-12 14:43:02.126 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:3992ad75] Read 200 OK in PT0.2861545S
+2020-12-12 14:43:02.126 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:43:02.128 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:4e35819b] GET /channels/782627022635139134
+2020-12-12 14:43:02.392 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:4e35819b] Read 200 OK in PT0.2635206S
+2020-12-12 14:43:02.392 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:43:02.393 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:2b32255a] POST /channels/782627022635139134/messages
+2020-12-12 14:43:02.661 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:2b32255a] Read 200 OK in PT0.2670064S
+2020-12-12 14:43:02.662 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:43:02.664 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:7daea2f6] GET /channels/782627022635139134
+2020-12-12 14:43:02.918 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:7daea2f6] Read 200 OK in PT0.2544538S
+2020-12-12 14:43:02.918 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:43:02.920 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:51fb4133] POST /channels/782627022635139134/messages
+2020-12-12 14:43:03.179 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:51fb4133] Read 200 OK in PT0.2591681S
+2020-12-12 14:43:03.180 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:43:03.181 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:33202bce] GET /channels/782627022635139134
+2020-12-12 14:43:03.436 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:33202bce] Read 200 OK in PT0.254173S
+2020-12-12 14:43:03.436 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 14:43:03.437 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:982d005] POST /channels/782627022635139134/messages
+2020-12-12 14:43:03.719 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:982d005] Read 200 OK in PT0.2810803S
+2020-12-12 14:43:03.720 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:982d005] Delaying next request by PT2.801S
+2020-12-12 14:43:06.522 [d4j-parallel-1-7] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 14:43:41.741 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Sending heartbeat PT41.1247221S after last ACK
+2020-12-12 14:43:41.868 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Heartbeat acknowledged after PT0.1275651S
+2020-12-12 14:44:22.992 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Sending heartbeat PT41.1241063S after last ACK
+2020-12-12 14:44:23.137 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Heartbeat acknowledged after PT0.1449196S
+2020-12-12 14:45:04.242 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8bdcc25, S:0] Sending heartbeat PT41.1048511S after last ACK
+2020-12-12 14:45:04.403 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8bdcc25, S:0] Heartbeat acknowledged after PT0.1610758S
+2020-12-12 15:09:21.225 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 15:09:21.329 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:588ab592] GET /gateway/bot
+2020-12-12 15:09:22.441 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:588ab592] Read 200 OK in PT1.0548252S
+2020-12-12 15:09:22.442 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 15:09:22.568 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@2659a91f{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:09:22.568 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@4eb95711{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:09:22.569 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@4cf59fd9{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:09:22.570 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@3e59e212{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 15:09:22.570 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@2ba05c2a{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 15:09:22.573 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 15:09:22.573 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@69bf8e68{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:09:22.574 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@6978bba7{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:09:22.575 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@39f0a983{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 15:09:22.648 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:8b965d1, S:0] Acquiring gateway endpoint
+2020-12-12 15:09:22.649 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:76e663a9] GET /gateway
+2020-12-12 15:09:22.789 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:76e663a9, G:8b965d1, S:0] Read 200 OK in PT0.1397094S
+2020-12-12 15:09:22.789 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 15:09:22.939 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8b965d1, S:0] [connected] PooledConnection{channel=[id: 0x637aee27, L:/192.168.0.193:62450 - R:gateway.discord.gg/162.159.130.234:443]}
+2020-12-12 15:09:22.948 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8b965d1, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0x637aee27, L:/192.168.0.193:62450 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 15:09:22.948 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8b965d1, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x637aee27, L:/192.168.0.193:62450 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 15:09:23.135 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8b965d1, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x637aee27, L:/192.168.0.193:62450 - R:gateway.discord.gg/162.159.130.234:443]}}
+2020-12-12 15:09:23.177 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:8b965d1, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 15:09:23.181 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8b965d1, S:0] Identifying to Gateway
+2020-12-12 15:09:23.346 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:8b965d1, S:0] Heartbeat acknowledged after PT0.1683205S
+2020-12-12 15:09:23.641 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:8b965d1, S:0] Connected to Gateway
+2020-12-12 15:09:23.643 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:8b965d1, S:0] Shard connected
+2020-12-12 15:09:23.646 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 4c5204af to MessageCreateEvent created
+2020-12-12 15:09:27.003 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6987a48a] POST /channels/773900436708130819/messages
+2020-12-12 15:09:27.280 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6987a48a] Read 200 OK in PT0.2763105S
+2020-12-12 15:09:27.280 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 15:10:13.051 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 15:10:13.160 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:1804f60d] GET /gateway/bot
+2020-12-12 15:10:14.276 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:1804f60d] Read 200 OK in PT1.0607648S
+2020-12-12 15:10:14.277 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 15:10:14.403 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@35f7aa8{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:10:14.403 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@4adf3fbe{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:10:14.404 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@2ba89e4c{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:10:14.405 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@12268c2a{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 15:10:14.405 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@7109f438{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 15:10:14.408 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 15:10:14.408 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@7c964878{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:10:14.408 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@12ba79e9{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 15:10:14.409 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@2b31a0dc{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 15:10:14.489 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:6bc437f2, S:0] Acquiring gateway endpoint
+2020-12-12 15:10:14.489 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:cc8498c] GET /gateway
+2020-12-12 15:10:14.646 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:cc8498c, G:6bc437f2, S:0] Read 200 OK in PT0.1566447S
+2020-12-12 15:10:14.646 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 15:10:14.790 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6bc437f2, S:0] [connected] PooledConnection{channel=[id: 0x023e2e0d, L:/192.168.0.193:62487 - R:gateway.discord.gg/162.159.136.234:443]}
+2020-12-12 15:10:14.797 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6bc437f2, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0x023e2e0d, L:/192.168.0.193:62487 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 15:10:14.798 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6bc437f2, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x023e2e0d, L:/192.168.0.193:62487 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 15:10:14.985 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6bc437f2, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x023e2e0d, L:/192.168.0.193:62487 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 15:10:15.025 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6bc437f2, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 15:10:15.029 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6bc437f2, S:0] Identifying to Gateway
+2020-12-12 15:10:15.190 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6bc437f2, S:0] Heartbeat acknowledged after PT0.1653739S
+2020-12-12 15:10:15.423 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:6bc437f2, S:0] Connected to Gateway
+2020-12-12 15:10:15.425 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:6bc437f2, S:0] Shard connected
+2020-12-12 15:10:15.428 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription b09fac1 to MessageCreateEvent created
+2020-12-12 15:10:23.248 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:3cf9dedf] POST /channels/773900436708130819/messages
+2020-12-12 15:10:23.515 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:3cf9dedf] Read 200 OK in PT0.2668597S
+2020-12-12 15:10:23.516 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 15:10:26.162 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:2b9eaf5f] POST /channels/773900436708130819/messages
+2020-12-12 15:10:26.446 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:2b9eaf5f] Read 200 OK in PT0.2834796S
+2020-12-12 15:10:26.446 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 15:10:26.448 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:2123d1cd] POST /channels/773900436708130819/messages
+2020-12-12 15:10:26.724 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:2123d1cd] Read 200 OK in PT0.2753877S
+2020-12-12 15:10:26.724 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 15:10:26.727 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:26c32cee] POST /channels/773900436708130819/messages
+2020-12-12 15:10:27.110 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:26c32cee] Read 200 OK in PT0.3822608S
+2020-12-12 15:10:27.111 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:11:22.641 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 16:11:22.741 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:588ab592] GET /gateway/bot
+2020-12-12 16:11:23.800 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:588ab592] Read 200 OK in PT1.0050424S
+2020-12-12 16:11:23.801 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 16:11:23.916 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@42dbce32{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:11:23.917 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@45e97bee{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:11:23.917 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@23e54484{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:11:23.918 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@4d23c62b{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 16:11:23.918 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@13bb6892{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 16:11:23.921 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 16:11:23.921 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@16e73453{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:11:23.922 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@67f1a090{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:11:23.922 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@300b08db{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 16:11:23.994 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:6c8a706b, S:0] Acquiring gateway endpoint
+2020-12-12 16:11:23.994 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:6793b9d2] GET /gateway
+2020-12-12 16:11:24.120 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:6793b9d2, G:6c8a706b, S:0] Read 200 OK in PT0.1259352S
+2020-12-12 16:11:24.120 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 16:11:24.246 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] [connected] PooledConnection{channel=[id: 0x53d918c8, L:/192.168.0.193:63148 - R:gateway.discord.gg/162.159.136.234:443]}
+2020-12-12 16:11:24.253 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0x53d918c8, L:/192.168.0.193:63148 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 16:11:24.253 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x53d918c8, L:/192.168.0.193:63148 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 16:11:24.434 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0x53d918c8, L:/192.168.0.193:63148 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 16:11:24.471 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 16:11:24.474 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Identifying to Gateway
+2020-12-12 16:11:24.642 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1705542S
+2020-12-12 16:11:24.940 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Connected to Gateway
+2020-12-12 16:11:24.942 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:6c8a706b, S:0] Shard connected
+2020-12-12 16:11:24.945 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 4c5204af to MessageCreateEvent created
+2020-12-12 16:11:27.892 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:358b59e2] POST /channels/773900436708130819/messages
+2020-12-12 16:11:28.201 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:358b59e2] Read 200 OK in PT0.3088831S
+2020-12-12 16:11:28.202 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:11:31.893 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7465d243] POST /channels/773900436708130819/messages
+2020-12-12 16:11:32.182 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7465d243] Read 200 OK in PT0.28952S
+2020-12-12 16:11:32.182 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:11:38.287 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:77336a0c] POST /users/@me/channels
+2020-12-12 16:11:38.571 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:77336a0c] Read 200 OK in PT0.2832579S
+2020-12-12 16:11:38.572 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24] Ready to consume next request after cancel
+2020-12-12 16:11:38.573 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:1a541f95] POST /channels/782627022635139134/messages
+2020-12-12 16:11:38.850 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:1a541f95] Read 200 OK in PT0.2761664S
+2020-12-12 16:11:38.850 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 16:11:57.609 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:718c94d6] GET /channels/782627022635139134
+2020-12-12 16:11:57.948 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:718c94d6] Read 200 OK in PT0.3384333S
+2020-12-12 16:11:57.948 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 16:11:57.950 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:17e133fb] POST /channels/782627022635139134/messages
+2020-12-12 16:11:58.264 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:17e133fb] Read 200 OK in PT0.3143294S
+2020-12-12 16:11:58.265 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 16:12:05.729 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7bee5801] POST /channels/773900436708130819/messages
+2020-12-12 16:12:05.734 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.0914076S after last ACK
+2020-12-12 16:12:05.857 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1232471S
+2020-12-12 16:12:06.013 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7bee5801] Read 200 OK in PT0.283133S
+2020-12-12 16:12:06.013 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:12:06.015 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:417c485e] POST /channels/773900436708130819/messages
+2020-12-12 16:12:06.336 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:417c485e] Read 200 OK in PT0.3200267S
+2020-12-12 16:12:06.336 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:12:06.338 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:54c34e83] POST /channels/773900436708130819/messages
+2020-12-12 16:12:06.796 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:54c34e83] Read 200 OK in PT0.4575059S
+2020-12-12 16:12:06.796 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:12:46.972 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.115005S after last ACK
+2020-12-12 16:12:47.114 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1417577S
+2020-12-12 16:13:28.222 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1084307S after last ACK
+2020-12-12 16:13:28.397 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1748564S
+2020-12-12 16:14:09.472 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.0755524S after last ACK
+2020-12-12 16:14:09.596 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1236055S
+2020-12-12 16:14:50.723 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1267509S after last ACK
+2020-12-12 16:14:50.848 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1255223S
+2020-12-12 16:15:31.973 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1245787S after last ACK
+2020-12-12 16:15:32.101 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1278947S
+2020-12-12 16:16:13.222 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1209286S after last ACK
+2020-12-12 16:16:13.346 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1240909S
+2020-12-12 16:16:54.472 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1258875S after last ACK
+2020-12-12 16:16:54.606 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1340948S
+2020-12-12 16:17:35.723 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1167655S after last ACK
+2020-12-12 16:17:35.853 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1305497S
+2020-12-12 16:18:16.972 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1189464S after last ACK
+2020-12-12 16:18:17.365 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.3936119S
+2020-12-12 16:18:58.222 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT40.8559501S after last ACK
+2020-12-12 16:18:58.351 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.129625S
+2020-12-12 16:19:39.472 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1206441S after last ACK
+2020-12-12 16:19:39.596 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1238253S
+2020-12-12 16:20:20.722 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1260417S after last ACK
+2020-12-12 16:20:20.864 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.141989S
+2020-12-12 16:21:01.973 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:6c8a706b, S:0] Sending heartbeat PT41.1087404S after last ACK
+2020-12-12 16:21:02.100 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:6c8a706b, S:0] Heartbeat acknowledged after PT0.1276523S
+2020-12-12 16:29:07.242 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 16:29:07.358 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:5851bd4f] GET /gateway/bot
+2020-12-12 16:29:08.481 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:5851bd4f] Read 200 OK in PT1.062923S
+2020-12-12 16:29:08.483 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 16:29:08.604 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@329c7205{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:29:08.605 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@7ed42884{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:29:08.605 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@68cb4847{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:29:08.606 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@a6a63dd{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 16:29:08.606 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@2533a39d{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 16:29:08.609 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 16:29:08.609 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@395d4502{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:29:08.610 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@58c5787d{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:29:08.610 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@26898df7{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 16:29:08.686 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:363a4bc2, S:0] Acquiring gateway endpoint
+2020-12-12 16:29:08.686 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:32dfd611] GET /gateway
+2020-12-12 16:29:08.913 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:32dfd611, G:363a4bc2, S:0] Read 200 OK in PT0.2267952S
+2020-12-12 16:29:08.913 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 16:29:09.074 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] [connected] PooledConnection{channel=[id: 0xca5aa49c, L:/192.168.0.193:63320 - R:gateway.discord.gg/162.159.135.234:443]}
+2020-12-12 16:29:09.082 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0xca5aa49c, L:/192.168.0.193:63320 - R:gateway.discord.gg/162.159.135.234:443]}}
+2020-12-12 16:29:09.082 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0xca5aa49c, L:/192.168.0.193:63320 - R:gateway.discord.gg/162.159.135.234:443]}}
+2020-12-12 16:29:09.270 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0xca5aa49c, L:/192.168.0.193:63320 - R:gateway.discord.gg/162.159.135.234:443]}}
+2020-12-12 16:29:09.310 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 16:29:09.313 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:363a4bc2, S:0] Identifying to Gateway
+2020-12-12 16:29:09.479 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:363a4bc2, S:0] Heartbeat acknowledged after PT0.1690585S
+2020-12-12 16:29:09.711 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] Connected to Gateway
+2020-12-12 16:29:09.713 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:363a4bc2, S:0] Shard connected
+2020-12-12 16:29:09.716 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 29b732a2 to MessageCreateEvent created
+2020-12-12 16:29:22.740 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:72f44017] POST /channels/773900436708130819/messages
+2020-12-12 16:29:23.180 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:72f44017] Read 200 OK in PT0.4396979S
+2020-12-12 16:29:23.181 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:29.692 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:69149aeb] POST /channels/773900436708130819/messages
+2020-12-12 16:29:29.953 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:69149aeb] Read 200 OK in PT0.259954S
+2020-12-12 16:29:29.953 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:29.955 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:1faec259] POST /channels/773900436708130819/messages
+2020-12-12 16:29:30.362 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:1faec259] Read 200 OK in PT0.4064284S
+2020-12-12 16:29:30.362 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:30.364 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:771a72bf] POST /channels/773900436708130819/messages
+2020-12-12 16:29:30.645 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:771a72bf] Read 200 OK in PT0.2804574S
+2020-12-12 16:29:30.646 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:30.648 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:27be60b3] POST /channels/773900436708130819/messages
+2020-12-12 16:29:30.968 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:27be60b3] Read 200 OK in PT0.3199114S
+2020-12-12 16:29:30.969 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:33.791 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6ab0756d] POST /channels/773900436708130819/messages
+2020-12-12 16:29:34.096 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6ab0756d] Read 200 OK in PT0.3042993S
+2020-12-12 16:29:34.097 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6ab0756d] Delaying next request by PT0.845S
+2020-12-12 16:29:34.943 [d4j-parallel-1-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:38.372 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:417e16ea] POST /users/@me/channels
+2020-12-12 16:29:38.701 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24, R:417e16ea] Read 200 OK in PT0.3286168S
+2020-12-12 16:29:38.702 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:c49b6e24] Ready to consume next request after cancel
+2020-12-12 16:29:38.703 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:70ed0c1a] POST /channels/782627022635139134/messages
+2020-12-12 16:29:39.032 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:70ed0c1a] Read 200 OK in PT0.3285542S
+2020-12-12 16:29:39.032 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 16:29:47.274 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:751f8d] GET /channels/782627022635139134
+2020-12-12 16:29:47.530 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462, R:751f8d] Read 200 OK in PT0.2556234S
+2020-12-12 16:29:47.530 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:7df74462] Ready to consume next request after cancel
+2020-12-12 16:29:47.532 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:7d29a03b] POST /channels/782627022635139134/messages
+2020-12-12 16:29:47.780 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df, R:7d29a03b] Read 200 OK in PT0.2486009S
+2020-12-12 16:29:47.781 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:6139e6df] Ready to consume next request after cancel
+2020-12-12 16:29:50.560 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] Sending heartbeat PT41.0807915S after last ACK
+2020-12-12 16:29:50.687 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:363a4bc2, S:0] Heartbeat acknowledged after PT0.1272729S
+2020-12-12 16:29:53.074 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4cd12032] POST /channels/773900436708130819/messages
+2020-12-12 16:29:53.357 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4cd12032] Read 200 OK in PT0.2839674S
+2020-12-12 16:29:53.358 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:53.359 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:5444786e] POST /channels/773900436708130819/messages
+2020-12-12 16:29:53.654 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:5444786e] Read 200 OK in PT0.294917S
+2020-12-12 16:29:53.654 [reactor-http-nio-4] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:53.655 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7c658c1c] POST /channels/773900436708130819/messages
+2020-12-12 16:29:53.897 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7c658c1c] Read 200 OK in PT0.2418474S
+2020-12-12 16:29:53.898 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:53.899 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4c7dc3d3] POST /channels/773900436708130819/messages
+2020-12-12 16:29:54.188 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4c7dc3d3] Read 200 OK in PT0.2887076S
+2020-12-12 16:29:54.188 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:57.616 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:968bade] POST /channels/773900436708130819/messages
+2020-12-12 16:29:57.872 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:968bade] Read 200 OK in PT0.2542353S
+2020-12-12 16:29:57.872 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:968bade] Delaying next request by PT0.451S
+2020-12-12 16:29:58.325 [d4j-parallel-1-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:58.325 [d4j-parallel-1-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:5e88f14f] POST /channels/773900436708130819/messages
+2020-12-12 16:29:58.671 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:5e88f14f] Read 200 OK in PT0.3452013S
+2020-12-12 16:29:58.671 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:29:58.673 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7e983495] POST /channels/773900436708130819/messages
+2020-12-12 16:29:58.986 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:7e983495] Read 200 OK in PT0.3128351S
+2020-12-12 16:29:58.987 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:30:31.811 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] Sending heartbeat PT41.1241805S after last ACK
+2020-12-12 16:30:31.950 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:363a4bc2, S:0] Heartbeat acknowledged after PT0.1394488S
+2020-12-12 16:31:13.060 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] Sending heartbeat PT41.109708S after last ACK
+2020-12-12 16:31:13.195 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:363a4bc2, S:0] Heartbeat acknowledged after PT0.135707S
+2020-12-12 16:31:54.310 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:363a4bc2, S:0] Sending heartbeat PT41.1142962S after last ACK
+2020-12-12 16:31:54.716 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:363a4bc2, S:0] Heartbeat acknowledged after PT0.4061852S
+2020-12-12 16:32:47.267 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 16:32:47.367 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:588ab592] GET /gateway/bot
+2020-12-12 16:32:48.391 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:588ab592] Read 200 OK in PT0.9726101S
+2020-12-12 16:32:48.392 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 16:32:48.507 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@6d72ca10{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:32:48.507 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@68d717f2{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:32:48.508 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@6d407e88{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:32:48.508 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@3da216a1{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 16:32:48.509 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@573aa349{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 16:32:48.511 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 16:32:48.512 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@182ce7a0{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:32:48.512 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@7f544959{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 16:32:48.512 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@1b0806b9{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 16:32:48.584 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:41f3500f, S:0] Acquiring gateway endpoint
+2020-12-12 16:32:48.585 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:76eb995] GET /gateway
+2020-12-12 16:32:48.747 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:76eb995, G:41f3500f, S:0] Read 200 OK in PT0.1615979S
+2020-12-12 16:32:48.748 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 16:32:48.884 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] [connected] PooledConnection{channel=[id: 0xddf765cd, L:/192.168.0.193:63401 - R:gateway.discord.gg/162.159.136.234:443]}
+2020-12-12 16:32:48.891 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0xddf765cd, L:/192.168.0.193:63401 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 16:32:48.892 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0xddf765cd, L:/192.168.0.193:63401 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 16:32:49.063 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0xddf765cd, L:/192.168.0.193:63401 - R:gateway.discord.gg/162.159.136.234:443]}}
+2020-12-12 16:32:49.101 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 16:32:49.104 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Identifying to Gateway
+2020-12-12 16:32:49.262 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1608985S
+2020-12-12 16:32:49.512 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Connected to Gateway
+2020-12-12 16:32:49.514 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:41f3500f, S:0] Shard connected
+2020-12-12 16:32:49.517 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 4c5204af to MessageCreateEvent created
+2020-12-12 16:32:53.699 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:62255ea3] POST /channels/773900436708130819/messages
+2020-12-12 16:32:54.111 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:62255ea3] Read 200 OK in PT0.4117581S
+2020-12-12 16:32:54.112 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:33:00.370 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4e0b5aab] POST /channels/773900436708130819/messages
+2020-12-12 16:33:00.649 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4e0b5aab] Read 200 OK in PT0.2765789S
+2020-12-12 16:33:00.649 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:33:14.266 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:51c4f57c] POST /channels/773900436708130819/messages
+2020-12-12 16:33:14.591 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:51c4f57c] Read 200 OK in PT0.3242901S
+2020-12-12 16:33:14.591 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:33:14.593 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:723d34f2] POST /channels/773900436708130819/messages
+2020-12-12 16:33:14.971 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:723d34f2] Read 200 OK in PT0.3772098S
+2020-12-12 16:33:14.972 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:33:14.974 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:3aa5ac50] POST /channels/773900436708130819/messages
+2020-12-12 16:33:15.322 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:3aa5ac50] Read 200 OK in PT0.3470939S
+2020-12-12 16:33:15.323 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 16:33:30.353 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.0908483S after last ACK
+2020-12-12 16:33:30.489 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1358738S
+2020-12-12 16:34:11.602 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.1129941S after last ACK
+2020-12-12 16:34:11.738 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1361439S
+2020-12-12 16:34:52.853 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.1143664S after last ACK
+2020-12-12 16:34:53.026 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1730432S
+2020-12-12 16:35:34.103 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.0770221S after last ACK
+2020-12-12 16:35:34.242 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1392633S
+2020-12-12 16:36:15.352 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.1098294S after last ACK
+2020-12-12 16:36:15.526 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.174058S
+2020-12-12 16:36:56.602 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.0761325S after last ACK
+2020-12-12 16:36:56.728 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1263815S
+2020-12-12 16:37:37.852 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.1231054S after last ACK
+2020-12-12 16:37:37.996 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1444593S
+2020-12-12 16:38:19.103 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.1069658S after last ACK
+2020-12-12 16:38:19.251 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1485439S
+2020-12-12 16:39:00.352 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.1005951S after last ACK
+2020-12-12 16:39:00.510 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1585588S
+2020-12-12 16:39:41.603 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:41f3500f, S:0] Sending heartbeat PT41.0916862S after last ACK
+2020-12-12 16:39:41.738 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:41f3500f, S:0] Heartbeat acknowledged after PT0.1357836S
+2020-12-12 19:56:17.101 [main] INFO  discord4j.core.DiscordClientBuilder      : Discord4J 3.2.0-M1 (https://discord4j.com)
+2020-12-12 19:56:17.201 [main] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:59aa20b3] GET /gateway/bot
+2020-12-12 19:56:18.371 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574, R:59aa20b3] Read 200 OK in PT1.1165496S
+2020-12-12 19:56:18.372 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:a39dc574] Ready to consume next request after cancel
+2020-12-12 19:56:18.489 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Channel storage     : ForwardingStore{forwardingTo=JdkStore@18dabc67{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 19:56:18.490 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild storage       : ForwardingStore{forwardingTo=JdkStore@4cdc8d81{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 19:56:18.491 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Guild emoji storage : ForwardingStore{forwardingTo=JdkStore@46cc2d96{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 19:56:18.491 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Member storage      : JdkStore@2b845909{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 19:56:18.492 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Message storage     : ForwardingStore{forwardingTo=JdkStore@7fd9e7db{map=java.util.Collections.SynchronizedMap}}
+2020-12-12 19:56:18.494 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Presence storage    : Disabled due to missing GUILD_PRESENCES intent
+2020-12-12 19:56:18.495 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Role storage        : ForwardingStore{forwardingTo=JdkStore@48f83514{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 19:56:18.495 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : User storage        : ForwardingStore{forwardingTo=JdkStore@1326919f{map=java.util.concurrent.ConcurrentHashMap}}
+2020-12-12 19:56:18.496 [boundedElastic-1] DEBUG discord4j.core.state.StateHolder         : Voice state storage : JdkStore@35659823{map=java.util.concurrent.ConcurrentHashMap}
+2020-12-12 19:56:18.580 [boundedElastic-1] DEBUG discord4j.core.shard.GatewayBootstrap    : [G:608c3ad3, S:0] Acquiring gateway endpoint
+2020-12-12 19:56:18.580 [boundedElastic-1] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:76146b08] GET /gateway
+2020-12-12 19:56:18.719 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c, R:76146b08, G:608c3ad3, S:0] Read 200 OK in PT0.1384337S
+2020-12-12 19:56:18.719 [reactor-http-nio-3] DEBUG discord4j.rest.request.RequestStream     : [B:db1ee72c] Ready to consume next request after cancel
+2020-12-12 19:56:18.864 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] [connected] PooledConnection{channel=[id: 0xe82ba5b2, L:/192.168.0.193:51912 - R:gateway.discord.gg/162.159.135.234:443]}
+2020-12-12 19:56:18.872 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] [configured] GET{uri=/, connection=PooledConnection{channel=[id: 0xe82ba5b2, L:/192.168.0.193:51912 - R:gateway.discord.gg/162.159.135.234:443]}}
+2020-12-12 19:56:18.873 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] [request_prepared] GET{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0xe82ba5b2, L:/192.168.0.193:51912 - R:gateway.discord.gg/162.159.135.234:443]}}
+2020-12-12 19:56:19.113 [reactor-http-nio-4] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] [response_received] ws{uri=/?compress=zlib-stream&encoding=json&v=8, connection=PooledConnection{channel=[id: 0xe82ba5b2, L:/192.168.0.193:51912 - R:gateway.discord.gg/162.159.135.234:443]}}
+2020-12-12 19:56:19.153 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] Sending heartbeat PT0S after last ACK
+2020-12-12 19:56:19.157 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:608c3ad3, S:0] Identifying to Gateway
+2020-12-12 19:56:19.324 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:608c3ad3, S:0] Heartbeat acknowledged after PT0.1712995S
+2020-12-12 19:56:19.607 [reactor-http-nio-4] INFO  discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] Connected to Gateway
+2020-12-12 19:56:19.609 [reactor-http-nio-4] INFO  d.core.shard.LocalShardCoordinator       : [G:608c3ad3, S:0] Shard connected
+2020-12-12 19:56:19.613 [main] DEBUG d.core.event.ReplayingEventDispatcher    : Subscription 499b2a5c to MessageCreateEvent created
+2020-12-12 19:56:24.408 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:3c8e5cd4] POST /channels/773900436708130819/messages
+2020-12-12 19:56:24.778 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:3c8e5cd4] Read 200 OK in PT0.3692389S
+2020-12-12 19:56:24.778 [reactor-http-nio-5] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:24.780 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:13b676b9] POST /channels/773900436708130819/messages
+2020-12-12 19:56:25.051 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:13b676b9] Read 200 OK in PT0.2701497S
+2020-12-12 19:56:25.051 [reactor-http-nio-6] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:25.053 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:1361637e] POST /channels/773900436708130819/messages
+2020-12-12 19:56:25.348 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:1361637e] Read 200 OK in PT0.2940516S
+2020-12-12 19:56:25.348 [reactor-http-nio-7] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:25.351 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:2f7de942] POST /channels/773900436708130819/messages
+2020-12-12 19:56:25.634 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:2f7de942] Read 200 OK in PT0.2829581S
+2020-12-12 19:56:25.635 [reactor-http-nio-8] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:25.637 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:61db7885] POST /channels/773900436708130819/messages
+2020-12-12 19:56:25.998 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:61db7885] Read 200 OK in PT0.3608396S
+2020-12-12 19:56:25.998 [reactor-http-nio-9] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:61db7885] Delaying next request by PT3.716S
+2020-12-12 19:56:29.717 [d4j-parallel-1-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:29.717 [d4j-parallel-1-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6cfa90ea] POST /channels/773900436708130819/messages
+2020-12-12 19:56:30.007 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:6cfa90ea] Read 200 OK in PT0.2893901S
+2020-12-12 19:56:30.007 [reactor-http-nio-10] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:35.352 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4178d9b9] POST /channels/773900436708130819/messages
+2020-12-12 19:56:35.670 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:4178d9b9] Read 200 OK in PT0.3174144S
+2020-12-12 19:56:35.670 [reactor-http-nio-11] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:38.372 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:591a387b] POST /channels/773900436708130819/messages
+2020-12-12 19:56:38.659 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:591a387b] Read 200 OK in PT0.2866285S
+2020-12-12 19:56:38.659 [reactor-http-nio-12] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:38.661 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:19edfde3] POST /channels/773900436708130819/messages
+2020-12-12 19:56:38.979 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:19edfde3] Read 200 OK in PT0.3185234S
+2020-12-12 19:56:38.980 [reactor-http-nio-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:56:38.981 [d4j-events-1] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:23c8a10b] POST /channels/773900436708130819/messages
+2020-12-12 19:56:39.252 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52, R:23c8a10b] Read 200 OK in PT0.2704343S
+2020-12-12 19:56:39.252 [reactor-http-nio-2] DEBUG discord4j.rest.request.RequestStream     : [B:36840e52] Ready to consume next request after cancel
+2020-12-12 19:57:00.404 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] Sending heartbeat PT41.0792184S after last ACK
+2020-12-12 19:57:00.553 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:608c3ad3, S:0] Heartbeat acknowledged after PT0.1492873S
+2020-12-12 19:57:41.655 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] Sending heartbeat PT41.1015632S after last ACK
+2020-12-12 19:57:41.790 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:608c3ad3, S:0] Heartbeat acknowledged after PT0.1347337S
+2020-12-12 19:58:22.904 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] Sending heartbeat PT41.114541S after last ACK
+2020-12-12 19:58:23.026 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:608c3ad3, S:0] Heartbeat acknowledged after PT0.1223048S
+2020-12-12 19:59:04.154 [d4j-parallel-1-3] DEBUG discord4j.gateway.DefaultGatewayClient   : [G:608c3ad3, S:0] Sending heartbeat PT41.1270784S after last ACK
+2020-12-12 19:59:04.291 [reactor-http-nio-4] DEBUG discord4j.gateway.PayloadHandlers        : [G:608c3ad3, S:0] Heartbeat acknowledged after PT0.1375641S

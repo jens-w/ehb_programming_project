@@ -1,18 +1,21 @@
 [
     {
       "id":"5",
+      "opleidingId": "1",
       "userkey": "555",
       "snowflake": "85414894149"
     },
 
     {
       "id":"6",
+      "opleidingId": "1",
       "userkey": "666",
       "snowflake": ""
     },
 
     {
       "id":"7",
+      "opleidingId": "2",
       "userkey": "777",
       "snowflake": ""
     }
