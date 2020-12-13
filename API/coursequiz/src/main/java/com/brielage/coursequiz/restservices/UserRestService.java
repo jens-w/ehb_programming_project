@@ -69,33 +69,6 @@ public class UserRestService {
 
     @SuppressWarnings("rawtypes")
     public String createUser(JsonNode jsonNode) throws JsonProcessingException {
-        /*
-            REQUEST
-            {
-                "voornaam" : "mijn_voornaam",
-                "familienaam" : "mijn_familienaam",
-                "email" : "mijn@ema.il",
-                "password" : "mijn_password12!34"
-            }
-
-            RESPONSE SUCCESS
-            {
-                "success" : true
-            }
-
-            RESPONSE FAIL
-            {
-                "success" : false,
-                "error" : [
-                    "voornaam_ongeldig" : true,
-                    "familienaam_ongeldig" : true,
-                    "email_ongeldig" : true,
-                    "email_bestaat_al" : true,
-                    "password_ongeldig" : true
-                ]
-            }
-         */
-
         // LOG
         logger.info("\nrequest:\n" + jsonNode.toPrettyString());
 
@@ -136,15 +109,27 @@ public class UserRestService {
                 );
 
                 try {
-                    userService.create(u);
+                    List<User> userListByEmail = userService.findByEmail(u.getEmail());
 
-                    UserRol ur = new UserRol(u.getId(), Rol.USER);
-                    userRolService.create(ur);
+                    if (userListByEmail.isEmpty()) {
+                        userService.create(u);
 
-                    // LOG
-                    logJsonResponse(new JsonResponse(true));
+                        UserRol ur = new UserRol(u.getId(), Rol.USER);
+                        userRolService.create(ur);
 
-                    return objectMapper.writeValueAsString(new JsonResponse(true));
+                        // LOG
+                        logJsonResponse(new JsonResponse(true));
+
+                        return objectMapper.writeValueAsString(new JsonResponse(true));
+                    }
+
+                    Map fouten = new LinkedHashMap();
+                    fouten.put("email_bestaat_al", true);
+
+                    //LOG
+                    logJsonResponse(new JsonResponse(false, fouten));
+
+                    return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -185,44 +170,6 @@ public class UserRestService {
 
     @SuppressWarnings("rawtypes")
     public String login(JsonNode jsonNode) throws JsonProcessingException {
-        /*
-            REQUEST
-            {
-                "email" : "mijn@ema.il",
-                "password" : "mijn_password12!34"
-            }
-
-            RESPONSE SUCCESS
-            {
-                "success" : true,
-                "userkey" : "userkey1234",
-                "voornaam" : "mijn_voornaam",
-                "familienaam" : "mijn_familienaam",
-                "email" : "mijn@ema.il",
-                "avatarpad" : "/pad/naar/avatar",
-                "opleiding" : {
-                    "id" : 3,
-                    "naam" : "opleiding_naam"
-                },
-                "vakken" : [
-                    "vak1" : {
-                        "vakid" : 8,
-                        "vaknaam" : "naam van het vak"
-                    },
-                    "vak2" : {
-                        "vakid" : 1,
-                        "vaknaam" : "naam van het vak"
-                    }
-                ],
-                "eigenrol" : "admin/docent/student"
-            }
-
-            RESPONSE FAIL
-            {
-                "success" : false
-            }
-         */
-
         // LOG
         logger.info("\nrequest:\n" + jsonNode.toPrettyString());
 
@@ -364,42 +311,6 @@ public class UserRestService {
 
     @SuppressWarnings("rawtypes")
     public String edit(JsonNode jsonNode) throws JsonProcessingException {
-        /*
-        	REQUEST
-                {
-                    "userkey" : "userkey1234",
-                    "voornaam" : "mijn_voornaam",
-                    "familienaam" : "mijn_familienaam",
-                    "email" : "mijn@ema.il",
-                    "avatarpad" : "/pad/naar/avatar",
-                    "password" : "mijn_password12!34"
-                }
-
-            RESPONSE SUCCESS
-                {
-                    "success" : true,
-                    "eigenrol" : "rol",
-                    "voornaam" : "mijn_voornaam",
-                    "familienaam" : "mijn_familienaam",
-                    "email" : "mijn@ema.il",
-                    "avatarpad" : "/pad/naar/avatar"
-                }
-
-            RESPONSE FAIL
-                {
-                    "success" : false,
-                    "error" : [
-                        "voornaam_ongeldig" : true,
-                        "familienaam_ongeldig" : true,
-                        "email_ongeldig" : true,
-                        "email_bestaat_al" : true,
-                        "avatarpad_ongeldig" : true,
-                        "password_ongeldig" : true,
-                        "andere" : true
-                    ]
-                }
-         */
-
         // LOG
         logger.info("\nrequest:\n" + jsonNode.toPrettyString());
 
