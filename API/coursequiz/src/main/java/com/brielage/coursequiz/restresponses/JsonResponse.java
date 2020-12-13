@@ -10,8 +10,6 @@ public class JsonResponse {
     private final boolean success;
     @JsonInclude(Include.NON_NULL)
     private Map errors;
-    @JsonInclude(Include.NON_NULL)
-    private String meh;
 
     public JsonResponse(boolean success) {
         this.success = success;
@@ -29,9 +27,5 @@ public class JsonResponse {
 
     public Map getErrors() {
         return errors;
-    }
-
-    public String getMeh() {
-        return meh;
     }
 }
