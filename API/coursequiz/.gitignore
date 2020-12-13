@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### my own debugging ###
+/src/main/java/com/brielage/coursequiz/controllers/TestRestController*
+/src/main/java/com/brielage/coursequiz/restservices/TestRestService*
