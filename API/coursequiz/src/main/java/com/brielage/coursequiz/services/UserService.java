@@ -15,4 +15,6 @@ public interface UserService {
     List<User> findByEmail(String email);
 
     List<User> findByUserkey(String userkey);
+
+    List<String> findUserkeys();
 }

@@ -43,4 +43,9 @@ public class DefaultUserService
     public List<User> findByUserkey(String userkey) {
         return userRepository.findByUserkey(userkey);
     }
+
+    @Override
+    public List<String> findUserkeys() {
+        return userRepository.findUserkeys();
+    }
 }

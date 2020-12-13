@@ -33,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 @SuppressWarnings({"unchecked", "DuplicatedCode"})
 public class UserRestService {
@@ -112,6 +113,16 @@ public class UserRestService {
                     List<User> userListByEmail = userService.findByEmail(u.getEmail());
 
                     if (userListByEmail.isEmpty()) {
+                        String userkey = null;
+                        boolean userkeyUnique = false;
+                        List<String> userkeys = userService.findUserkeys();
+
+                        while (!userkeyUnique) {
+                            userkey = generateUserkey();
+                            if (!userkeys.contains(userkey)) userkeyUnique = true;
+                        }
+
+                        u.setUserkey(userkey);
                         userService.create(u);
 
                         UserRol ur = new UserRol(u.getId(), Rol.USER);
@@ -430,6 +441,24 @@ public class UserRestService {
 
             return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
         }
+    }
+
+    public String generateUserkey() {
+        String chars = "abcdefghijklmnopqrstuvwxyz" +
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                "0123456789";
+        int length = 20;
+        char[] userkey = new char[length];
+        Random random = new Random();
+        int i = 0;
+
+        while (i < length) {
+            int index = (int) (random.nextFloat() * chars.length());
+            userkey[i] = chars.charAt(index);
+            i++;
+        }
+
+        return String.valueOf(userkey);
     }
 
     public void logJsonResponse(JsonUserResponse jsonUserResponse) throws JsonProcessingException {

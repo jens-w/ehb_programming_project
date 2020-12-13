@@ -35,8 +35,7 @@ public class JpaUserRepository
 
     @Override
     public List<User> findByEmail(String email) {
-        return manager.createQuery(
-                "select u from User u where u.email = :email",
+        return manager.createQuery("select u from User u where u.email = :email",
                 User.class)
                 .setParameter("email", email)
                 .getResultList();
@@ -44,10 +43,15 @@ public class JpaUserRepository
 
     @Override
     public List<User> findByUserkey(String userkey) {
-        return manager.createQuery(
-                "select u from User u where u.userkey = :userkey",
+        return manager.createQuery("select u from User u where u.userkey = :userkey",
                 User.class)
-                .setParameter("userkey",userkey)
+                .setParameter("userkey", userkey)
                 .getResultList();
+    }
+
+    @Override
+    public List<String> findUserkeys() {
+        return manager.createQuery("select u.userkey from User u",
+                String.class).getResultList();
     }
 }

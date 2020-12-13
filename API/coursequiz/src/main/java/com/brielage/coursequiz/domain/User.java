@@ -106,8 +106,8 @@ public class User {
         return userkey;
     }
 
-    public void generateUserkey() {
-        this.userkey = "userkey1234";
+    public void setUserkey(String userkey) {
+        this.userkey = userkey;
     }
 
     public String getAvatarPad() {
