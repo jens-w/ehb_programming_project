@@ -3,7 +3,7 @@ SET charset utf8mb4;
 USE `coursequiz`;
 
 LOCK TABLES `users` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `users` (
   id,
   voornaam,
@@ -18,7 +18,7 @@ VALUES (
   "Admin",
   "Admin",
   "admin@localhost",
-  "xyz098",
+  "r6CyOsIRfBfUvvcdbMnb",
   "\\public\\images\\account\\accountinfo\\avatar_default.png",
   "abc12345"
 );
@@ -36,7 +36,7 @@ VALUES (
   "Tom",
   "Verhulst",
   "tom.verhulst@hotmail.com",
-  "abc123",
+  "rghRtk4lZmJLTsFJFBQ8",
   "\\public\\images\\account\\accountinfo\\avatar_default.png",
   "abc12345"
 );
@@ -54,7 +54,7 @@ VALUES (
   "Jos",
   "Dewolf",
   "jos.dewolf@outlook.com",
-  "def456",
+  "ogIM23NkPlfdxeeGZeX0",
   "\\public\\images\\account\\accountinfo\\avatar_default.png",
   "abc12345"
 );
@@ -72,14 +72,14 @@ VALUES (
   "Lisbeth",
   "de Backer",
   "ldebacker@sky.net",
-  "ghi789",
+  "K42TupeM9cnkVRNEm2Fb",
   "\\public\\images\\account\\accountinfo\\avatar_default.png",
   "abc12345"
 );
 UNLOCK TABLES;
 
 LOCK TABLES `opleidingen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `opleidingen` (
   `id`,
   `naam`
@@ -99,7 +99,7 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `rollen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 /* admin */
 INSERT INTO `rollen` (
   `userid`,
@@ -139,7 +139,7 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `vakken` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `vakken` (
   `id`,
   `naam`,
@@ -167,7 +167,7 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `docenten` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `docenten` (
   `userid`
 )
@@ -177,7 +177,7 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `studenten` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `studenten` (
   `userid`,
   `opleidingId`
@@ -197,11 +197,11 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `hoofdstukken` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `studentenvakken` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `studentenvakken` (
   `userid`,
   `vakid`
@@ -229,7 +229,7 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `docentenvakken` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 INSERT INTO `docentenvakken` (
   `userid`,
   `vakid`
@@ -249,49 +249,49 @@ VALUES (
 UNLOCK TABLES;
 
 LOCK TABLES `vragen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `vragenmeerderemultiplechoice` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `vragensimpelemultiplechoice` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `antwoorden` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `quizzen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `quizvragen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `quizvraagantwoorden` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `afgenomenquizzen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `afgenomenquizvragen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `afgenomenquizantwoorden` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `beantwoordevragen` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
 
 LOCK TABLES `gegevenantwoorden` WRITE;
-/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...);*/
+/* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
 UNLOCK TABLES;
