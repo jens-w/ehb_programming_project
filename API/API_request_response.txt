@@ -126,6 +126,7 @@ USER KAN INFORMATIE AANPASSEN (email/naam/avatar/password)
 		enkel de ongeldige worden getoond?
 
 
+api.brielage.com:8081/user/userkey/
 USER KAN NIEUWE USERKEY AANVRAGEN
 	REQUEST
 		{

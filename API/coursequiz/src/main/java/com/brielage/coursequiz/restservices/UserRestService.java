@@ -88,7 +88,7 @@ public class UserRestService {
                     !familienaamGeldig ||
                     !emailGeldig ||
                     !passwordGeldig) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
 
                 if (!voornaamGeldig) fouten.put("voornaam_ongeldig", true);
                 if (!familienaamGeldig) fouten.put("familienaam_ongeldig", true);
@@ -113,16 +113,7 @@ public class UserRestService {
                     List<User> userListByEmail = userService.findByEmail(u.getEmail());
 
                     if (userListByEmail.isEmpty()) {
-                        String userkey = null;
-                        boolean userkeyUnique = false;
-                        List<String> userkeys = userService.findUserkeys();
-
-                        while (!userkeyUnique) {
-                            userkey = generateUserkey();
-                            if (!userkeys.contains(userkey)) userkeyUnique = true;
-                        }
-
-                        u.setUserkey(userkey);
+                        u.setUserkey(generateUserkey());
                         userService.create(u);
 
                         UserRol ur = new UserRol(u.getId(), Rol.USER);
@@ -144,7 +135,7 @@ public class UserRestService {
                 } catch (Exception e) {
                     e.printStackTrace();
 
-                    LinkedHashMap fouten = new LinkedHashMap();
+                    Map fouten = new LinkedHashMap();
                     fouten.put("andere", true);
 
                     // LOG
@@ -157,7 +148,7 @@ public class UserRestService {
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
-            LinkedHashMap fouten = new LinkedHashMap();
+            Map fouten = new LinkedHashMap();
             fouten.put("veld_ongeldig", e.getPropertyName());
 
             // LOG
@@ -168,7 +159,7 @@ public class UserRestService {
         } catch (Exception e) {
             e.printStackTrace();
 
-            LinkedHashMap fouten = new LinkedHashMap();
+            Map fouten = new LinkedHashMap();
             fouten.put("andere", true);
 
             // LOG
@@ -245,7 +236,7 @@ public class UserRestService {
 
                 if (optionalOpleiding.isPresent()) {
                     Opleiding opleiding = optionalOpleiding.get();
-                    LinkedHashMap opleidingMap = new LinkedHashMap();
+                    Map opleidingMap = new LinkedHashMap();
 
                     opleidingMap.put("id", opleiding.getId());
                     opleidingMap.put("naam", opleiding.getNaam());
@@ -301,7 +292,7 @@ public class UserRestService {
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
-            LinkedHashMap fouten = new LinkedHashMap();
+            Map fouten = new LinkedHashMap();
             fouten.put("veld_ongeldig", e.getPropertyName());
 
             // LOG
@@ -332,7 +323,7 @@ public class UserRestService {
             logger.info("\njsonUser" + jsonUser.toString());
 
             if (jsonUser.getVoornaam() != null && !jsonUser.checkVoornaam()) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("voornaam_ongeldig", true);
 
                 // LOG
@@ -342,7 +333,7 @@ public class UserRestService {
             }
 
             if (jsonUser.getFamilienaam() != null && !jsonUser.checkFamielienaam()) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("familienaam_ongeldig", true);
 
                 // LOG
@@ -352,7 +343,7 @@ public class UserRestService {
             }
 
             if (jsonUser.getEmail() != null && !jsonUser.checkEmail()) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("email_ongeldig", true);
 
                 // LOG
@@ -362,7 +353,7 @@ public class UserRestService {
             }
 
             if (jsonUser.getAvatarpad() != null && !jsonUser.checkAvatarpad()) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("avatarpad_ongeldig", true);
 
                 // LOG
@@ -372,7 +363,7 @@ public class UserRestService {
             }
 
             if (jsonUser.getPassword() != null && !jsonUser.checkPassword()) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("password_ongeldig", true);
 
                 // LOG
@@ -384,7 +375,7 @@ public class UserRestService {
             List<User> userListByEmail = userService.findByEmail(jsonUser.getEmail());
 
             if (userListByEmail.size() != 0) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("email_bestaat_al", true);
 
                 // LOG
@@ -396,7 +387,7 @@ public class UserRestService {
             List<User> userListByUserkey = userService.findByUserkey(jsonUser.getUserkey());
 
             if (userListByUserkey.size() != 1) {
-                LinkedHashMap fouten = new LinkedHashMap();
+                Map fouten = new LinkedHashMap();
                 fouten.put("andere", true);
 
                 // LOG
@@ -414,6 +405,11 @@ public class UserRestService {
             if (jsonUser.getAvatarpad() != null) user.setAvatarPad(jsonUser.getAvatarpad());
             if (jsonUser.getPassword() != null) user.setPassword(jsonUser.getPassword());
 
+            // needed to update the db?
+            // maybe there's another way, but without this it would not update the db
+            //noinspection UnusedAssignment,OptionalGetWithoutIsPresent
+            user = userService.findById(user.getId()).get();
+
             // LOG
             logJsonResponse(new JsonResponse(true));
 
@@ -421,7 +417,7 @@ public class UserRestService {
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
-            LinkedHashMap fouten = new LinkedHashMap();
+            Map fouten = new LinkedHashMap();
             fouten.put("veld_ongeldig", e.getPropertyName());
 
             // LOG
@@ -432,7 +428,71 @@ public class UserRestService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
 
-            LinkedHashMap fouten = new LinkedHashMap();
+            Map fouten = new LinkedHashMap();
+            fouten.put("andere", true);
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public String newUserkey(JsonNode jsonNode) throws JsonProcessingException {
+        // LOG
+        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
+
+            // LOG
+            logger.info("\njsonUser" + jsonUser.toString());
+
+            if (!jsonUser.getUserkey().isEmpty()) {
+                List<User> userListByUserkey = userService.findByUserkey(jsonUser.getUserkey());
+
+                if (userListByUserkey.isEmpty()) {
+                    // LOG
+                    logJsonResponse(new JsonResponse(false));
+
+                    return objectMapper.writeValueAsString(new JsonResponse(false));
+                }
+
+                User u = userListByUserkey.get(0);
+                u.setUserkey(generateUserkey());
+
+                JsonUserResponse jsonUserResponse = new JsonUserResponse(
+                        true, u.getUserkey(), null, null, null, null);
+                //noinspection OptionalGetWithoutIsPresent
+                jsonUserResponse.setRol(userRolService.findByUserId(u.getId()).get().getRol());
+
+                // LOG
+                logJsonResponse(jsonUserResponse);
+
+                return objectMapper.writeValueAsString(jsonUserResponse);
+            }
+
+            // LOG
+            logJsonResponse(new JsonResponse(false));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false));
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            Map fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+            logJsonResponse(new JsonResponse(false, fouten));
+
+            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            Map fouten = new LinkedHashMap();
             fouten.put("andere", true);
 
             // LOG
@@ -449,14 +509,22 @@ public class UserRestService {
                 "0123456789";
         int length = 20;
         char[] userkey = new char[length];
-        Random random = new Random();
-        int i = 0;
+        boolean userkeyUnique = false;
+        List<String> userkeys = userService.findUserkeys();
 
-        while (i < length) {
-            int index = (int) (random.nextFloat() * chars.length());
-            userkey[i] = chars.charAt(index);
-            i++;
+        while (!userkeyUnique) {
+            int i = 0;
+            Random random = new Random();
+
+            while (i < length) {
+                int index = (int) (random.nextFloat() * chars.length());
+                userkey[i] = chars.charAt(index);
+                i++;
+            }
+
+            if (!userkeys.contains(String.valueOf(userkey))) userkeyUnique = true;
         }
+
 
         return String.valueOf(userkey);
     }

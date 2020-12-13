@@ -9,6 +9,7 @@ import com.brielage.coursequiz.services.StudentVakService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.services.VakService;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,5 +78,12 @@ public class UserRestController {
             produces = "application/json")
     public String edit(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
         return userRestService.edit(jsonNode);
+    }
+
+    @PostMapping(value = "/userkey",
+            consumes = "application/json",
+            produces = "application/json")
+    public String newUserkey(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+        return userRestService.newUserkey(jsonNode);
     }
 }
