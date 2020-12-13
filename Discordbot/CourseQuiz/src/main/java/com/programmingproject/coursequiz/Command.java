@@ -41,10 +41,6 @@ public class Command {
         return output;
     }
 
-
-    //Utils
-
-
     public static void displayCommands(MessageCreateEvent event) {
         for(Command command : Command.commandHelpList){
             BotUtil.botSendMessage(event, command.getHelp());
@@ -53,19 +49,18 @@ public class Command {
 
     public static final List<Command> commandHelpList = new ArrayList<>();
     static{
-        commandHelpList.add(new Command("ping", "pong", "!ping  ---  Hello bot? You there?"));
         commandHelpList.add(new Command("!registreer  ---  Register with your user key to link Discord account."));
         commandHelpList.add(new Command("!vakken  ---  Welke vakken heb ik?"));
         commandHelpList.add(new Command("!vraag <vak>  ---  Geeft een random vraag van een vak."));
         commandHelpList.add(new Command("!vraag <vak> <hoofdstuk>  ---  Geeft een random vraag van een hoofdstuk"));
     }
 
-    public static final List<Command> vakHelpList = new ArrayList<>();
-    static{
-        for(Vak vak : Vak.vakList){
-            vakHelpList.add(new Command("!quiz "+vak.getNaam()));
-        }
-    }
+//    public static final List<Command> vakHelpList = new ArrayList<>();
+//    static{
+//        for(Vak vak : Vak.vakList){
+//            vakHelpList.add(new Command("!quiz "+vak.getNaam()));
+//        }
+//    }
 
 
 

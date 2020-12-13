@@ -64,9 +64,9 @@ public class User {
         return null;
     }
 
-    public void registerUser(MessageCreateEvent event, User user, String[] messageSplit, String snowflake){
-
-        if(messageSplit.length > 1){
+    public void registerUser(MessageCreateEvent event, User user, String message, String snowflake){
+        String[] messageSplit = message.split(" ");
+        if(messageSplit.length > 1){ //!registreer <user key>
             if(user.getUserByUserKey(messageSplit[1]) != null){
                 user = user.getUserByUserKey(messageSplit[1]);
                 user.setSnowflake(snowflake);
@@ -75,7 +75,7 @@ public class User {
                 event.getMessage().getAuthor().get().getPrivateChannel().block().createMessage("User key niet gevonden.").block();
             }
         }
-        else{
+        else{ //!registreer
             event.getMessage().getAuthor().get().getPrivateChannel().block().createMessage("Typ hier '!registreer <user key>' (Jouw user key is terug te vinden op de CourseQuiz website)").block();
         }
     }

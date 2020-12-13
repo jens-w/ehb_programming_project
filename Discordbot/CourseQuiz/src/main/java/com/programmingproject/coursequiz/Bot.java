@@ -26,12 +26,28 @@ public class Bot {
                             String snowflake = event.getMessage().getAuthor().get().getId().asString();
                             User user = new User();
                             if(user.getUserBySnowflake(snowflake) != null) {user = user.getUserBySnowflake(snowflake);}//checks if user is already linked
-                            BotUtil.readMessage(event, user, message, snowflake);
+                            try {BotUtil.readMessage(event, user, message, snowflake);} catch (Exception e) {e.printStackTrace();}
                         }
                     }
                 });
         client.onDisconnect().block();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    public static void executeCommand(MessageCreateEvent event, User user, String command, String[] commandSplit, String snowflake){
 //

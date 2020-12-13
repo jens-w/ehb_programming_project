@@ -3,8 +3,17 @@ package com.programmingproject.coursequiz;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class Vak {
     private int id, opleidingId;
@@ -40,12 +49,27 @@ public class Vak {
         return null;
     }
 
-    public static void displayVakken(MessageCreateEvent event, User user){
-        for(Vak vak : vakList){
-            if(user.getOpleidingId() == vak.getOpleidingId()){
-                BotUtil.botSendMessage(event, vak.getNaam());
-            }
+    public static void displayVakken(MessageCreateEvent event, User user) throws Exception {
+
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("http://api.brielage.com:8081/user/login/");
+
+        httpPost.setEntity(new StringEntity("{\"email\":\"jos.dewolf@outlook.com\", \"password\":\"abc12345\"}", ContentType.APPLICATION_JSON));
+
+        String response = new BasicResponseHandler().handleResponse(client.execute(httpPost));
+
+        JSONObject jsonObject = (JSONObject) new JSONParser().parse(response);
+        JSONArray jsonArray = (JSONArray) jsonObject.get("vakken");
+        Iterator iterator = jsonArray.iterator();
+
+//        System.out.println(jsonObject.get("userkey"));
+
+        while(iterator.hasNext()) {
+            JSONObject vak = (JSONObject) jsonArray.get(jsonArray.indexOf(iterator.next()));
+//            System.out.println(vak.get("naam"));
+            BotUtil.botSendMessage(event, vak.get("naam").toString());
         }
+        client.close();
     }
 
     public static List<Vak> vakList = new ArrayList<>();
