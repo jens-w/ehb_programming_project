@@ -11,9 +11,11 @@ import java.util.Map;
 @SuppressWarnings({"rawtypes", "unused", "FieldCanBeLocal"})
 public class JsonUserResponse
         extends JsonResponse {
+    @JsonInclude(Include.NON_NULL)
     private final String userkey, voornaam, familienaam, email, avatarpad;
     @JsonInclude(Include.NON_NULL)
     private Map opleiding;
+    @JsonInclude(Include.NON_NULL)
     private List vakken;
     private Rol rol;
 
