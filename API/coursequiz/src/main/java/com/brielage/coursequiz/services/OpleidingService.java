@@ -11,4 +11,6 @@ public interface OpleidingService {
     Optional<Opleiding> findById(long id);
 
     void create(Opleiding opleiding);
+
+    List<Opleiding> findByNaam(String naam);
 }

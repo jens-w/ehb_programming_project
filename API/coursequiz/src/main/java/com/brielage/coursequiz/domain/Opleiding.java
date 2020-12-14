@@ -20,6 +20,10 @@ public class Opleiding {
     protected Opleiding() {
     }
 
+    public Opleiding(@NotBlank String naam) {
+        this.naam = naam;
+    }
+
     public Opleiding(long id,
                      @NotBlank String naam) {
         this.id = id;

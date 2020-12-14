@@ -1,8 +1,8 @@
 package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.Opleiding;
-import com.brielage.coursequiz.domain.Student;
 import com.brielage.coursequiz.services.StudentService;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -35,5 +35,14 @@ public class JpaOpleidingRepository
     public List<Opleiding> findAll() {
         return manager.createQuery("select o from Opleiding o order by o.id",
                 Opleiding.class).getResultList();
+    }
+
+    @Override
+    public List<Opleiding> findByNaam(String naam) {
+        return manager.createQuery("select o from Opleiding o " +
+                        "where o.naam = :naam order by o.id",
+                Opleiding.class)
+                .setParameter("naam", naam)
+                .getResultList();
     }
 }

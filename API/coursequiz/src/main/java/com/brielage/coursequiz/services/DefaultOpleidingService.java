@@ -2,6 +2,7 @@ package com.brielage.coursequiz.services;
 
 import com.brielage.coursequiz.domain.Opleiding;
 import com.brielage.coursequiz.repositories.OpleidingRepository;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,5 +32,10 @@ public class DefaultOpleidingService
     @Override
     public void create(Opleiding opleiding) {
         opleidingRepository.create(opleiding);
+    }
+
+    @Override
+    public List<Opleiding> findByNaam(String naam) {
+        return opleidingRepository.findByNaam(naam);
     }
 }

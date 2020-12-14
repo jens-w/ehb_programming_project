@@ -253,6 +253,7 @@ USER ADMIN KAN OPLEIDINGLIJST OPVRAGEN
 			]
 		}
 
+api.brielage.com:8081/opleiding/create/
 USER ADMIN KAN OPLEIDING AANMAKEN
 	REQUEST
 		{
@@ -271,6 +272,7 @@ USER ADMIN KAN OPLEIDING AANMAKEN
 			"success" : false,
 			"error" : [
 				"rechten_ongeldig" : true,
+				"opleidingnaam_leeg" : true,
 				"opleidingnaam_bestaat_al" : true,
 				"andere" : true
 			]
