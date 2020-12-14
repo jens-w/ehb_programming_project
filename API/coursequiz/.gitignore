@@ -34,4 +34,6 @@ build/
 
 ### my own debugging ###
 /src/main/java/com/brielage/coursequiz/controllers/TestRestController*
+/src/main/java/com/brielage/coursequiz/controllers/TestController*
 /src/main/java/com/brielage/coursequiz/restservices/TestRestService*
+/src/main/java/com/brielage/coursequiz/restservices/TestService*
