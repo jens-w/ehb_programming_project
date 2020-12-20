@@ -13,7 +13,7 @@
             Deze is terug te vinden in de 'lang/en/auth.php' file, met respectievelijk zijn waarde
             om deze waarde aan te roepen gebruik je FILENAME.STRINGKEYWAARDE
             -->
-            <h2 class="alert-danger p-1">{{ __("auth.".$key)}}</h2> <br />
+            <h2 class="alert alert-danger  p-1">{{ __("auth.".$key)}}</h2> <br />
             @endforeach
         @endif
     </div>

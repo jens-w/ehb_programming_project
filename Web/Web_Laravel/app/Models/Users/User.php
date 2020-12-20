@@ -16,6 +16,7 @@ class User
     public $type;
     public $vakken;
     public $opleiding;
+    public $userKey;
 
     public function __construct(VakkenList ...$vakken)
     {

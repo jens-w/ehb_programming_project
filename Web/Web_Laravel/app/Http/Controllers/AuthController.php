@@ -58,14 +58,14 @@ class AuthController extends Controller
 
         // UNCOMMENT REQUEST TO API WHEN DONE TESTING 
 
-        // try to login with email & hashed ( password + salt )
+        /*try to login with email & hashed ( password + salt ) */
         $response = Http::post('http://api.brielage.com:8081/user/login/', [
             /*'email' => $request->input('email'),
             'password' => $hashedPassword, */
             'email' => 'ldebacker@sky.net',
             'password' => 'abc12345'
         ]);
-         /*
+        /*
         $response = '{
             "success" : true,
             "userkey" : "def456",
@@ -138,6 +138,9 @@ class AuthController extends Controller
                                 }
                                 $user->vakken = $vakkenList;
                                 break;
+                            case 'userkey' : 
+                                    $user->userKey = $output;
+                                  break;
                         }
                     }
                     // put user data in session called 'userData'

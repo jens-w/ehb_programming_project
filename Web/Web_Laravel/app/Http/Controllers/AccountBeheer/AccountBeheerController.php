@@ -25,38 +25,32 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
 
     public function index()
     {
-        
+
         // check wether you have a session active (komende dus van verificatie api) 
-        if(!Session::has('userData')){
+        if (!Session::has('userData')) {
             return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
         }
-        
         /* ACCOUNT */
-         
+
         // if not, get the data and create model
-        $sessionData = Session::get('userData');     
+        $sessionData = Session::get('userData');
         //decode request to proper object (thats why second param. = true !!)
         //$result = json_encode( $sessionData, true);
-
-        $AccountViewModel = new User(); 
+        $AccountViewModel = new User();
         $AccountViewModel->fill($sessionData);
-
-
-       
-
-        
-        return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel',$AccountViewModel);
+        return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
     }
 
-    public function GetJsonDummyDataAccount(){
+    public function GetJsonDummyDataAccount()
+    {
         // creeër dummy data ( parsen naar Json )
-     
-          $loggedInUser = session()->get('dataUser')->toJson();
-        return $loggedInUser;   
+        $loggedInUser = session()->get('dataUser')->toJson();
+        return $loggedInUser;
     }
-    
-   
-    public function GetAccountInfo(Request $request){
+
+
+    public function GetAccountInfo(Request $request)
+    {
         /* get dummy data -> this will be replaced with api response ----------
         $response = Http::get('api.brielage.com:8088/user/something/')->json(); */
 
@@ -66,7 +60,7 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         // retrieve request, parse to json 
         // getData() = removes header information from reques, BELANGERIJK!
         $rawJson = response()->json($request->all())->getData();
-         
+
         //encode request to proper json
         $decodedAsArray = json_encode($response, true);
         //decode request to proper array (thats why second param. = true !!)
@@ -76,26 +70,135 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         // $innerPost = $result['user'];
 
         // create user object based on given array and its attributes
-        $user= new User();
+        $user = new User();
         $user->forceFill($result);
-        
+
         // return view 
         return View::make('AccountBeheer/Gegevens.AccountInfo')->with('AccountViewModel', $user);
-      
+    }
+
+    public function NewUserKey(Request $request)
+    {
+        $response = Http::post('api.brielage.com:8081/user/userkey', [
+            'userkey' => $request->input('userKey'),
+        ]);
+
+        $decodedArray = json_decode($response, true);
+        // check response 
+        foreach ($decodedArray as $key => $output) {
+            switch ($key) {
+                case 'success':
+                    if (boolval($output)) { //true, userkey request         
+                        // if not, get the data and create model
+                        $sessionData = Session::pull('userData');
+                        //decode request to proper object (thats why second param. = true !!)
+                        //$result = json_encode( $sessionData, true);
+                        $AccountViewModel = new User();
+                        $AccountViewModel->fill($sessionData);
+                    }
+                    break;
+                case 'userkey':
+                    $AccountViewModel->userKey = $output;
+                    // put user data in session called 'userData'
+                    Session::put('userData', $AccountViewModel);
+                    Session::Save();
+                    return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
+                    break;
+            }
+        }
+
+        return Redirect::Back();
     }
 
 
-    
-
-    public function update(Request $request) {
-        // get the id from hidden field in
-        $userId = $request->input('id');
-        // Get the correct user
-        $user = User::find($userId);
-        
-        // get the other input fields
+    public function update(Request $request)
+    {
+        // get all inputs
+        $userKey = $request->input('userKey');
         $upFirstName = $request->input('voornaam');
-        $upEmail= $request->input('email');
+        $upEmail = $request->input('email');
+        $upLastName = $request->input('familienaam');
+        $upAvatarpad = $request->input('avatarPad');
+        $upPassword = $request->input('password');
+
+        // retrieve user from db based on input email
+        $user = DB::table('users')->where('email', $request->input('email'))->first();
+        // if user exists
+        if ($user != null) { // create md5 hashing appended with salt retrieved from local db
+            $hashedPassword = md5($upPassword . $user->salt);
+        } else {
+            // if user doesn't exist don't return will error messages
+            return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
+        }
+
+        $response = Http::post('api.brielage.com:8081/user/edit/', [
+            'userkey' => $userKey,
+            'voornaam' => $upFirstName,
+            'familienaam' => $upLastName,
+            'email' => $upEmail,
+            'avatarpad' =>  $upAvatarpad,
+            "password" =>  $hashedPassword
+        ]);
+
+        $decodedArray = json_decode($response, true);
+        foreach ($decodedArray as $key => $output) {
+            switch ($key) {
+                case 'success':
+                    if (!boolval($output)) {
+                        foreach ($decodedArray as $key => $output) {
+                            if ($key === 'errors') {
+                                return Redirect::back()->withErrors($output)->withInput($request->all());;
+                            }
+                        }
+                    } else {
+                        $user = new User();
+                    // loop over the rest of the key values
+                    foreach ($decodedArray as $key => $output) {
+                        switch ($key) {
+                            case 'voornaam':
+                                $user->voornaam = $output;
+                                break;
+                            case 'familienaam':
+                                $user->familienaam = $output;
+                                break;
+                            case 'email':
+                                $user->email = $output;
+                                break;
+                            case 'avatarpad':
+                                break;
+                            case 'eigenrol':
+                                break;
+                            case 'opleiding':
+                                foreach ($output as $key => $innerOutput) { }
+                                break;
+                            case 'vakken':
+                                $vakkenList = [];
+                                foreach($output as $key => $out){
+                                    // define vak with class - init the var.
+                                    $vak = new Vak();
+                                    // fill the object (vak) with the array data
+                                    $vak->fill($out);
+                                    // add each 'vak' to an array called 'vakkenList'
+                                    $vakkenList[] = $vak;
+                                }
+                                $user->vakken = $vakkenList;
+                                break;
+                            case 'userkey' : 
+                                    $user->userKey = $output;
+                                  break;
+                        }
+                    }
+                    // put user data in session called 'userData'
+                    Session::put('userData', $user);
+                    // save the session
+                    Session::save();
+                    return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
+                    }
+                    break;
+                
+            }
+           
+        }
         // set sql statement
         $sql = "UPDATE users SET voornaam=?, email=? WHERE Id= ?";
         DB::update($sql, array($upFirstName, $upEmail, $user->id));
@@ -103,11 +206,11 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         // return redirect with error messages containing
         // I use an array to be send with the messages, first value is the 'style classe' to be used, second value is the actual value of the msg
         return Redirect::back()->withErrors(['Succesvol ge-updated!']);
-       
-     }
+    }
 
 
-    public function TestApiRequest(){
+    public function TestApiRequest()
+    {
         // test naar api
         $response = Http::post('api.brielage.com:8088/user/something/', [
             'naam' => 'Steve',
@@ -115,5 +218,4 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         ]);
         return View::make('test/test')->with('testResponse', $response);
     }
-
 }

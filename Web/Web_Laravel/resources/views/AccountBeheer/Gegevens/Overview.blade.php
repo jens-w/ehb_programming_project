@@ -13,9 +13,16 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            @if($errors->any())
-            <h4 class="status-message-success">{{ $errors -> first()}}</h4>
-            @endif
+        @if($errors->any())
+            @foreach($errors->getMessages() as $key => $message)
+            <!--          
+            $key bevat de foutcode (bv. voornaam_ongeldig ), 
+            Deze is terug te vinden in de 'lang/en/auth.php' file, met respectievelijk zijn waarde
+            om deze waarde aan te roepen gebruik je FILENAME.STRINGKEYWAARDE
+            -->
+            <h2 class="alert alert-danger  p-1">{{ __("auth.".$key)}}</h2> <br />
+            @endforeach
+        @endif
         </div>
     </div>
 </div>

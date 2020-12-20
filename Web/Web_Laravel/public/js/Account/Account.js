@@ -1,5 +1,9 @@
 // ACCOUNT.JS -- ENKEL OP DE ACCOUNT PAGINA GERENDERD // 
-
+$('.nav-tabs a').click(function(){
+    $('a').each(function(){
+        $(this).removeClass('active');
+    })
+})
 
 // Change hash for page-reload
 $('.nav-tabs a').on('shown', function (e) {

@@ -7,7 +7,7 @@
     <div class="row d-flex justify-content-center my-2">
         <div class="col-md-6">
             @if($errors->any())
-            <h4 class="alert-danger">{{ $errors -> first()}}</h4>
+            <h4 class="alert alert-danger ">{{ $errors -> first()}}</h4>
             @endif
         </div>
     </div>

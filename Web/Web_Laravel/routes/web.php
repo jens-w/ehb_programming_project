@@ -39,11 +39,14 @@ Route::get('/test',[AccountBeheerController::class, 'TestApiRequest'])->name('te
 
 /// -- end test ///
 
+// -- LOGIN -- //
 Route::get('/loginInit', [AuthController::class, 'loginInit'])->name('loginInit');
 Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginApi');
 Route::get('/logout', [AuthController::class, 'logout'])->name('forgetSession');
 
+// -- AUTH -- //
 Route::post('/authenticate',[LoginController::class, 'authenticate'])->name('authenticate');
+
 
 Route::get('/Opleidingen/Overview', [OpleidingController::class, 'index']);
 Route::get('/Opleidingen/Create', [OpleidingController::class,'create']);
@@ -51,10 +54,12 @@ Route::post('/Opleidingen/CreatePost', [OpleidingController::class,'createPost']
 
 Route::get('/Students/Overview', [StudentController::class, 'index']);
 
+// -- ACCOUNT -- //
 Route::get('/Account/overview', [AccountBeheerController::class, 'index'])->name('accountBeheer');
 Route::post('/Account/update', [AccountBeheerController::class, 'update'])->name('update');
 Route::get('/Account/GetAccountInfo', [AccountBeheerController::class, 'GetAccountInfo'])->name('accountInfo');
 Route::get('/Account/GetJsonDummyDataAccount', [AccountBeheerController::class, 'GetJsonDummyDataAccount'])->name('accountInfoDummy');
+Route::post('/Account/RequestUserKey', [AccountBeheerController::class, 'NewUserKey'])->name('requestNewUserkey');
 
 Auth::routes();
 Route::get('/createUser', [RegistrationController::class, 'register'])->name('createUser');
