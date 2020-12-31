@@ -53,20 +53,16 @@ public class Vak {
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost("http://api.brielage.com:8081/user/login/");
-
         httpPost.setEntity(new StringEntity("{\"email\":\"jos.dewolf@outlook.com\", \"password\":\"abc12345\"}", ContentType.APPLICATION_JSON));
-
         String response = new BasicResponseHandler().handleResponse(client.execute(httpPost));
-
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(response);
         JSONArray jsonArray = (JSONArray) jsonObject.get("vakken");
         Iterator iterator = jsonArray.iterator();
 
-//        System.out.println(jsonObject.get("userkey"));
+        BotUtil.botSendMessage(event, jsonObject.get("userkey").toString());
 
         while(iterator.hasNext()) {
             JSONObject vak = (JSONObject) jsonArray.get(jsonArray.indexOf(iterator.next()));
-//            System.out.println(vak.get("naam"));
             BotUtil.botSendMessage(event, vak.get("naam").toString());
         }
         client.close();

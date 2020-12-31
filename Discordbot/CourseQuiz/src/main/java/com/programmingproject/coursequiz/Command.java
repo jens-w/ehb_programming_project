@@ -2,12 +2,20 @@ package com.programmingproject.coursequiz;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.Embed;
+import discord4j.core.object.entity.Message;
+import discord4j.core.object.reaction.ReactionEmoji;
+import discord4j.core.spec.EmbedCreateSpec;
+import discord4j.rest.util.Color;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,26 +49,54 @@ public class Command {
         return output;
     }
 
-    public static void displayCommands(MessageCreateEvent event) {
-        for(Command command : Command.commandHelpList){
-            BotUtil.botSendMessage(event, command.getHelp());
-        }
+    public static void displayCommandsEmbedded(){
+
+
+        Message msg = Bot.channel.createEmbed(spec ->
+            spec.setColor(Color.SUMMER_SKY)
+                        .setTitle("!help")
+                        .addField("!registreer", "Discord account koppelen met de CourseQuiz website", false)
+                        .addField("!vakken", "Welke vakken heb ik?", false)
+                        .addField("!vraag <vak>", "Geeft een random vraag van een vak", false)
+                        .addField("!vraag <vak> <hoofdstuk>", "Geeft een random vraag van een hoofdstuk", false)
+                        ).block();
+
+        //TESTING
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE6")).block();
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE7")).block();
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE8")).block();
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE9")).block();
+        //
+        msg.addReaction(ReactionEmoji.unicode("➡")).block();
+        msg.addReaction(ReactionEmoji.unicode("⛔")).block();
     }
 
-    public static final List<Command> commandHelpList = new ArrayList<>();
-    static{
-        commandHelpList.add(new Command("!registreer  ---  Register with your user key to link Discord account."));
-        commandHelpList.add(new Command("!vakken  ---  Welke vakken heb ik?"));
-        commandHelpList.add(new Command("!vraag <vak>  ---  Geeft een random vraag van een vak."));
-        commandHelpList.add(new Command("!vraag <vak> <hoofdstuk>  ---  Geeft een random vraag van een hoofdstuk"));
-    }
+    public static void testVraag(String vak){
 
-//    public static final List<Command> vakHelpList = new ArrayList<>();
-//    static{
-//        for(Vak vak : Vak.vakList){
-//            vakHelpList.add(new Command("!quiz "+vak.getNaam()));
-//        }
-//    }
+        //---API
+        String id = "21";
+        String question = "yadadadadadadada yadadada ydadad aydaaada ydadadada?";
+        int amountAnswers = 4;
+        String[] reactions = {"\uD83C\uDDE6", "\uD83C\uDDE7", "\uD83C\uDDE8", "\uD83C\uDDE9", "\uD83C\uDDEA", "\uD83C\uDDEB"};
+        //---
+
+        Message msg = Bot.channel.createEmbed(spec ->{
+            spec.setColor(Color.SUMMER_SKY)
+                    .setAuthor("Vraag " + id +" "+ vak, null, null)
+                    .setTitle(question);
+
+            for(var i=0;i<amountAnswers;i++){
+                spec.addField(reactions[i], "rhgehrkug", false);
+            }
+
+                }).block();
+
+        //FOR LOOP!!!!!
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE6")).block();
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE7")).block();
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE8")).block();
+        msg.addReaction(ReactionEmoji.unicode("\uD83C\uDDE9")).block();
+    }
 
 
 
@@ -68,15 +104,15 @@ public class Command {
 
     //JSON dummydata readers
     {
-        try {
-            //Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/dummydata/user.json"));
-            //com.programmingproject.coursequiz.User user = gson.fromJson(reader, com.programmingproject.coursequiz.User.class);
-            User.userList = new Gson().fromJson(reader, new TypeToken<List<User>>() {}.getType());
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //Gson gson = new Gson();
+//            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/dummydata/user.json"));
+//            //com.programmingproject.coursequiz.User user = gson.fromJson(reader, com.programmingproject.coursequiz.User.class);
+//            User.userList = new Gson().fromJson(reader, new TypeToken<List<User>>() {}.getType());
+//            reader.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     {
         try {
