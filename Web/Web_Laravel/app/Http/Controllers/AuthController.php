@@ -103,7 +103,7 @@ class AuthController extends Controller
 
         // check response 
         foreach ($decodedArray as $key => $output) {
-            if ($key === 'success') {
+            if ($key === 'sussccess') {
                 if (boolval($output)) { //true, login succesfull in api
                     // create user
                     $user = new User();
@@ -141,6 +141,8 @@ class AuthController extends Controller
                             case 'userkey' : 
                                     $user->userKey = $output;
                                   break;
+                            case 'eigenrol' : 
+                                    $user->type= $output;
                         }
                     }
                     // put user data in session called 'userData'
@@ -149,8 +151,10 @@ class AuthController extends Controller
                     Session::save();
                     return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
                 } else { // success is false -> login failed
+                    return View::make('test/test')->with('testResponse',  $decodedArray);
                     return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
                 }
+
             }
         }
        

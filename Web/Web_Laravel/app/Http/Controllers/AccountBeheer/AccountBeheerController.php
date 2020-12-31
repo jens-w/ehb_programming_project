@@ -107,7 +107,7 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
             }
         }
 
-        return Redirect::Back();
+        //return Redirect::Back();
     }
 
 
@@ -123,12 +123,13 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
 
         // retrieve user from db based on input email
         $user = DB::table('users')->where('email', $request->input('email'))->first();
+        $user = DB::table('users')->where('email', 'michaelbracke@hotmail.com')->first();
         // if user exists
         if ($user != null) { // create md5 hashing appended with salt retrieved from local db
             $hashedPassword = md5($upPassword . $user->salt);
         } else {
             // if user doesn't exist don't return will error messages
-            return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
+
         }
 
         $response = Http::post('api.brielage.com:8081/user/edit/', [
@@ -141,64 +142,73 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         ]);
 
         $decodedArray = json_decode($response, true);
-        foreach ($decodedArray as $key => $output) {
-            switch ($key) {
-                case 'success':
-                    if (!boolval($output)) {
-                        foreach ($decodedArray as $key => $output) {
-                            if ($key === 'errors') {
-                                return Redirect::back()->withErrors($output)->withInput($request->all());;
+
+
+        function genUserForSession($apiResponse)
+        {
+            $decodedArray = json_decode($apiResponse, true);
+            foreach ($decodedArray as $key => $output) {
+                switch ($key) {
+                    case 'success':
+                        if (!boolval($output)) {
+                            foreach ($decodedArray as $key => $output) {
+                                if ($key === 'errors') { }
                             }
-                        }
-                    } else {
-                        $user = new User();
-                    // loop over the rest of the key values
-                    foreach ($decodedArray as $key => $output) {
-                        switch ($key) {
-                            case 'voornaam':
-                                $user->voornaam = $output;
-                                break;
-                            case 'familienaam':
-                                $user->familienaam = $output;
-                                break;
-                            case 'email':
-                                $user->email = $output;
-                                break;
-                            case 'avatarpad':
-                                break;
-                            case 'eigenrol':
-                                break;
-                            case 'opleiding':
-                                foreach ($output as $key => $innerOutput) { }
-                                break;
-                            case 'vakken':
-                                $vakkenList = [];
-                                foreach($output as $key => $out){
-                                    // define vak with class - init the var.
-                                    $vak = new Vak();
-                                    // fill the object (vak) with the array data
-                                    $vak->fill($out);
-                                    // add each 'vak' to an array called 'vakkenList'
-                                    $vakkenList[] = $vak;
+                        } else {
+                            $user = new User();
+                            // loop over the rest of the key values
+                            foreach ($decodedArray as $keyInner => $outputInner) {
+                                switch ($keyInner) {
+                                    case 'voornaam':
+                                        $user->voornaam = $outputInner;
+                                        break;
+                                    case 'familienaam':
+                                        $user->familienaam = $outputInner;
+                                        break;
+                                    case 'email':
+                                        $user->email = $outputInner;
+                                        break;
+                                    case 'avatarpad':
+                                        break;
+                                    case 'eigenrol':
+                                        break;
+                                    case 'opleiding':
+                                        foreach ($output as $key => $innerOutput) { }
+                                        break;
+                                    case 'vakken':
+                                        $vakkenList = [];
+                                        foreach ($outputInner as $key => $out) {
+                                            // define vak with class - init the var.
+                                            $vak = new Vak();
+                                            // fill the object (vak) with the array data
+                                            $vak->fill($out);
+                                            // add each 'vak' to an array called 'vakkenList'
+                                            $vakkenList[] = $vak;
+                                        }
+                                        $user->vakken = $vakkenList;
+                                        break;
+                                    case 'userkey':
+                                        $user->userKey = $output;
+                                        break;
+                                    case 'rol':
+                                        $user->type = $output;
+                                        break;
                                 }
-                                $user->vakken = $vakkenList;
-                                break;
-                            case 'userkey' : 
-                                    $user->userKey = $output;
-                                  break;
+                            }
+                            // put user data in session called 'userData'
+                            Session::put('userData', $user);
+                            // save the session
+                            Session::save();
+                           
                         }
-                    }
-                    // put user data in session called 'userData'
-                    Session::put('userData', $user);
-                    // save the session
-                    Session::save();
-                    return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
-                    }
-                    break;
-                
+                        break;
+                }
             }
-           
         }
+
+        return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
+
+
         // set sql statement
         $sql = "UPDATE users SET voornaam=?, email=? WHERE Id= ?";
         DB::update($sql, array($upFirstName, $upEmail, $user->id));

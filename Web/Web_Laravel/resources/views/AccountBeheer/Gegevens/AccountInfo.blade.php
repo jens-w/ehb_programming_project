@@ -37,7 +37,12 @@
                             <div class="col-6 sub-title">
                                 <?php echo $AccountViewModel->email ?>
                             </div>
-
+                            <div class="col-6">
+                                Type:
+                            </div>
+                            <div class="col-6 sub-title">
+                                <?php echo $AccountViewModel->type ?>
+                            </div>
                         </div>
 
                         {{ Form::open([ 'url'=>route('requestNewUserkey'), 'class'=>'my-2 row', 'method'=>'post' ]) }}
