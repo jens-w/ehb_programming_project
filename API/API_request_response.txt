@@ -1,0 +1,1786 @@
+api url:
+api.brielage.com:8081
+
+errors misschien niet als true meegeven maar als een message met een verbose errormessage
+bij login: bij teveel failed attempts wordt tijdelijk geblocked, ook als error kunnen meegeven
+
+toe te voegen: user story voor ALLE quizzen op te vragen die een user afgenomen heeft, dus van ieder vak
+
+
+api.brielage.com:8081/user/create/
+USER KAN REGISTREREN
+	REQUEST
+		{
+			"voornaam" : "mijn_voornaam",
+			"familienaam" : "mijn_familienaam",
+			"email" : "mijn@ema.il",
+			"password" : "mijn_password12!34"
+		}
+		
+		avatar pad bij registratie of achteraf? er bestaan tools voor automatische avatars.
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"voornaam_ongeldig" : true,
+				"familienaam_ongeldig" : true,
+				"email_ongeldig" : true,
+				"email_bestaat_al" : true,
+				"password_ongeldig" : true
+			]
+		}
+		
+		enkel de ongeldige worden getoond?
+
+
+api.brielage.com:8081/user/login/
+USER KAN INLOGGEN
+	REQUEST
+		{
+			"email" : "mijn@ema.il",
+			"password" : "mijn_password12!34"
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"userkey" : "userkey1234",
+			"voornaam" : "mijn_voornaam",
+			"familienaam" : "mijn_familienaam",
+			"email" : "mijn@ema.il",
+			"avatarpad" : "/pad/naar/avatar",
+			"opleiding" : {
+				"id" : 3,
+				"naam" : "opleiding_naam"
+			},
+			"vakken" : [
+				"vak1" : {
+					"vakid" : 8,
+					"vaknaam" : "naam van het vak"
+				},
+				"vak2" : {
+					"vakid" : 1,
+					"vaknaam" : "naam van het vak"
+				}
+			],
+			"eigenrol" : "admin/docent/student"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false
+		}
+		
+		geen message nodig want we houden het vaag vanwege security
+
+
+api.brielage.com:8081/user/edit/
+USER KAN INFORMATIE AANPASSEN (email/naam/avatar/password)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"voornaam" : "mijn_voornaam",
+			"familienaam" : "mijn_familienaam",
+			"email" : "mijn@ema.il",
+			"avatarpad" : "/pad/naar/avatar",
+			"password" : "mijn_password12!34"
+		}
+		
+		enkel de velden die aangepast moeten worden, userkey altijd meegeven
+		rollen en vakken kunnen niet hier en door de user zelf aangepast worden
+		indien docent maar komaan, dat doen we ergens anders
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"voornaam" : "mijn_voornaam",
+			"familienaam" : "mijn_familienaam",
+			"email" : "mijn@ema.il",
+			"avatarpad" : "/pad/naar/avatar"
+		}
+
+		password moet niet teruggestuurd worden
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"voornaam_ongeldig" : true,
+				"familienaam_ongeldig" : true,
+				"email_ongeldig" : true,
+				"email_bestaat_al" : true,
+				"avatarpad_ongeldig" : true,
+				"password_ongeldig" : true,
+				"andere" : true
+			]
+		}
+		
+		reden password ongeldig tonen? of herinnering van formaat/regels tonen (voor Michaël)
+		enkel de ongeldige worden getoond?
+
+
+api.brielage.com:8081/user/userkey/
+USER KAN NIEUWE USERKEY AANVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234"
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"userkey" : "userkey5678"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false
+		}
+
+		waarschuwing sturen naar admins? (via API)
+
+
+USER ADMIN/DOCENT KAN USERLIJST OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"users" : [
+				"user1" : {
+					"id" : 38,
+					"voornaam" : "een_voornaam",
+					"familienaam" : "een_familienaam",
+					"email" : "een@ema.il",
+					"rol" : "admin/docent/student"
+				},
+				"user2" : {
+					"id" : 12,
+					"voornaam" : "een_voornaam",
+					"familienaam" : "een_familienaam",
+					"email" : "een@ema.il",
+					"rol" : "admin/docent/student"
+				}
+			]
+		}
+	
+		vakken worden getoond dan wanneer een user bekeken wordt, niet in de lijst
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"andere" : true
+			]
+		}
+
+		enkel de toepasselijke error sturen
+
+
+USER ADMIN KAN ROLLEN TOEWIJZEN (automatisch op email adres, maar hier ook door admins)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"userid" : 19,
+			"nieuwerol" : "rol"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"eigenrol" : true,
+				"rechten_ongeldig" : true,
+				"userid_ongeldig" : true,
+				"userid_bestaat_niet" : true,
+				"rol_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+
+		eigen rol aanpassen onmogelijk
+		enkel de error die gebeurde sturen
+
+
+USER ADMIN KAN OPLEIDINGLIJST OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"opleidingen" : [
+				"opleiding1" : {
+					"id" : 3,
+					"naam" : "opleiding_naam"
+				},
+				"opleiding2" : {
+					"id" : 4,
+					"naam" : "opleiding_naam"
+				}
+			]
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"geen_opleidingen" : true,
+				"andere" : true
+			]
+		}
+
+api.brielage.com:8081/opleiding/create/
+USER ADMIN KAN OPLEIDING AANMAKEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"opleidingnaam" : "opleiding_naam"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+			
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"opleidingnaam_leeg" : true,
+				"opleidingnaam_bestaat_al" : true,
+				"andere" : true
+			]
+		}
+
+USER ADMIN KAN OPLEIDING VERWIJDEREN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"opleidingid" : 29
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"opleidingid_ongeldig" : true,
+				"opleidingid_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+
+USER ADMIN/DOCENT KAN STUDENTEN TOEVOEGEN AAN OPLEIDING
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"opleidingid" : 2,
+			"studentid" : 182
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"studentid_ongeldig" : true,
+				"studentid_bestaat_niet" : true,
+				"student_al_in_andere_opleiding" : 8, // opleidingid
+				"andere" : true
+			]
+		}
+
+		enkel meegeven wat van toepassing is
+
+
+USER ADMIN/DOCENT KAN STUDENTEN VERWIJDEREN VAN OPLEIDING
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"opleidingid" : 2,
+			"studentid" : 182
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"andere" : true
+			]
+		}
+
+		enkel meegeven wat van toepassing is
+
+
+USER ADMIN KAN VAKKENLIJST OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234"
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"opleidingen" : [
+				"opleiding1" : {
+					"id" : 2,
+					"naam" : "opleiding_naam",
+					"vakken" : [
+						"vak1" : {
+							"id" : 33,
+							"naam" : "vak_naam"
+						},
+						"vak2" : {
+							"id" : 35,
+							"naam" : "vak_naam"
+						}
+					]
+				},
+				"opleiding2" : {
+					"id" : 4,
+					"naam" : "opleiding_naam",
+					"vakken" : [
+						"vak1" : {
+							"id" : 43,
+							"naam" : "vak_naam"
+						},
+						"vak2" : {
+							"id" : 54,
+							"naam" : "vak_naam"
+						}
+					]
+				}
+			]
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"geen_vakken" : true,
+				"andere" : true
+			]
+		}
+		
+		enkel sturen wat van toepassing is
+
+
+USER ADMIN KAN VAKKEN AANMAKEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vaknaam" : "vak_naam",
+			"opleidingid" : 2,
+			"jaar" : "1/2/3/4/5/..." // jaar van de opleiding, niet het jaar 2020 bv
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vaknaam_ongeldig" : true,
+				"vaknaam_bestaat_al_in_opleiding" : true,
+				"opleidingid_ongeldig" : true,
+				"opleidingid_bestaat_niet" : true,
+				"jaar_ongeldig" : true,
+				"andere" : true
+			]
+		}
+
+
+USER ADMIN KAN VAKKEN VERWIJDEREN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 14
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+
+
+USER ADMIN KAN VAKKEN TOEWIJZEN (student/docent)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"userid" : 382,
+			"vakid" : 45
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"userid_ongeldig" : true,
+				"userid_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+
+
+USER KAN VAKKENLIJST OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vakken" : [
+				"vak1" : {
+					"vakid" : 8,
+					"vaknaam" : "vak_naam1"
+				},
+				"vak2" : {
+					"vakid" : 11,
+					"vaknaam" : "vak_naam2"
+				}
+			]
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"user_behoort_niet_tot_een_opleiding" : true,
+				"geen_vakken_gevonden" : true,
+				"andere" : true
+			]
+		}
+
+
+USER KAN HOOFDSTUKKEN VAN EEN VAK OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 64
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"hoofdstukken" : [
+				"hoofdstuk1" : {
+					"id" : 38,
+					"nummer" : "3.2",
+					"titel" : "titel"
+				},
+				"hoofdstuk2" : {
+					"id" : 42,
+					"nummer" : "3.3",
+					"titel" : "titel"
+				}
+			]
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"vak_heeft_geen_hoofdstukken" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN HOOFDSTUKKEN AANMAKEN IN ZIJN VAKKEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 79,
+			"hoofdstuknummer" : "1",
+			"hoofdstuktitel" : "titel"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"hoofdstuknummer_ongeldig" : true,
+				"hoofdstuknummer_bestaat_al" : true,
+				"hoofdstuktitel_ongeldig" : true,
+				"hoofdstuktitel_bestaat_al" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN HOOFDSTUKKEN AANPASSEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"hoofdstukid" : 23,
+			"hoofdstuknummer" : "2",
+			"hoofdstuktitel" : "titel"
+		}
+		
+		enkel sturen wat aangepast wordt
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"hoofdstuknummer_ongeldig" : true,
+				"hoofdstuknummer_bestaat_al" : true,
+				"hoofdstuktitel_ongeldig" : true,
+				"hoofdstuktitel_bestaat_al" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN HOOFDSTUKKEN VERWIJDEREN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"hoofdstukid" : 87
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"hoofdstuk_bevat_nog_quizzen" : true,
+				"hoofdstuk_bevat_nog_vragen" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN EEN QUIZ AANMAKEN EN AAN HOOFDSTUK TOEVOEGEN (default hoofdstuk = 0, aka gans het vak)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quiznaam" : "quiz_naam",
+			"omschrijving" : "quiz_omschrijving",
+			"vakid" : 8,
+			"hoofdstukid" : 13
+		}
+		
+		hoofdstuk is optioneel, default 0 (ganse vak)
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quiznaam_ongeldig" : true,
+				"quiznaam_bestaat_al" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VRAGEN AANMAKEN EN ANTWOORDEN ERAAN TOEVOEGEN, EN AAN EEN QUIZ TOEVOEGEN, EN AAN HET BIJHORENDE HOOFDSTUK (van de quiz)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraag" : "vraag de vraag maar",
+			"aantal_antwoorden_tonen" : "5",
+			"quizid" : 136,
+			"simpele_vraag" : true,
+			"juiste_antwoord_tonen" : true, // enkel tonen bij de simpele meerkeuzevraag
+			"minimum_aantal_juiste_antwoorden_tonen" : "2", // enkel tonen bij de meerdre meerkeuzevraag
+			"aantal_juiste_antwoorden_nodig" : "3", // enkel tonen bij de meerdre meerkeuzevraag
+			"hoofdstukid" : 34,
+			"antwoorden" : [
+				"antwoord1" : {
+					"antwoord" : "dit is het antwoord tralalala",
+					"isjuist" : true
+				},
+				"antwoord2" : {
+					"antwoord" : "dit is het antwoord tralalala",
+					"isjuist" : true
+				}
+			],
+		}
+		
+		antwoorden toevoegen is optioneel
+		aan quiz toevoegen is optioneel
+		aan hoofdstuk toevoegen is optioneel
+		
+		default simpelevraag
+		
+		let op verschil simpele vs meerdere meerkeuzevraag
+		waarschuwing voor niet genoeg antwoorden? (minimum aantal tonen vs aantal bestaande) (voor Michaël)
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"vraag_bestaat_al" : true,
+				"vraag_ongeldig" : true,
+				"aantal_antwoorden_tonen_ongeldig" : true,
+				"minimum_aantal_juiste_antwoorden_tonen_ongeldig" : true,
+				"aantal_juiste_antwoorden_nodig_ongeldig" : true,
+				"antwoord_leeg" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN ANTWOORDEN AANMAKEN EN AAN EEN VRAAG TOEVOEGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 23,
+			"antwoord" : "dit is een antwoord lalalala",
+			"isjuist" : true
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"antwoord_ongeldig" : true,
+				"antwoord_bestaat_al_voor_die_vraag" : true,
+				"isjuist_niet_opgegeven" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VRAGENLIJST OPVRAGEN PER VAK/HOOFDSTUK/QUIZ
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 2,
+			"hoofdstukid" : 3,
+			"quizid" : 88
+		}
+		
+		kies tussen vak, hoofdstuk, of quiz, als meerdere meegegeven worden wordt het meest specifieke gekozen (bv quiz als alle 3 meegegeven worden)
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vak" : true, // false als het de lijst voor een hoofdstuk of quiz is
+			"hoofdstuk" : true, // false als het de lijst voor een vak of quiz is
+			"quiz" : true, // false als het de lijst voor een vak of hoofdstuk is
+			"vragenlijst" : {
+				"id" : [
+					"vraag1" : {
+						"vraagid" : 33,
+						"vraag" : "dit is de vraag van vraag1"
+					}
+					"vraag2" : {
+						"vraagid" : 38,
+						"vraag" : "dit is de vraag van vraag2"
+					}
+				]
+			}
+		}
+		
+		id = id van vak of hoofdstuk of quiz, whatever applies
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_docent_van_vak" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"geen_docent_van_hoofdstuk" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_docent_van_quiz" : true,
+				"geen_vragen_gevonden" : true,
+				"andere" : true
+			]
+		}
+		
+
+USER DOCENT KAN VRAAG AANPASSEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 33,
+			"vraag" : "dit is de nieuwe vraag"
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_docent_van_vraag" : true,
+				"vraag_ongeldig" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VRAAG VERWIJDEREN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 8
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_docent_van_vraag" : true,
+				"vraag_heeft_nog_antwoorden" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN ANTWOORD AANPASSEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 33,
+			"antwoord" : "dit is het nieuwe antwoord",
+			"isjuist" : true
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"antwoordid_ongeldig" : true,
+				"antwoordid_bestaat_niet" : true,
+				"geen_docent_van_antwoord" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN ANTWOORD VERWIJDEREN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"antwoordid" : 8
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"antwoordid_ongeldig" : true,
+				"antwoordid_bestaat_niet" : true,
+				"geen_docent_van_antwoord" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VRAAG TOEVOEGEN AAN QUIZ
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 2,
+			"quizid" : 3
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_docent_van_vraag" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_docent_van_quiz" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VRAAG VERWIJDEREN VAN QUIZ
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 9,
+			"vraagid" : 6
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_docent_van_vraag" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_docent_van_quiz" : true,
+				"vraag_geen_deel_van_quiz" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN QUIZ BESCHIKBAARHEID INSTELLEN (default niet beschikbaar)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 88,
+			"beschikbaar" : true
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_docent_van_quiz" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN QUIZ VERWIJDEREN (vragen blijven beschikbaar)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 932
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_docent_van_quiz" : true,
+				"andere" : true
+			]
+		}
+
+
+USER KAN QUIZLIJST OPVRAGEN PER VAK/HOOFDSTUK
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 2,
+			"hoofdstukid" : 3
+		}
+		
+		hoofdstukid optioneel
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vak" : true,
+			"hoofdstuk" : true,
+			"quizlijst" : [
+				"id1" : {
+					"quiznaam" : "quiz_naam1",
+					"quizomschrijving" : "dit is de omschrijving"
+				},
+				"id2" : {
+					"quiznaam" : "quiz_naam2",
+					"quizomschrijving" : "dit is de omschrijving"
+				}
+			]
+		}
+		
+		id1 = id quiz
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_docent_van_vak" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"geen_docent_van_hoofdstuk" : true,
+				"geen_quizzen_gevonden" : true,
+				"andere" : true
+			]
+		}
+		
+		
+USER KAN QUIZ AFNEMEN/DOEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 38
+		}
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"quizid" : 38,
+			"vragenlijst" : [
+				"vraag1" : {
+					"vraagid" : 48,
+					"vraag" : "dit is de vraaginhoud",
+					"multiplemultiplechoice" : true,
+					"antwoorden" : [
+						"antwoord1" : {
+							"antwoordid" : 83,
+							"antwoord" : "dit is het antwoord",
+						},
+						"antwoord2" : {
+							"antwoordid" : 17,
+							"antwoord" : "dit is het antwoord",
+						}
+					]
+				},
+				"vraag2" : {
+					"vraagid" : 48,
+					"vraag" : "dit is de vraaginhoud",
+					"multiplemultiplechoice" : true,
+					"antwoorden" : [
+						"antwoord1" : {
+							"antwoordid" : 83,
+							"antwoord" : "dit is het antwoord",
+						},
+						"antwoord2" : {
+							"antwoordid" : 17,
+							"antwoord" : "dit is het antwoord",
+						}
+					]
+				}
+			]
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_toegang_tot_quiz" : true,
+				"andere" : true
+			]
+		}
+		
+		
+USER KAN QUIZ INDIENEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 38,
+			"antwoordenlijst" : [
+				"vraag1" : {
+					"vraagid" : 48,
+					"antwoorden" : [
+						"antwoord1" : {
+							"antwoordid" : 83,
+							"gekozen" : true
+						},
+						"antwoord2" : {
+							"antwoordid" : 17,
+							"gekozen" : false
+						}
+					]
+				},
+				"vraag2" : {
+					"vraagid" : 18,
+					"antwoorden" : [
+						"antwoord1" : {
+							"antwoordid" : 843,
+							"gekozen" : true
+						},
+						"antwoord2" : {
+							"antwoordid" : 117,
+							"gekozen" : true
+						}
+					]
+				}
+			]
+		}
+		
+		simpele multiple choice heeft slechts 1 gekozen antwoord, dus niet ieder antwoord moet meegegeven worden als het niet gekozen is (wordt wel voorzien dat het kan)
+		indien een vraag niet beantwoord is kan een lege array van antwoorden meegegeven worden of kan je ieder antwoord op false zetten
+		multiplemultiplechoice kan meerdere hebben
+		
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"score" : 8.3
+		}
+		
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"vragen_bestaan_niet" : [
+					"vraagid1",
+					"vraagid2"
+				],
+				"antwoorden_bestaan_niet" : [
+					"antwoordid1",
+					"antwoordid2"
+				],
+				"simpele_multiplechoice_met_meerdere_antwoorden" : [
+					"vraagid1",
+					"vraagid2"
+				],
+				"andere" : true
+			]
+		}
+
+USER DOCENT KAN QUIZ STATISTIEKEN BEKIJKEN (geen persoonlijke, enkel algemeen)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 3
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"gemiddelde" : 8.2,
+			"aantal_keer_afgenomen" : 5,
+			"aantal_niet_geslaagd" : 2,
+			"aantal_geslaagd" : 3,
+			"vragen" : [
+				"vraag1" : {
+					"id" : 22,
+					"aantal_keer_juist_beantwoord" : 3,
+					"aantal_keer_niet_beantwoord" : 0,
+					"aantal_keer_gevraagd" : 5
+				},
+				"vraag2" : {
+					"id" : 93,
+					"aantal_keer_juist_beantwoord" : 3,
+					"aantal_keer_niet_beantwoord" : 0,
+					"aantal_keer_gevraagd" : 5
+				}
+			]
+		}
+
+		nog uit te breiden per periode (jaar/maand)
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_docent_van_quiz" : true,
+				"geen_vragen_in_quiz" : true,		// enkel als er nooit vragen in die quiz gezeten hebben die afgenomen zijn, als een quiz wel vragen gehad heeft die afgenomen werden dan kan dat gevonden worden via tabel afgenomenquizvragen
+				"quiz_nog_niet_afgenomen" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VRAAG STATISTIEKEN BEKIJKEN (geen persoonlijke, enkel algemeen)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 27
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vraag" : [
+				"id" : 27,
+				"aantal_keer_afgenomen" : 5,
+				"aantal_keer_niet_beantwoord" : 0,
+				"aantal_keer_juist_beantwoord" : 5,
+				"antwoorden" : [
+					"antwoord1" : {
+						"antwoordid" : 82,
+						"aantal_keer_gekozen" : 3
+					},
+					"antwoord2" : {
+						"antwoordid" : 82,
+						"aantal_keer_gekozen" : 3
+					}
+				]
+			]
+		}
+
+		antwoorden worden enkel meegegeven bij multiplemultiplechoice
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_docent_van_vraag" : true,
+				"vraag_nog_niet_afgenomen" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN HOOFDSTUK STATISTIEKEN BEKIJKEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"hoofdstukid" : 2
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"gemiddelde" : 8.2,
+			"aantal_quizzen_afgenomen" : 5,
+			"aantal_quizzen_niet_geslaagd" : 2,
+			"aantal_quizzen_geslaagd" : 3,
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"geen_docent_van_hoofdstuk" : true, // of geen_docent_van_vak
+				"nog_geen_statistieken" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN VAK STATISTIEKEN BEKIJKEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 33
+		}
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"gemiddelde" : 8.2,
+			"aantal_quizzen_afgenomen" : 5,
+			"aantal_quizzen_niet_geslaagd" : 2,
+			"aantal_quizzen_geslaagd" : 3,
+			"hoofdstukken" : [
+				"hoofdstuk1" : {
+					"id" : 28,
+					"gemiddelde" : 8.2,
+					"aantal_quizzen_afgenomen" : 5,
+					"aantal_quizzen_niet_geslaagd" : 2,
+					"aantal_quizzen_geslaagd" : 3,
+				},
+				"hoofdstuk2" : {
+					"id" : 93,
+					"gemiddelde" : 13.4,
+					"aantal_quizzen_afgenomen" : 15,
+					"aantal_quizzen_niet_geslaagd" : 12,
+					"aantal_quizzen_geslaagd" : 3,
+				}
+			],
+			"quizzen" : [
+				"quiz1" : {
+					"id" : 22,
+					"gemiddelde" : 12.3,
+					"aantal_keer_afgenomen" : 5
+				},
+				"quiz2" : {
+					"id" : 32,
+					"gemiddelde" : 10.3,
+					"aantal_keer_afgenomen" : 5
+				}
+			]
+		}
+		}
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_docent_van_vak" : true,
+				"nog_geen_statistieken" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN STUDENTENLIJST OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"opleidingid" : 6
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"studenten" : [
+				"student1" : {
+					"id" : 74,
+					"voornaam" : "een_voornaam",
+					"familienaam" : "een_familienaam",
+					"email" : "student@ema.il"
+				},
+				"student2" : {
+					"id" : 74,
+					"voornaam" : "een_voornaam",
+					"familienaam" : "een_familienaam",
+					"email" : "student@ema.il"
+				}
+			]
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"opleidingid_ongeldig" : true,
+				"opleidingid_bestaat_niet" : true,
+				"geen_studenten_in_opleiding" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN STUDENTEN AAN VAK TOEVOEGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"studentid" : 83,
+			"vakid" : 3
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_docent_van_vak" : true,
+				"studentid_ongeldig" : true,
+				"studentid_bestaat_niet" : true,
+				"student_niet_in_opleiding_van_vak" : true,
+				"andere" : true
+			]
+		}
+
+
+USER DOCENT KAN STUDENTEN VAN VAK VERWIJDEREN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"studentid" : 83,
+			"vakid" : 3
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_docent_van_vak" : true,
+				"studentid_ongeldig" : true,
+				"studentid_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+
+
+USER STUDENT KAN VRAAG AFNEMEN/DOEN VAN VAK/HOOFDSTUK (discord) (enkel van beschikbare quizzen)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 8,
+			"hoofdstukid" : 3
+		}
+
+		enkel meegeven wat van toepassing is
+
+		voor discord:
+			!vraag
+
+			van welk vak wil je een vraag?
+			emoticonQ) IT
+			emoticonZ) business
+
+			klikken op emoticonQ laat discord deze request doen met vakid dat aan die emoticon gelinkt is
+			gelijkaardig voor hoofdstuk als je na vak nog hoofdstuk vraagt
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vraag" : {
+				"id" : 33,
+				"vraag" : "dit is de vraag",
+				"multiple_multiplechoice" : true,
+				"antwoorden" : [
+					"antwoord1" : {
+						"id" : 383,
+						"antwoord" : "dit is het antwoord"
+					},
+					"antwoord2" : {
+						"id" : 183,
+						"antwoord" : "dit is het antwoord"
+					}
+				]
+			}
+		}
+
+		niet meegeven welk(e) antwoord(en) juist zijn om cheaten te vermijden
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_student_van_vak" : true,
+				"hoofdstukid_ongeldig" : true,
+				"hoofdstukid_bestaat_niet" : true,
+				"andere" : true
+			]
+		}
+	
+
+USER STUDENT (discord) KAN VRAAG INDIENEN VAN VAK/HOOFDSTUK
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraag" : {
+				"vraagid" : 33,
+				"antwoord" : [
+					"antwoord1id" : 383,
+					"antwoord2id" : 116
+				]
+			}
+		}
+
+		als geen antwoord gegeven is laat de antwoord array leeg.
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol"
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_student_van_vak_van_vraag" : true,
+				"antwoordid_ongeldig" : true,
+				"antwoordid_bestaat_niet" : true,
+				"antwoord_hoort_niet_bij_vraag" : true,
+				"andere" : true
+			]
+		}
+
+
+USER STUDENT KAN ZIJN ALGEMENE QUIZ (VAN VAK) STATISTIEKEN BEKIJKEN		
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vakid" : 45
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vak" : {
+				"id" : 45,
+				"naam" : "vaknaam",
+				"aantal_keer_een_quiz_afgenomen" : 18,
+				"aantal_beschikbare_quizzen_afgenomen" : 3,
+				"quizzen" : [
+					"quiz1" : {
+						"id" : 8,
+						"naam" : "quiznaam",
+						"aantal_keer_afgenomen" : 5,
+						"gemiddelde" : 12.3,
+						"gemiddelde_laatste_3" : 14.4,
+						"laatste_resultaat" : 18.5
+					},
+					"quiz2" : {
+						"id" : 8,
+						"naam" : "quiznaam",
+						"aantal_keer_afgenomen" : 5,
+						"gemiddelde" : 12.3,
+						"gemiddelde_laatste_3" : 14.4,
+						"laatste_resultaat" : 18.5
+					}
+				]
+			}
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vakid_ongeldig" : true,
+				"vakid_bestaat_niet" : true,
+				"geen_student_van_vak" : true,
+				"geen_afgenomen_quizzen" : true,
+				"andere" : true
+			]
+		}
+
+USER STUDENT KAN ZIJN SPECIFIEKE QUIZ STATISTIEKEN BEKIJKEN
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"quizid" : 37
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"quiz" : {
+				"id" : 37,
+				"naam" : "quiznaam",
+				"aantal_keer_afgenomen" : 5,
+				"gemiddelde" : 18.2,
+				"gemiddelde_laatste_3_keer" : 14.2,
+				"laatste_resultaat" : 10.1,
+				"vragen" : [
+					"vraag1" : {
+						"id" : 73,
+						"aantal_keer_afgenomen" : 3,
+						"aantal_keer_juist" : 2,
+						"aantal_keer_niet_beantwoord" : 0
+					},
+					"vraag2" : {
+						"id" : 43,
+						"aantal_keer_afgenomen" : 5,
+						"aantal_keer_juist" : 1,
+						"aantal_keer_niet_beantwoord" : 1
+					}
+				]
+			}
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"quizid_ongeldig" : true,
+				"quizid_bestaat_niet" : true,
+				"geen_student_van_vak_van_quiz" : true,
+				"andere" : true
+			]
+		}
+
+
+USER STUDENT KAN VRAAG STATISTIEKEN BEKIJKEN (persoonlijke)
+	REQUEST
+		{
+			"userkey" : "userkey1234",
+			"vraagid" : 38
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"vraag" : {
+				"id" : 38,
+				"vraag" : "dit is de vraag",
+				"aantal_keer_afgenomen" : 18,
+				"aantal_keer_juist" : 16,
+				"aantal_keer_niet_beantwoord" : 1
+			}
+		}
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"vraagid_ongeldig" : true,
+				"vraagid_bestaat_niet" : true,
+				"geen_student_van_vak_van_vraag" : true,
+				"vraag_nog_niet_afgenomen" : true,
+				"andere" : true
+			]
+		}
+
+
+USER KAN SCORES VAN ZIJN AFGENOMEN/GEDANE QUIZZEN OPVRAGEN
+	REQUEST
+		{
+			"userkey" : "userkey1234"
+		}
+
+	RESPONSE SUCCESS
+		{
+			"success" : true,
+			"eigenrol" : "rol",
+			"quizzen" : [
+				"quiz1" : {
+					"vakid" : 3,
+					"hoofdstukid" : 17,
+					"afgenomenquizid" : 388,
+					"quizid" : 33,
+					"quiznaam" : "een_naam",
+					"score" : 5.8,
+					"timestamp" : "eentimestamp"
+				},
+				"quiz2" : {
+					"vakid" : 4,
+					"hoofdstukid" : 2,
+					"afgenomenquizid" : 390,
+					"quizid" : 43,
+					"quiznaam" : "een_naam",
+					"score" : 15.2,
+					"timestamp" : "eentimestamp"
+				}
+			]
+		}
+
+		een quiz kan meerdere keren afgenomen geweest zijn, en kan dus meerdere keren in deze lijst verschijnen, we tonen die allemaal want die zijn uniek
+		sorteren kan "clientside" (bv webserver) gebeuren op wa ge ma wilt, op vak, op hoofdstuk, op quiz, op timestamp, op quiznaam, op score, ...
+
+	RESPONSE FAIL
+		{
+			"success" : false,
+			"error" : [
+				"rechten_ongeldig" : true,
+				"geen_quizzen_afgenomen" : true,
+				"andere" : true
+			]
+		}
+
