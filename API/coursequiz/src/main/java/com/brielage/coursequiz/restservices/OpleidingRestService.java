@@ -49,10 +49,6 @@ public class OpleidingRestService {
 
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
-            Map fouten = new LinkedHashMap();
-
-            // LOG
-            logger.info("\njsonOpleiding:" + jsonOpleiding.toString());
 
             //TODO validate name?
 
@@ -92,9 +88,6 @@ public class OpleidingRestService {
 
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
-
-            // LOG
-            logger.info("\njsonOpleiding:" + jsonOpleiding.toString());
 
             if (!doesUserHaveRights(jsonOpleiding.getUserkey()))
                 return APIResponse.respond(false, "rechten_ongeldig");

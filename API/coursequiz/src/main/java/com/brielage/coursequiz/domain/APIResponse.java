@@ -14,7 +14,6 @@ public enum APIResponse {
     INSTANCE;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static JsonResponse jsonResponse;
 
     public static String respond(boolean success) throws JsonProcessingException {
         if (success) return INSTANCE.output(new JsonResponse(true));
