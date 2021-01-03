@@ -278,6 +278,7 @@ USER ADMIN KAN OPLEIDING AANMAKEN
 			]
 		}
 
+api.brielage.com:8081/opleiding/remove/
 USER ADMIN KAN OPLEIDING VERWIJDEREN
 	REQUEST
 		{
@@ -298,6 +299,7 @@ USER ADMIN KAN OPLEIDING VERWIJDEREN
 				"rechten_ongeldig" : true,
 				"opleidingid_ongeldig" : true,
 				"opleidingid_bestaat_niet" : true,
+				"opleiding_heeft_nog_studenten" : true,
 				"andere" : true
 			]
 		}

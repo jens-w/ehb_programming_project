@@ -2,6 +2,7 @@ package com.brielage.coursequiz.controllers;
 
 import com.brielage.coursequiz.restservices.OpleidingRestService;
 import com.brielage.coursequiz.services.OpleidingService;
+import com.brielage.coursequiz.services.StudentService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 
@@ -18,19 +19,23 @@ public class OpleidingRestController {
     private final UserService userService;
     private final UserRolService userRolService;
     private final OpleidingService opleidingService;
+    private final StudentService studentService;
 
     private final OpleidingRestService opleidingRestService;
 
     public OpleidingRestController(UserService userService,
                                    UserRolService userRolService,
-                                   OpleidingService opleidingService) {
+                                   OpleidingService opleidingService,
+                                   StudentService studentService) {
         this.userService = userService;
         this.userRolService = userRolService;
         this.opleidingService = opleidingService;
+        this.studentService = studentService;
         this.opleidingRestService = new OpleidingRestService(
                 userService,
                 userRolService,
-                opleidingService
+                opleidingService,
+                studentService
         );
     }
 
@@ -39,5 +44,12 @@ public class OpleidingRestController {
             produces = "application/json")
     public String createOpleiding(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
         return opleidingRestService.createOpleiding(jsonNode);
+    }
+
+    @PostMapping(value = "/remove",
+            consumes = "application/json",
+            produces = "application/json")
+    public String removeOpleiding(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+        return opleidingRestService.removeOpleiding(jsonNode);
     }
 }

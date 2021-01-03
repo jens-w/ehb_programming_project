@@ -1,13 +1,13 @@
 package com.brielage.coursequiz.restservices;
 
+import com.brielage.coursequiz.domain.APIResponse;
 import com.brielage.coursequiz.domain.JsonOpleiding;
 import com.brielage.coursequiz.domain.Opleiding;
-import com.brielage.coursequiz.domain.ResponseLogger;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.User;
 import com.brielage.coursequiz.domain.UserRol;
-import com.brielage.coursequiz.restresponses.JsonResponse;
 import com.brielage.coursequiz.services.OpleidingService;
+import com.brielage.coursequiz.services.StudentService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 
@@ -28,21 +28,24 @@ public class OpleidingRestService {
     private final UserService userService;
     private final UserRolService userRolService;
     private final OpleidingService opleidingService;
+    private final StudentService studentService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public OpleidingRestService(UserService userService,
                                 UserRolService userRolService,
-                                OpleidingService opleidingService) {
+                                OpleidingService opleidingService,
+                                StudentService studentService) {
         this.userService = userService;
         this.userRolService = userRolService;
         this.opleidingService = opleidingService;
+        this.studentService = studentService;
     }
 
     public String createOpleiding(JsonNode jsonNode) throws JsonProcessingException {
         // LOG
-        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+        logRequest(jsonNode.toPrettyString());
 
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
@@ -53,94 +56,113 @@ public class OpleidingRestService {
 
             //TODO validate name?
 
-            List<User> userListByUserkey = userService.findByUserkey(jsonOpleiding.getUserkey());
+            if (!doesUserHaveRights(jsonOpleiding.getUserkey()))
+                return APIResponse.respond(false, "rechten_ongeldig");
 
-            if (userListByUserkey.size() != 1) {
-                fouten.put("andere", true);
-                JsonResponse jsonResponse = new JsonResponse(false, fouten);
+            if (jsonOpleiding.getOpleidingnaam().isEmpty())
+                return APIResponse.respond(false, "opleidingnaam_leeg");
 
-                // LOG
-                ResponseLogger.logJsonResponse(jsonResponse);
-
-                return objectMapper.writeValueAsString(jsonResponse);
-            }
-
-            Optional<UserRol> optionalUserRol = userRolService.findByUserId(userListByUserkey.get(0).getId());
-
-            if (optionalUserRol.isEmpty()) {
-                fouten.put("andere", true);
-                JsonResponse jsonResponse = new JsonResponse(false, fouten);
-
-                // LOG
-                ResponseLogger.logJsonResponse(jsonResponse);
-
-                return objectMapper.writeValueAsString(jsonResponse);
-            }
-
-            Rol rol = optionalUserRol.get().getRol();
-
-            if (rol != Rol.ADMIN && rol != Rol.DOCENT) {
-                fouten.put("rechten_ongeldig", true);
-                JsonResponse jsonResponse = new JsonResponse(false, fouten);
-
-                // LOG
-                ResponseLogger.logJsonResponse(jsonResponse);
-
-                return objectMapper.writeValueAsString(jsonResponse);
-            }
-
-            if (jsonOpleiding.getOpleidingnaam().isEmpty()) {
-                fouten.put("opleidingnaam_leeg", true);
-                JsonResponse jsonResponse = new JsonResponse(false, fouten);
-
-                // LOG
-                ResponseLogger.logJsonResponse(jsonResponse);
-
-                return objectMapper.writeValueAsString(jsonResponse);
-            }
-
-            List<Opleiding> opleidingListByNaam = opleidingService.findByNaam(jsonOpleiding.getOpleidingnaam());
-
-            if (opleidingListByNaam.size() > 0) {
-                fouten.put("opleidingnaam_bestaat_al", true);
-                JsonResponse jsonResponse = new JsonResponse(false, fouten);
-
-                // LOG
-                ResponseLogger.logJsonResponse(jsonResponse);
-
-                return objectMapper.writeValueAsString(jsonResponse);
-            }
+            if (doesOpleidingExist(0, jsonOpleiding.getOpleidingnaam()))
+                return APIResponse.respond(false, "opleidingnaam_bestaat_al");
 
             Opleiding opleiding = new Opleiding(jsonOpleiding.getOpleidingnaam());
             opleidingService.create(opleiding);
-            JsonResponse jsonResponse = new JsonResponse(true);
 
-            // LOG
-            ResponseLogger.logJsonResponse(jsonResponse);
-
-            return objectMapper.writeValueAsString(jsonResponse);
+            return APIResponse.respond(true);
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
-            Map fouten = new LinkedHashMap();
-            fouten.put("veld_ongeldig", e.getPropertyName());
-
             // LOG
             logger.error("\n" + e.getMessage());
-            ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
-            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            return APIResponse.respond(false, "veld_ongeldig");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
 
-            Map fouten = new LinkedHashMap();
-            fouten.put("andere", true);
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
+    }
+
+    public String removeOpleiding(JsonNode jsonNode) throws JsonProcessingException {
+        // LOG
+        logRequest(jsonNode.toPrettyString());
+
+        try {
+            JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
 
             // LOG
-            logger.info("\n" + e.getMessage());
-            ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
+            logger.info("\njsonOpleiding:" + jsonOpleiding.toString());
 
-            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            if (!doesUserHaveRights(jsonOpleiding.getUserkey()))
+                return APIResponse.respond(false, "rechten_ongeldig");
+
+            Optional<Opleiding> optionalOpleiding = opleidingService.findById(jsonOpleiding.getId());
+
+            Map errors = new LinkedHashMap();
+
+            if (optionalOpleiding.isEmpty())
+                return APIResponse.respond(false, "opleiding_id_bestaat_niet");
+
+            Opleiding opleiding = optionalOpleiding.get();
+
+            if (!studentService.findByOpleidingId(opleiding.getId()).isEmpty())
+                return APIResponse.respond(false, "opleiding_heeft_nog_studenten");
+
+            try {
+                opleidingService.remove(opleiding);
+                return APIResponse.respond(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                // LOG
+                logger.error("\n" + e.getMessage());
+
+                return APIResponse.respond(false, "andere");
+            }
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "veld_ongeldig");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
+    }
+
+    public void logRequest(String s) {
+        logger.info("\nrequest:\n" + s);
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean doesUserHaveRights(String userkey) {
+        List<User> userListByUserkey = userService.findByUserkey(userkey);
+        if (userListByUserkey.size() != 1) return false;
+
+        Optional<UserRol> optionalUserRol = userRolService.findByUserId(userListByUserkey.get(0).getId());
+        if (optionalUserRol.isEmpty()) return false;
+
+        Rol rol = optionalUserRol.get().getRol();
+
+        return rol == Rol.ADMIN || rol == Rol.DOCENT;
+    }
+
+    public boolean doesOpleidingExist(long id, String opleidingnaam) {
+        if (id > 0) {
+            Optional<Opleiding> optionalOpleiding = opleidingService.findById(id);
+            return optionalOpleiding.isPresent();
+        } else {
+            List<Opleiding> opleidingListByNaam = opleidingService.findByNaam(opleidingnaam);
+            return opleidingListByNaam.size() > 0;
         }
     }
 }

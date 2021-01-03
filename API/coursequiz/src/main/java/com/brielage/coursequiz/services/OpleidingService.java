@@ -12,5 +12,7 @@ public interface OpleidingService {
 
     void create(Opleiding opleiding);
 
+    void remove(Opleiding opleiding);
+
     List<Opleiding> findByNaam(String naam);
 }

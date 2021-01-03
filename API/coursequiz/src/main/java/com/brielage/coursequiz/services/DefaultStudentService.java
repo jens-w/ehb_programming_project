@@ -27,4 +27,9 @@ public class DefaultStudentService
     public Optional<Student> findById(long id) {
         return studentRepository.findById(id);
     }
+
+    @Override
+    public List<Student> findByOpleidingId(long opleidingid) {
+        return studentRepository.findByOpleidingId(opleidingid);
+    }
 }
