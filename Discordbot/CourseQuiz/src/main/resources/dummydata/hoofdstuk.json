@@ -1,0 +1,28 @@
+[
+  {
+    "id":"1",
+    "titel": "ServerOsHoofdstuk1",
+    "nummer":"1",
+    "vakId": "1"
+  },
+
+  {
+    "id":"2",
+    "titel": "ServerOsHoofdstuk2",
+    "nummer":"2",
+    "vakId": "1"
+  },
+
+  {
+    "id":"3",
+    "titel": "ItEssentialsHoofdstuk1",
+    "nummer":"1",
+    "vakId": "2"
+  },
+  {
+    "id":"4",
+    "titel": "BusinessFrenchHoofdstuk1",
+    "nummer":"1",
+    "vakId": "3"
+  }
+]
