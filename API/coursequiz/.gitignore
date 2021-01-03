@@ -1,0 +1,39 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### my own debugging ###
+/src/main/java/com/brielage/coursequiz/controllers/TestRestController*
+/src/main/java/com/brielage/coursequiz/controllers/TestController*
+/src/main/java/com/brielage/coursequiz/restservices/TestRestService*
+/src/main/java/com/brielage/coursequiz/restservices/TestService*
