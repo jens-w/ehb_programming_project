@@ -358,7 +358,7 @@ USER ADMIN/DOCENT KAN STUDENTEN VERWIJDEREN VAN OPLEIDING
 
 		enkel meegeven wat van toepassing is
 
-
+api.brielage.com:8081/vak/list/
 USER ADMIN KAN VAKKENLIJST OPVRAGEN
 	REQUEST
 		{
@@ -496,7 +496,7 @@ USER ADMIN KAN VAKKEN TOEWIJZEN (student/docent)
 			]
 		}
 
-
+api.brielage.com:8081/vak/list/
 USER KAN VAKKENLIJST OPVRAGEN
 	REQUEST
 		{
