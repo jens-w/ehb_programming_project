@@ -1,61 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Vakken;
+namespace App\Http\Controllers\Courses;
 
 
 use Illuminate\Http\Request;
-use \App\Models\Users\Student;
-use \App\Models\Users\Teacher;
+use \App\Models\Users\Docent;
 use \App\Models\Users\Admin;
 use \App\Models\Users\User;
-use App\Models\Vakken\Hoofdstuk;
+use \App\Models\Users\Student;
+use \App\Models\Users\UserTemp;
+use \App\Models\Courses\Course;
+use \App\Models\Vakken\Vak;
+use Illuminate\Support\Facades\DB;
 use View;
 use Session;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Redirect;
 use Illuminate\Support\Facades\Http;
 
 
-class VakkenController extends \App\Http\Controllers\Controller
+class CourseController extends \App\Http\Controllers\Controller
 {
 
-    public function index()
-    {
-        // request naar api ( momenteel is dit onze dummy data, onze lokale user storage dus)
-        $AccountViewModel = new User();  
-        // check wether you have a session active  
-        if(!Session::has('userData')){
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
-        }
-        // if not, get the data and create model
-        $sessionData = Session::get('userData');
-        //encode request to proper json
-        $decodedAsArray = json_encode($sessionData, true);
-        //decode request to proper array (thats why second param. = true !!)
-        $result = json_decode($decodedAsArray, true);
-        $AccountViewModel->forceFill($result);
-        return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel',$AccountViewModel);
-    }
-
-
-    public function GetHoofdstukken($userkey, $vakId){
+public static function GetCoursesList($userkey, $type){
         $response = '
         {
 			"success" : true,
-			"eigenrol" : "rol",
-			"hoofdstukken" : {
-				"hoofdstuk1" : {
-					"id" : 38,
-					"nummer" : "3.2",
-					"titel" : "titel"
+			"eigenrol" : "docent",
+			"opleidingen" : {
+				"opleiding1" : {
+					"id" : 3,
+					"naam" : "opleiding_naam"
 				},
-				"hoofdstuk2" : {
-					"id" : 42,
-					"nummer" : "3.3",
-					"titel" : "titel"
+				"opleiding2" : {
+					"id" : 4,
+					"naam" : "opleiding_naam"
 				}
 			}
-		}';
+        }';
         
 
         $decodedArray = json_decode($response, true);
@@ -71,7 +52,11 @@ class VakkenController extends \App\Http\Controllers\Controller
                         $sessionData = Session::get('userData');
                         //decode request to proper object (thats why second param. = true !!)
                         //$result = json_encode( $sessionData, true);
-                        $AccountViewModel = new User();
+                        if ($type == 'docent') {
+                            $AccountViewModel = new Docent();
+                        } else {
+                            $AccountViewModel = new Admin();
+                        }
                         $AccountViewModel->fill($sessionData);
                         // loop over the rest of the key values
                         foreach ($decodedArray as $keyInner => $outputInner) {
@@ -80,14 +65,14 @@ class VakkenController extends \App\Http\Controllers\Controller
                                     $AccountViewModel->type = $outputInner;
                                     break;
                                 case 'opleidingen':
-                                    $hoofdstukList = [];
+                                    $coursesList = [];
                                     foreach ($outputInner as $key => $out) {
                                         // define vak with class - init the var.
-                                        $hoofdstuk = new Hoofdstuk();
+                                        $opleiding = new Course();
                                         // fill the object (opleiding) with the array data
-                                        $hoofdstuk->fill($out);
+                                        $opleiding->fill($out);
                                         // add each 'opleiding' to an array
-                                        $hoofdstukList[] = $hoofdstuk;
+                                        $coursesList[] = $opleiding;
                                     }
 
                                     break;
@@ -101,15 +86,15 @@ class VakkenController extends \App\Http\Controllers\Controller
                         }
                         // put user data in session called 'userData'
                         Session::put('userData', $AccountViewModel);
-                        Session::put('hoofdstukList', hoofdstukList);
+                        Session::put('coursesList', $coursesList);
                         // save the session
                         Session::save();
                     }
                     break;
             }
         }
-        return $hoofdstukList;
+        return $coursesList;
+
     }
-
-
 }
+    

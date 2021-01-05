@@ -4,25 +4,25 @@ namespace App\Http\Controllers\AccountBeheer;
 
 
 use Illuminate\Http\Request;
-use \App\Models\Users\Student;
-use \App\Models\Users\Teacher;
+use \App\Models\Users\Docent;
 use \App\Models\Users\Admin;
 use \App\Models\Users\User;
+use \App\Models\Users\Student;
+use \App\Models\Users\UserTemp;
+use \App\Models\Courses\Course;
 use \App\Models\Vakken\Vak;
+use \App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use View;
-use Illuminate\Support\Collection;
 use Session;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Redirect;
 use Illuminate\Support\Facades\Http;
-use PhpParser\Node\Expr\List_;
 
-class AccountBeheerController extends \App\Http\Controllers\Controller
+
+class AccountBeheerController extends BaseController
 {
-
+        
+    
     public function index()
     {
 
@@ -34,48 +34,125 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
 
         // if not, get the data and create model
         $sessionData = Session::get('userData');
+        // init cour
         //decode request to proper object (thats why second param. = true !!)
         //$result = json_encode( $sessionData, true);
         $AccountViewModel = new User();
         $AccountViewModel->fill($sessionData);
+        $lowerCaseType = strtolower($AccountViewModel->type);
+        switch ($lowerCaseType) {
+            case "admin":
+                $admin = new Admin();
+                $admin->fill($AccountViewModel);
+                $admin->userList = Self::GetUserList($admin->userKey, 'admin');
+                // enkel admin kan courses zien
+                $admin->coursesList = $this->courseService::GetCoursesList($admin->userKey, 'admin');
+                return view('AccountBeheer/Gegevens.Overview_Admin')->with('AccountViewModel', $admin);
+                break;
+            case 'docent':
+                $docent = new Docent();
+                $docent->fill($AccountViewModel);
+                $docent->userList = Self::GetUserList($docent->userKey, 'docent');
+                $docent->coursesList = $this->courseService::GetCoursesList($docent->userKey, 'docent');
+                return view('AccountBeheer/Gegevens.Overview_Docent')->with('AccountViewModel', $docent);
+                break;
+            case "student":
+                $student = new Student();
+                $student -> fill($student);
+                
+                return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
+                break;
+        }
+        // fallback
         return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
     }
 
-    public function GetJsonDummyDataAccount()
+    public function GetUserList($userKey, $type)
     {
-        // creeër dummy data ( parsen naar Json )
-        $loggedInUser = session()->get('dataUser')->toJson();
-        return $loggedInUser;
+        // link voor api
+        /* $response = Http::post('URL HERE',  [
+               'userkey' => $userKey]
+            ); */
+
+        $response = '{
+			"success" : true,
+			"eigenrol" : "Docent",
+			"users" : {
+				"user1" : {
+					"id" : 38,
+					"voornaam" : "een_voornaam",
+					"familienaam" : "een_familienaam",
+					"email" : "een@ema.il",
+					"rol" : "student"
+				},
+				"user2" : {
+					"id" : 12,
+					"voornaam" : "een_voornaam",
+					"familienaam" : "een_familienaam",
+					"email" : "een@ema.il",
+					"rol" : "docent"
+				}
+			}
+        }';
+
+        $decodedArray = json_decode($response, true);
+        foreach ($decodedArray as $key => $output) {
+            switch ($key) {
+                case 'success':
+                    if (!boolval($output)) {
+                        foreach ($decodedArray as $key => $output) {
+                            if ($key === 'errors') { }
+                        }
+                    } else {
+                        // if not, get the data and create model
+                        $sessionData = Session::get('userData');
+                        //decode request to proper object (thats why second param. = true !!)
+                        //$result = json_encode( $sessionData, true);
+                        if ($type == 'docent') {
+                            $AccountViewModel = new Docent();
+                        } else {
+                            $AccountViewModel = new Admin();
+                        }
+                        $AccountViewModel->fill($sessionData);
+                        // loop over the rest of the key values
+                        foreach ($decodedArray as $keyInner => $outputInner) {
+                            switch ($keyInner) {
+                                case 'eigenrol':
+                                    $AccountViewModel->type = $outputInner;
+                                    break;
+                                case 'users':
+                                    $userList = [];
+                                    foreach ($outputInner as $key => $out) {
+                                        // define vak with class - init the var.
+                                        $user = new UserTemp();
+                                        // fill the object (vak) with the array data
+                                        $user->fill($out);
+                                        // add each 'vak' to an array called 'vakkenList'
+                                        $userList[] = $user;
+                                    }
+
+                                    break;
+                            }
+                        }
+                        if (Session::has('userData')) {
+                            Session::forget('userData');
+                        }
+                        if (Session::has('userListForCourse')) {
+                            Session::forget('userListForCourse');
+                        }
+                        // put user data in session called 'userData'
+                        Session::put('userData', $AccountViewModel);
+                        Session::put('userListForCourse', $userList);
+                        // save the session
+                        Session::save();
+                    }
+                    break;
+            }
+        }
+        return $userList;
     }
 
-
-    public function GetAccountInfo(Request $request)
-    {
-        /* get dummy data -> this will be replaced with api response ----------
-        $response = Http::get('api.brielage.com:8088/user/something/')->json(); */
-
-        // SELF:: is needed when calling methods within same controller!
-        $response = Self::GetJsonDummyDataAccount();
-
-        // retrieve request, parse to json 
-        // getData() = removes header information from reques, BELANGERIJK!
-        $rawJson = response()->json($request->all())->getData();
-
-        //encode request to proper json
-        $decodedAsArray = json_encode($response, true);
-        //decode request to proper array (thats why second param. = true !!)
-        $result = json_decode($decodedAsArray, true);
-        // we use 'request' as param since the main 'node' of our requested json in this istance is 'request'
-        // request example: {request : { "id" : "1" , "naam" : "michael"}}...
-        // $innerPost = $result['user'];
-
-        // create user object based on given array and its attributes
-        $user = new User();
-        $user->forceFill($result);
-
-        // return view 
-        return View::make('AccountBeheer/Gegevens.AccountInfo')->with('AccountViewModel', $user);
-    }
+ 
 
     public function NewUserKey(Request $request)
     {
@@ -99,13 +176,16 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
                     break;
                 case 'userkey':
                     $AccountViewModel->userKey = $output;
+                    if (Session::has('userData')) {
+                        Session::forget('userData');
+                    }
                     // put user data in session called 'userData'
                     Session::put('userData', $AccountViewModel);
                     Session::Save();
-                    return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
                     break;
             }
         }
+        return Redirect::back();
 
         //return Redirect::Back();
     }
@@ -122,8 +202,9 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
         $upPassword = $request->input('password');
 
         // retrieve user from db based on input email
-        $user = DB::table('users')->where('email', $request->input('email'))->first();
         $user = DB::table('users')->where('email', 'michaelbracke@hotmail.com')->first();
+        //$user = DB::table('users')->where('email', $request->input('email'))->first();
+        //$user = DB::table('users')->where('email', 'michaelbracke@hotmail.com')->first();
         // if user exists
         if ($user != null) { // create md5 hashing appended with salt retrieved from local db
             $hashedPassword = md5($upPassword . $user->salt);
@@ -141,82 +222,80 @@ class AccountBeheerController extends \App\Http\Controllers\Controller
             "password" =>  $hashedPassword
         ]);
 
-        $decodedArray = json_decode($response, true);
 
 
-        function genUserForSession($apiResponse)
-        {
-            $decodedArray = json_decode($apiResponse, true);
-            foreach ($decodedArray as $key => $output) {
-                switch ($key) {
-                    case 'success':
-                        if (!boolval($output)) {
-                            foreach ($decodedArray as $key => $output) {
-                                if ($key === 'errors') { }
-                            }
-                        } else {
-                            $user = new User();
-                            // loop over the rest of the key values
-                            foreach ($decodedArray as $keyInner => $outputInner) {
-                                switch ($keyInner) {
-                                    case 'voornaam':
-                                        $user->voornaam = $outputInner;
-                                        break;
-                                    case 'familienaam':
-                                        $user->familienaam = $outputInner;
-                                        break;
-                                    case 'email':
-                                        $user->email = $outputInner;
-                                        break;
-                                    case 'avatarpad':
-                                        break;
-                                    case 'eigenrol':
-                                        break;
-                                    case 'opleiding':
-                                        foreach ($output as $key => $innerOutput) { }
-                                        break;
-                                    case 'vakken':
-                                        $vakkenList = [];
-                                        foreach ($outputInner as $key => $out) {
-                                            // define vak with class - init the var.
-                                            $vak = new Vak();
-                                            // fill the object (vak) with the array data
-                                            $vak->fill($out);
-                                            // add each 'vak' to an array called 'vakkenList'
-                                            $vakkenList[] = $vak;
-                                        }
-                                        $user->vakken = $vakkenList;
-                                        break;
-                                    case 'userkey':
-                                        $user->userKey = $output;
-                                        break;
-                                    case 'rol':
-                                        $user->type = $output;
-                                        break;
-                                }
-                            }
-                            // put user data in session called 'userData'
-                            Session::put('userData', $user);
-                            // save the session
-                            Session::save();
-                           
-                        }
-                        break;
-                }
-            }
-        }
-
-        return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
-
-
-        // set sql statement
-        $sql = "UPDATE users SET voornaam=?, email=? WHERE Id= ?";
-        DB::update($sql, array($upFirstName, $upEmail, $user->id));
+        Self::genUserForSession($response);
 
         // return redirect with error messages containing
         // I use an array to be send with the messages, first value is the 'style classe' to be used, second value is the actual value of the msg
         return Redirect::back()->withErrors(['Succesvol ge-updated!']);
     }
+
+    function genUserForSession($apiResponse)
+    {
+        $decodedArray = json_decode($apiResponse, true);
+        foreach ($decodedArray as $key => $output) {
+            switch ($key) {
+                case 'success':
+                    if (!boolval($output)) {
+                        foreach ($decodedArray as $key => $output) {
+                            if ($key === 'errors') { }
+                        }
+                    } else {
+                        $user = new User();
+                        // loop over the rest of the key values
+                        foreach ($decodedArray as $keyInner => $outputInner) {
+                            switch ($keyInner) {
+                                case 'voornaam':
+                                    $user->voornaam = $outputInner;
+                                    break;
+                                case 'familienaam':
+                                    $user->familienaam = $outputInner;
+                                    break;
+                                case 'email':
+                                    $user->email = $outputInner;
+                                    break;
+                                case 'avatarpad':
+                                    break;
+                                case 'rol':
+                                    $user->type = $outputInner;
+                                    break;
+                                case 'opleiding':
+                                    foreach ($output as $key => $innerOutput) { }
+                                    break;
+                                case 'vakken':
+                                    $vakkenList = [];
+                                    foreach ($outputInner as $key => $out) {
+                                        // define vak with class - init the var.
+                                        $vak = new Vak();
+                                        // fill the object (vak) with the array data
+                                        $vak->fill($out);
+                                        // add each 'vak' to an array called 'vakkenList'
+                                        $vakkenList[] = $vak;
+                                    }
+                                    $user->vakken = $vakkenList;
+                                    break;
+                                case 'userkey':
+                                    $user->userKey = $output;
+                                    break;
+                                case 'rol':
+                                    $user->type = $output;
+                                    break;
+                            }
+                        }
+                        if (Session::has('userData')) {
+                            Session::forget('userData');
+                        }
+                        // put user data in session called 'userData'
+                        Session::put('userData', $user);
+                        // save the session
+                        Session::save();
+                    }
+                    break;
+            }
+        }
+    }
+
 
 
     public function TestApiRequest()

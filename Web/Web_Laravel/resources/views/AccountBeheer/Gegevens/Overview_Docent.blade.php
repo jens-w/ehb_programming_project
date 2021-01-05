@@ -29,7 +29,7 @@
 </div>
 
 <div id="AccountInfo" class="my-5">
-  @include('AccountBeheer/Gegevens.AccountInfo')
+  @include('AccountBeheer/Gegevens.AccountInfo_Docent')
 </div>
 @endsection
 

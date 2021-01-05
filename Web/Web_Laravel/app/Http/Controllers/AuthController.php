@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use Validator, Redirect, Response;
 
 use App\Models\Users\User;
-use App\Models\Users\UserList;
-use App\Models\Users\Leraar; // USE USER MODELS
+use App\Models\Users\Admin;
+use App\Models\Users\Docent;
+use App\Models\Users\Student;
+
 
 use App\Models\Vakken\Vak;
 use App\Models\Vakken\VakkenList;
@@ -40,7 +42,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Session::forget('userData');
+        session()->flush();
         return view('home');
     }
 
@@ -58,21 +60,21 @@ class AuthController extends Controller
 
         // UNCOMMENT REQUEST TO API WHEN DONE TESTING 
 
-        /*try to login with email & hashed ( password + salt ) */
+        /*try to login with email & hashed ( password + salt ) 
         $response = Http::post('http://api.brielage.com:8081/user/login/', [
             /*'email' => $request->input('email'),
-            'password' => $hashedPassword, */
+            'password' => $hashedPassword, 
             'email' => 'ldebacker@sky.net',
             'password' => 'abc12345'
-        ]);
-        /*
+        ]); */
+ 
         $response = '{
             "success" : true,
             "userkey" : "def456",
             "voornaam" : "Jos",
             "familienaam" : "Dewolf",
             "email": "jos@live.be",
-            "eigenrol":"hahaha",
+            "eigenrol":"Admin",
             "opleiding" : {
                 "id" : 1,
                 "naam": "testopleiding"
@@ -90,7 +92,7 @@ class AuthController extends Controller
 
             }
         }';
-        */
+
 
         //  serialize data
         // 'true' parameter zorgt ervoor om een array terug te geven ipv een object
@@ -103,7 +105,7 @@ class AuthController extends Controller
 
         // check response 
         foreach ($decodedArray as $key => $output) {
-            if ($key === 'sussccess') {
+            if ($key === 'success') {
                 if (boolval($output)) { //true, login succesfull in api
                     // create user
                     $user = new User();
@@ -121,14 +123,17 @@ class AuthController extends Controller
                                 break;
                             case 'avatarpad':
                                 break;
-                            case 'eigenrol':
+                            case 'rol':
+                                $user->type = $output;
                                 break;
                             case 'opleiding':
+                                /* LOGICA OM OPLEIDINGEN TOE TE VOEGEN
                                 foreach ($output as $key => $innerOutput) { }
+                                 */
                                 break;
                             case 'vakken':
                                 $vakkenList = [];
-                                foreach($output as $key => $out){
+                                foreach ($output as $key => $out) {
                                     // define vak with class - init the var.
                                     $vak = new Vak();
                                     // fill the object (vak) with the array data
@@ -138,28 +143,54 @@ class AuthController extends Controller
                                 }
                                 $user->vakken = $vakkenList;
                                 break;
-                            case 'userkey' : 
-                                    $user->userKey = $output;
-                                  break;
-                            case 'eigenrol' : 
-                                    $user->type= $output;
+                            case 'userkey':
+                                $user->userKey = $output;
+                                break;
+                            case 'eigenrol':
+                                $user->type = $output;
                         }
                     }
-                    // put user data in session called 'userData'
-                    Session::put('userData', $user);
-                    // save the session
-                    Session::save();
-                    return View::make('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
+
+                    $lowerCaseType = strtolower($user->type);
+                    switch ($lowerCaseType) {
+                        case "admin":
+                            $admin = new Admin();
+                            $admin->fill($user);
+                            // put user data in session called 'userData'
+                            // any other param here
+                            Session::put('userData', $admin);
+                            // save the session
+                            Session::save();                           
+                            return redirect()->route('accountBeheer');
+                            break;
+                        case "docent":
+                            $docent = new Docent();
+                            $docent->fill($user);
+                            // put user data in session called 'userData'
+                            // any other param here
+                            Session::put('userData', $docent);
+                            // save the session
+                            Session::save();
+                            return redirect()->route('accountBeheer');
+                            break;
+                        case "student":                            
+                            // any other param here
+                            // put user data in session called 'userData'
+                            Session::put('userData', $user);
+                            // save the session
+                            Session::save();
+                            return redirect()->route('accountBeheer');
+                            break;
+                    }
+                    // fallback
+                    return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $user);
                 } else { // success is false -> login failed
                     return View::make('test/test')->with('testResponse',  $decodedArray);
                     return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
                 }
-
             }
         }
+
        
-        return View::make('test/test')->with('testResponse',  $decodedArray);
-        // fall back 
-        return View::make('test/test')->with('testResponse',  'Error: End of line auth');
     }
 }

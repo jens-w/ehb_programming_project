@@ -66,22 +66,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="type" class="col-md-4 col-form-label text-md-right">Type</label>
-
-                <div class="col-md-6">
-                    <select id="type" name="type">
-                        <option value="1">Student</option>
-                        <option value="2" selected="selected">Teacher</option>
-                    </select>
-                    @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-            </div>
-
+            
             <div class="form-group row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 

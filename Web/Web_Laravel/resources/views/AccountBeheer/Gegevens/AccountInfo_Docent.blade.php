@@ -1,5 +1,4 @@
 <div class="account-info-wrapper">
-
     <div class="container">
         <div class="row">
             <!-- tab links -->
@@ -9,7 +8,10 @@
                         <a data-toggle="tab" class="d-flex" href="#AccountInfoTab"><i class="far fa-user"></i><span>Account Gegegevens</span></a>
                     </li>
                     <li class="d-flex align-items-center">
-                        <a data-toggle="tab" class="d-flex" href="#AccountCourses"><i class="fas fa-book-open"></i><span>Vakken</span></a>
+                        <a data-toggle="tab" class="d-flex" href="#UserList"><i class="fas fa-users"></i></i><span>Gebruikers</span></a>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <a data-toggle="tab" class="d-flex" href="#QuizzesList"><i class="fas fa-book-open"></i><span>Quizzen</span></a>
                     </li>
                 </ul>
             </div>
@@ -111,18 +113,26 @@
                         <button type="update" class="btn btn-dark">Refresh Key</button>
                         {{ Form::close() }}
                     </div>
-                    <div class="tab-pane fade" id="AccountCourses">
+                    <div class="tab-pane fade" id="UserList">
                         <div class="row">
-                            @foreach($AccountViewModel->vakken as $vak)
-                            @include('AccountBeheer/Gegevens/partials._vak')
-                            @endforeach
+                            <div class="col-12">
+                                <div class="userListWrapper">
+                                    @foreach($AccountViewModel->userList as $user)
+                                    @include('AccountBeheer/Gegevens/partials._user')
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="VakDetail">
+                    <div class="tab-pane fade" id="QuizzesList">
                         <div class="row">
-                            @foreach($AccountViewModel->vakken as $vak)
-                            @include('AccountBeheer/Gegevens/partials._vak')
-                            @endforeach
+                            <div class="col-12">
+                                <div class="userListWrapper">
+                                    @foreach($AccountViewModel->coursesList as $course)
+                                    @include('AccountBeheer/Gegevens/partials._course')
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

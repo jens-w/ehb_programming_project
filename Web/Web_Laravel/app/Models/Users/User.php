@@ -14,9 +14,11 @@ class User
     public $familienaam;
     public $password;
     public $type;
-    public $vakken;
-    public $opleiding;
     public $userKey;
+    public $vakken;
+    public $QuizzesList;
+    
+
 
     public function __construct(VakkenList ...$vakken)
     {
@@ -30,7 +32,7 @@ class User
         $this-> password = $user -> password;
         $this-> type = $user -> type;
         $this-> vakken = $user -> vakken;
-        $this-> opleiding = $user -> opleiding;
+        $this-> userKey = $user -> userKey;
     }
 }
 
@@ -53,17 +55,11 @@ function PrintThings(ThingList $list)
 
 
 
-    /*
-     * The attributes that should be cast to native types. 
-     *
-     * @var array
-     *
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    
+ 
 
     // setter - its SetFooAttribute ( where Foo is the name of the column from the attribute )
-    public function SettypeAttribute($value){
+    function SettypeAttribute($value){
        switch($value){
            case 1:
             $this->attributes['type'] = "Admin";
@@ -78,6 +74,4 @@ function PrintThings(ThingList $list)
         
     }
     
-    public $timestamps = false;
-}
-*/
+ 
