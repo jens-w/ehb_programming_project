@@ -1,6 +1,7 @@
 package com.brielage.coursequiz.controllers;
 
 import com.brielage.coursequiz.restservices.VakRestService;
+import com.brielage.coursequiz.services.DocentVakService;
 import com.brielage.coursequiz.services.OpleidingService;
 import com.brielage.coursequiz.services.StudentVakService;
 import com.brielage.coursequiz.services.UserRolService;
@@ -20,6 +21,7 @@ public class VakRestController {
     private final UserService userService;
     private final UserRolService userRolService;
     private final StudentVakService studentVakService;
+    private final DocentVakService docentVakService;
     private final VakService vakService;
     private final OpleidingService opleidingService;
 
@@ -28,17 +30,20 @@ public class VakRestController {
     public VakRestController(UserService userService,
                              UserRolService userRolService,
                              StudentVakService studentVakService,
+                             DocentVakService docentVakService,
                              VakService vakService,
                              OpleidingService opleidingService) {
         this.userService = userService;
         this.userRolService = userRolService;
         this.studentVakService = studentVakService;
+        this.docentVakService = docentVakService;
         this.vakService = vakService;
         this.opleidingService = opleidingService;
         this.vakRestService = new VakRestService(
                 userService,
                 userRolService,
                 studentVakService,
+                docentVakService,
                 vakService,
                 opleidingService
         );
@@ -48,7 +53,6 @@ public class VakRestController {
             consumes = "application/json",
             produces = "application/json")
     public String listVakken(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
-        // return vakRestService.listVakken(jsonNode);
-        return null;
+        return vakRestService.listVakken(jsonNode);
     }
 }
