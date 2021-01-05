@@ -1,15 +1,13 @@
 package com.brielage.coursequiz.restservices;
 
-import com.brielage.coursequiz.domain.APIResponse;
 import com.brielage.coursequiz.domain.JsonOpleiding;
 import com.brielage.coursequiz.domain.Opleiding;
-import com.brielage.coursequiz.domain.Rol;
-import com.brielage.coursequiz.domain.User;
-import com.brielage.coursequiz.domain.UserRol;
 import com.brielage.coursequiz.services.OpleidingService;
 import com.brielage.coursequiz.services.StudentService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
+import com.brielage.coursequiz.singleton.APIResponse;
+import com.brielage.coursequiz.singleton.Tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,13 +49,13 @@ public class OpleidingRestService {
 
             //TODO validate name?
 
-            if (!doesUserHaveRights(jsonOpleiding.getUserkey()))
+            if (!Tools.doesUserHaveRights(jsonOpleiding.getUserkey(), userService, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             if (jsonOpleiding.getOpleidingnaam().isEmpty())
                 return APIResponse.respond(false, "opleidingnaam_leeg");
 
-            if (doesOpleidingExist(0, jsonOpleiding.getOpleidingnaam()))
+            if (Tools.doesOpleidingExist(0, jsonOpleiding.getOpleidingnaam(), opleidingService))
                 return APIResponse.respond(false, "opleidingnaam_bestaat_al");
 
             Opleiding opleiding = new Opleiding(jsonOpleiding.getOpleidingnaam());
@@ -89,7 +86,7 @@ public class OpleidingRestService {
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
 
-            if (!doesUserHaveRights(jsonOpleiding.getUserkey()))
+            if (!Tools.doesUserHaveRights(jsonOpleiding.getUserkey(), userService, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             Optional<Opleiding> optionalOpleiding = opleidingService.findById(jsonOpleiding.getId());
@@ -134,28 +131,5 @@ public class OpleidingRestService {
 
     public void logRequest(String s) {
         logger.info("\nrequest:\n" + s);
-    }
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean doesUserHaveRights(String userkey) {
-        List<User> userListByUserkey = userService.findByUserkey(userkey);
-        if (userListByUserkey.size() != 1) return false;
-
-        Optional<UserRol> optionalUserRol = userRolService.findByUserId(userListByUserkey.get(0).getId());
-        if (optionalUserRol.isEmpty()) return false;
-
-        Rol rol = optionalUserRol.get().getRol();
-
-        return rol == Rol.ADMIN || rol == Rol.DOCENT;
-    }
-
-    public boolean doesOpleidingExist(long id, String opleidingnaam) {
-        if (id > 0) {
-            Optional<Opleiding> optionalOpleiding = opleidingService.findById(id);
-            return optionalOpleiding.isPresent();
-        } else {
-            List<Opleiding> opleidingListByNaam = opleidingService.findByNaam(opleidingnaam);
-            return opleidingListByNaam.size() > 0;
-        }
     }
 }

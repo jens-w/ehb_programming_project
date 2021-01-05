@@ -1,6 +1,6 @@
 package com.brielage.coursequiz.restservices;
 
-import com.brielage.coursequiz.domain.APIResponse;
+import com.brielage.coursequiz.singleton.APIResponse;
 import com.brielage.coursequiz.domain.Docent;
 import com.brielage.coursequiz.domain.DocentVak;
 import com.brielage.coursequiz.domain.JsonUser;
