@@ -1,7 +1,7 @@
 /* NAVIGATION ------------------------ */
 
 
-.welcome-msg p { margin: 0; }
+.welcome-msg p { margin: 0; white-space: nowrap;}
 
 /* USER ----- */
 

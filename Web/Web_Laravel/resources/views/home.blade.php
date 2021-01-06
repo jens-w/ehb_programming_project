@@ -15,10 +15,10 @@
                 <div class="col-md-3">
                 </div>
                 <div class="col-md-3">
-                    <a href="" class="btn btn-dark w-100 btn-home">Wat is coursequiz?</a>
+                    <a href="" class="btn btn-dark w-100 button-cst">Wat is coursequiz?</a>
                 </div>
                 <div class="col-md-3">
-                    <a href="Account/overview/#tab_AccountStats" class="btn btn-dark w-100 btn-home">Ga direct aan de
+                    <a href="Account/overview/#tab_AccountCourses" class="btn btn-dark w-100 button-cst">Ga direct aan de
                         slag!</a>
                 </div>
                 <div class="col-md-3">

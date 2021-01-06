@@ -9,8 +9,14 @@
     border-radius: 10px;
 }
 
+@media screen and (max-width:1200px){
+    .account-info-wrapper li {
+        margin: 10px 5px !important;
+    }
+}
+
 .account-info-wrapper li a.active {
-    box-shadow: 2px 4px 8px 0 #aaa, inset 0.25em 0 0 #000;
+    
     transition: box-shadow .15s ease-in;
 }
 
@@ -20,7 +26,7 @@
     white-space: nowrap;
 }
 
-.account-info-wrapper li { margin : 5px 0px;}
+.account-info-wrapper li { margin : 5px 0px;width:100%}
 
 /* -------- registration page ----------- */
 

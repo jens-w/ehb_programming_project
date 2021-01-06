@@ -60,21 +60,20 @@ class AuthController extends Controller
 
         // UNCOMMENT REQUEST TO API WHEN DONE TESTING 
 
-        /*try to login with email & hashed ( password + salt ) 
+        /*try to login with email & hashed ( password + salt ) */
         $response = Http::post('http://api.brielage.com:8081/user/login/', [
-            /*'email' => $request->input('email'),
-            'password' => $hashedPassword, 
-            'email' => 'ldebacker@sky.net',
-            'password' => 'abc12345'
-        ]); */
- 
-        $response = '{
+            'email' => $request->input('email'),
+            'password' => $hashedPassword
+        ]);
+
+        
+        /*$response = '{
             "success" : true,
             "userkey" : "def456",
             "voornaam" : "Jos",
             "familienaam" : "Dewolf",
             "email": "jos@live.be",
-            "eigenrol":"Admin",
+            "eigenrol":"Student",
             "opleiding" : {
                 "id" : 1,
                 "naam": "testopleiding"
@@ -92,6 +91,7 @@ class AuthController extends Controller
 
             }
         }';
+        */
 
 
         //  serialize data
@@ -160,7 +160,7 @@ class AuthController extends Controller
                             // any other param here
                             Session::put('userData', $admin);
                             // save the session
-                            Session::save();                           
+                            Session::save();
                             return redirect()->route('accountBeheer');
                             break;
                         case "docent":
@@ -173,7 +173,15 @@ class AuthController extends Controller
                             Session::save();
                             return redirect()->route('accountBeheer');
                             break;
-                        case "student":                            
+                        case "student":
+                            // any other param here
+                            // put user data in session called 'userData'
+                            Session::put('userData', $user);
+                            // save the session
+                            Session::save();
+                            return redirect()->route('accountBeheer');
+                            break;
+                        case "user":
                             // any other param here
                             // put user data in session called 'userData'
                             Session::put('userData', $user);
@@ -190,7 +198,5 @@ class AuthController extends Controller
                 }
             }
         }
-
-       
     }
 }

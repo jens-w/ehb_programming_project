@@ -16,6 +16,7 @@ class User
     public $type;
     public $userKey;
     public $vakken;
+    public $avatarPad;
     public $QuizzesList;
     
 
@@ -33,6 +34,7 @@ class User
         $this-> type = $user -> type;
         $this-> vakken = $user -> vakken;
         $this-> userKey = $user -> userKey;
+        $this-> avatarPad = $user -> avatarPad;
     }
 }
 

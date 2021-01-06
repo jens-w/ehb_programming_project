@@ -5,8 +5,10 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\Opleidingen\OpleidingController;
 use App\Http\Controllers\Students\StudentController;
 use App\Http\Controllers\AccountBeheer\AccountBeheerController;
+use App\Http\Controllers\Quizzen\QuizController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Vakken\VakkenController;
 use App\Models\User;
 use App\Models\Opleiding;
 /*
@@ -53,6 +55,15 @@ Route::get('/Opleidingen/Create', [OpleidingController::class,'create']);
 Route::post('/Opleidingen/CreatePost', [OpleidingController::class,'createPost']);
 
 Route::get('/Students/Overview', [StudentController::class, 'index']);
+
+// -- COURSES -- //
+
+Route::get('/vakken/{naam}/{vakId}', [VakkenController::class, 'detail'])->name('detailCourse');
+
+// -- QUIZZEN -- //
+
+Route::get('/quizzen/{naam}/{quizId}', [QuizController::class, 'GetQuiz'])->name('getQuiz');
+Route::post('/quizzen/indienen', [QuizController::class , 'sendQuiz'])->name('sendQuiz');
 
 // -- ACCOUNT -- //
 Route::get('/Account/overview', [AccountBeheerController::class, 'index'])->name('accountBeheer');

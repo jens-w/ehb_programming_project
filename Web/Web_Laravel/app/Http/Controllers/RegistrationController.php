@@ -36,6 +36,7 @@ class RegistrationController extends Controller
      * @return $response from api
      */
     protected function create(Request $request)
+
     {
         $user = DB::table('users')->where('email', $request->input('email'))->first();
         // if user exists

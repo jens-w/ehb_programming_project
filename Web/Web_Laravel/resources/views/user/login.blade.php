@@ -15,7 +15,7 @@
 
 
 <div class="row d-flex justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-6 login-form my-5 text-center">
         <h2>Inloggen</h2>
         <form autocomplete="off" method="POST" action="{{ route('loginApi') }}">
             {{ csrf_field() }}
@@ -31,8 +31,8 @@
                 <input type="password" autocomplete="false" class="form-control disabled show" id="password"
                     name="password">                
             </div>
-            <div class="form-group">
-                <button style="cursor:pointer" type="submit" class="btn btn-primary">Inloggen</button>
+            <div class="form-group d-flex justify-content-center">
+                <button style="cursor:pointer" type="submit" class="btn btn-primary btn-login button-cst m-0">Inloggen</button>
             </div>
 
         </form>

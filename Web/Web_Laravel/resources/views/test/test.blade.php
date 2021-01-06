@@ -1,5 +1,5 @@
-<h3><?php
+<?php
 
 echo json_encode($testResponse)
 
-?></h3>
+?>

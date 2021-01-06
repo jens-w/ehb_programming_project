@@ -17,12 +17,12 @@ use View;
 use Session;
 use Redirect;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Arr;
 
 class AccountBeheerController extends BaseController
 {
-        
-    
+
+
     public function index()
     {
 
@@ -58,8 +58,8 @@ class AccountBeheerController extends BaseController
                 break;
             case "student":
                 $student = new Student();
-                $student -> fill($student);
-                
+                $student->fill($student);
+
                 return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
                 break;
         }
@@ -134,12 +134,7 @@ class AccountBeheerController extends BaseController
                                     break;
                             }
                         }
-                        if (Session::has('userData')) {
-                            Session::forget('userData');
-                        }
-                        if (Session::has('userListForCourse')) {
-                            Session::forget('userListForCourse');
-                        }
+
                         // put user data in session called 'userData'
                         Session::put('userData', $AccountViewModel);
                         Session::put('userListForCourse', $userList);
@@ -152,7 +147,7 @@ class AccountBeheerController extends BaseController
         return $userList;
     }
 
- 
+
 
     public function NewUserKey(Request $request)
     {
@@ -176,9 +171,7 @@ class AccountBeheerController extends BaseController
                     break;
                 case 'userkey':
                     $AccountViewModel->userKey = $output;
-                    if (Session::has('userData')) {
-                        Session::forget('userData');
-                    }
+                    if (Session::has('userData')) { }
                     // put user data in session called 'userData'
                     Session::put('userData', $AccountViewModel);
                     Session::Save();
@@ -193,6 +186,32 @@ class AccountBeheerController extends BaseController
 
     public function update(Request $request)
     {
+
+        // get local user data
+        $sessionData = Session::get('userData');
+        //decode request to proper object (thats why second param. = true !!)        
+        $AccountViewModel = new User();
+        $AccountViewModel->fill($sessionData);
+
+        $response = Self::getResponseBasedOnInputs($AccountViewModel, $request);
+        $response = json_decode($response, true);
+        if($response != null){
+            Self::genUserForSession($response);
+            return Redirect::back()->withErrors(['Succesvol ge-updated!']);
+        }
+
+        // return redirect with error messages containing
+        // I use an array to be send with the messages, first value is the 'style classe' to be used, second value is the actual value of the msg
+        return Redirect::back()->withErrors(['error_gegevens_same']);
+        
+       
+
+        
+    }
+
+
+    function getResponseBasedOnInputs(User $user, Request $request)
+    {
         // get all inputs
         $userKey = $request->input('userKey');
         $upFirstName = $request->input('voornaam');
@@ -201,34 +220,48 @@ class AccountBeheerController extends BaseController
         $upAvatarpad = $request->input('avatarPad');
         $upPassword = $request->input('password');
 
-        // retrieve user from db based on input email
-        $user = DB::table('users')->where('email', 'michaelbracke@hotmail.com')->first();
-        //$user = DB::table('users')->where('email', $request->input('email'))->first();
-        //$user = DB::table('users')->where('email', 'michaelbracke@hotmail.com')->first();
+        /* retrieve user from db based on input email
+        $userFromDb = DB::table('users')->where('email', $upEmail)->first();
         // if user exists
-        if ($user != null) { // create md5 hashing appended with salt retrieved from local db
-            $hashedPassword = md5($upPassword . $user->salt);
+        if ($userFromDb != null) { // create md5 hashing appended with salt retrieved from local db
+            $hashedPassword = md5($upPassword . $userFromDb->salt);
         } else {
             // if user doesn't exist don't return will error messages
+            return;
+        } */
 
+
+        // BUILD API RESPONSE Array
+        
+        $apiArray = array();
+        $changed = false;
+       
+
+        if ($user->voornaam != $upFirstName) {    
+            $changed = true;     
+            $apiArray['voornaam'] = $upFirstName;    
+        };
+        if ($user->familienaam != $upLastName) {
+            $changed = true;  
+            $apiArray['familienaam'] = $upLastName;
+        };
+        if ($user->avatarPad != $upAvatarpad) {
+            $changed = true;  
+            $apiArray['avatarpad'] = $upAvatarpad;          
+        };
+        if ($user->email != $upEmail) {
+            $changed = true;  
+            $apiArray['email'] = $upEmail;    
+        };
+        if($changed){
+            $apiArray['userkey'] = $userKey;
+            return Http::post('api.brielage.com:8081/user/edit', $apiArray);
         }
-
-        $response = Http::post('api.brielage.com:8081/user/edit/', [
-            'userkey' => $userKey,
-            'voornaam' => $upFirstName,
-            'familienaam' => $upLastName,
-            'email' => $upEmail,
-            'avatarpad' =>  $upAvatarpad,
-            "password" =>  $hashedPassword
-        ]);
-
-
-
-        Self::genUserForSession($response);
-
-        // return redirect with error messages containing
-        // I use an array to be send with the messages, first value is the 'style classe' to be used, second value is the actual value of the msg
-        return Redirect::back()->withErrors(['Succesvol ge-updated!']);
+            return Redirect::back();
+        
+    
+        //return View::make('test/test')->with('testResponse', $apiarray);
+        
     }
 
     function genUserForSession($apiResponse)
@@ -283,9 +316,7 @@ class AccountBeheerController extends BaseController
                                     break;
                             }
                         }
-                        if (Session::has('userData')) {
-                            Session::forget('userData');
-                        }
+
                         // put user data in session called 'userData'
                         Session::put('userData', $user);
                         // save the session

@@ -21,13 +21,13 @@
 
 
 <div class="row d-flex justify-content-center">
-    <div class="col-md-6">
-        <h2>Registreren</h2>
+    <div class="col-md-6 reg-form text-center">
+        <h2 class="my-5">Registreren</h2>
         <form method="POST" action="{{ route('storeUser') }}">
             @csrf
 
             <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                <label for="name" class="col-md-4 col-form-label text-md-right">Voornaam</label>
 
                 <div class="col-md-6">
                     <input id="voornaam" type="text" class="form-control @error('name') is-invalid @enderror" name="voornaam" value="{{ old('voornaam') }}" required autocomplete="name" autofocus>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="lastname" class="col-md-4 col-form-label text-md-right">{{ __('Lastname') }}</label>
+                <label for="lastname" class="col-md-4 col-form-label text-md-right">Familienaam</label>
 
                 <div class="col-md-6">
                     <input id="familienaam" type="text" class="form-control @error('name') is-invalid @enderror" name="familienaam" value="{{ old('familienaam') }}" required autocomplete="name" autofocus>
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
 
                 <div class="col-md-6">
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -68,7 +68,7 @@
 
             
             <div class="form-group row">
-                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                <label for="password" class="col-md-4 col-form-label text-md-right">Wachtwoord</label>
 
                 <div class="col-md-6">
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -82,7 +82,7 @@
             </div>
 
             <div class="form-group row">
-                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Herhaal wachtwoord</label>
 
                 <div class="col-md-6">
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
@@ -91,8 +91,8 @@
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-primary">
-                        {{ __('Register') }}
+                    <button type="submit" class="btn btn-primary btn-reg button-cst">
+                      Registreren
                     </button>
                 </div>
             </div>

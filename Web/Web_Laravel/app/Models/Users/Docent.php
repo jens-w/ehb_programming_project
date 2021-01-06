@@ -10,8 +10,8 @@ class Docent extends User
     
     
     public $quizzen;
-   
-
+    public $coursesList;
+    public $userList;
 
     public function fill(User $user){
         $this-> voornaam = $user -> voornaam;

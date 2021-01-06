@@ -1,9 +1,28 @@
 /* Nav styling */
-
+:root {
+    --green: #a2ccb6;
+--light-peach: #ffecd9;
+--peach: #ee786e;
+--sand: #fceeb5;
+--white: #fff;
+}
 body {
     font-family: MontSerrat;
+    background:#555;
+}
+span, p, h1, h2, h3, h4,h5,h6, label, #AccountInfoTab {
+    color: white ;
 }
 
+.sub-title {
+    font-weight: 500;
+    font-size: 1.2rem;
+    opacity: .8;
+}
+
+#AccountInfoTab .btn { margin:20px 0px; font-size: 1.2rem; color:#333}
+.btn span { color: #333; display: flex;align-items:center}
+.success-message-wrapper h3,.success-message-wrapper h4, .success-message-wrapper span, .success-message-wrapper p { color: #333}
 .navContentLink[aria-expanded='true'] i.fa-bars,
 .navContentLink[aria-expanded='false'] i.fa-times
 {
@@ -66,3 +85,98 @@ footer i {
     font-size: 35px;
     margin: 5px;
 }
+
+
+/* success post message */
+
+.score {
+    font-size: 3rem;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 50%;
+}
+
+/*palette*/
+
+.row.question-wrapper {
+    margin: 0px 0px 30px 0px;
+    box-shadow: 5px -4px 8px 0 var(--green);
+    border-radius: 15px;
+}
+
+
+.button-cst, .account-info-wrapper li a {
+   
+    margin: 40px 0px;
+    font-size: 1rem !important;
+  -webkit-appearance: none; 
+  background: -webkit-gradient(to right, 0%,var(--sand) 50%,var(--peach) 100%);
+  background: linear-gradient(to right,var(--green) 0%,var(--sand) 50%,var(--peach) 100%);
+  background-size: 500%;
+  border: none;
+  border-radius: 5rem;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  color: var(--white);
+  cursor: pointer;
+  font: 1.5em Raleway, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 5rem;
+  letter-spacing: .05em;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+    
+.button-cst:hover, .account-info-wrapper li a:hover{
+  animation-name: gradient;
+  -webkit-animation-name: gradient;
+  animation-duration: 2s;
+  -webkit-animation-duration: 2s;
+  animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+} 
+
+.account-info-wrapper li a {
+    margin: 0px 13px !important;
+}
+
+.navbar .button-cst {
+    margin: 0px 5px !important;
+    width: 150px !important;
+    height: 50px !important;
+    font-size: 18px !important;
+}
+
+.login-form .form-control, 
+.reg-form .form-control {
+    height: 50px;
+    border-radius: 30PX;
+    padding: 25px;
+}
+
+.btn-login, 
+.btn-reg {
+    width: 150px;
+    height: 50px;
+}
+
+@keyframes gradient {
+    from {
+        background-position: 0% 50%
+    }
+    to {
+        background-position: 100% 
+    }
+}
+
+

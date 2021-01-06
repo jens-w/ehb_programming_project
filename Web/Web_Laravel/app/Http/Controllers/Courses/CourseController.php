@@ -78,12 +78,7 @@ public static function GetCoursesList($userkey, $type){
                                     break;
                             }
                         }
-                        if (Session::has('userData')) {
-                            Session::forget('userData');
-                        }
-                        if (Session::has('coursesList')) {
-                            Session::forget('coursesList');
-                        }
+                       
                         // put user data in session called 'userData'
                         Session::put('userData', $AccountViewModel);
                         Session::put('coursesList', $coursesList);
