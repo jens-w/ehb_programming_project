@@ -1,6 +1,5 @@
 package com.brielage.coursequiz.singleton;
 
-import com.brielage.coursequiz.domain.ResponseLogger;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.restresponses.JsonResponse;
 import com.brielage.coursequiz.restresponses.JsonVakResponse;
@@ -66,9 +65,17 @@ public enum APIResponse {
         return INSTANCE.output(new JsonResponse(false, fouten));
     }
 
+    public static String respond(boolean success,
+                                 Rol eigenrol)
+            throws JsonProcessingException {
+        if (success) return INSTANCE.output(new JsonResponse(true, eigenrol));
+
+        return INSTANCE.output(new JsonResponse(false, eigenrol));
+    }
+
     public static String respondVak(boolean success,
-                                 Rol eigenrol,
-                                 List vakken)
+                                    Rol eigenrol,
+                                    List vakken)
             throws JsonProcessingException {
         if (success) return INSTANCE.output(new JsonVakResponse(true, eigenrol, vakken));
 

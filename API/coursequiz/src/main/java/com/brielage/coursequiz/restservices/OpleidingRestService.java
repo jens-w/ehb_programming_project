@@ -40,7 +40,8 @@ public class OpleidingRestService {
         this.studentService = studentService;
     }
 
-    public String createOpleiding(JsonNode jsonNode) throws JsonProcessingException {
+    public String createOpleiding(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
         logRequest(jsonNode.toPrettyString());
 
@@ -79,7 +80,8 @@ public class OpleidingRestService {
         }
     }
 
-    public String removeOpleiding(JsonNode jsonNode) throws JsonProcessingException {
+    public String removeOpleiding(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
         logRequest(jsonNode.toPrettyString());
 

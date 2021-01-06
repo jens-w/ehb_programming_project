@@ -5,7 +5,7 @@ import com.brielage.coursequiz.domain.Docent;
 import com.brielage.coursequiz.domain.DocentVak;
 import com.brielage.coursequiz.domain.JsonUser;
 import com.brielage.coursequiz.domain.Opleiding;
-import com.brielage.coursequiz.domain.ResponseLogger;
+import com.brielage.coursequiz.singleton.ResponseLogger;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.Student;
 import com.brielage.coursequiz.domain.StudentVak;

@@ -3,6 +3,7 @@ package com.brielage.coursequiz.restservices;
 import com.brielage.coursequiz.domain.Hoofdstuk;
 import com.brielage.coursequiz.domain.JsonQuiz;
 import com.brielage.coursequiz.domain.Quiz;
+import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.services.DocentVakService;
 import com.brielage.coursequiz.services.HoofdstukService;
 import com.brielage.coursequiz.services.QuizService;
@@ -47,7 +48,8 @@ public class QuizRestService {
         this.quizService = quizService;
     }
 
-    public String createQuiz(JsonNode jsonNode) throws JsonProcessingException {
+    public String createQuiz(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
         logRequest(jsonNode.toPrettyString());
 
@@ -109,7 +111,16 @@ public class QuizRestService {
 
             quizService.create(quiz);
 
-            return APIResponse.respond(true);
+            Rol rol = userRolService.findByUserId(
+                    userService.findByUserkey(
+                            jsonQuiz.getUserkey()
+                    ).get(0).getId()
+            ).get().getRol();
+
+            // LOG
+            logger.info(rol.name());
+
+            return APIResponse.respond(true, rol);
         } catch (UnrecognizedPropertyException | InvalidFormatException e) {
             e.printStackTrace();
 
@@ -125,6 +136,14 @@ public class QuizRestService {
 
             return APIResponse.respond(false, "andere");
         }
+    }
+
+    public String createQuestion(JsonNode jsonNode)
+            throws JsonProcessingException {
+        // LOG
+        logRequest(jsonNode.toPrettyString());
+
+        return null;
     }
 
     public void logRequest(String s) {
