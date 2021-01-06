@@ -56,9 +56,6 @@ public class QuizRestService {
         try {
             JsonQuiz jsonQuiz = objectMapper.treeToValue(jsonNode, JsonQuiz.class);
 
-            // LOG
-            logger.info("jsonQuiz: " + jsonQuiz.toString());
-
             if (!Tools.isDocent(jsonQuiz.getUserkey(), userService, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
@@ -110,8 +107,6 @@ public class QuizRestService {
                     jsonQuiz.getVakid(),
                     hoofdstukListByVakId.get(0).getId());
 
-            logger.info(quiz.toString());
-
             quizService.create(quiz);
 
             return APIResponse.respond(true);
@@ -132,10 +127,7 @@ public class QuizRestService {
         }
     }
 
-
     public void logRequest(String s) {
         logger.info("\nrequest:\n" + s);
     }
-
-
 }
