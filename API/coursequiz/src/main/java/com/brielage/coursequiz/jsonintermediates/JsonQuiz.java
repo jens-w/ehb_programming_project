@@ -1,4 +1,6 @@
-package com.brielage.coursequiz.domain;
+package com.brielage.coursequiz.jsonintermediates;
+
+import com.brielage.coursequiz.domain.Validator;
 
 public class JsonQuiz {
     private long id, vakid;

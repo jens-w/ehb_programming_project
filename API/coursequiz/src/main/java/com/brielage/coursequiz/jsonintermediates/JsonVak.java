@@ -1,4 +1,4 @@
-package com.brielage.coursequiz.domain;
+package com.brielage.coursequiz.jsonintermediates;
 
 public class JsonVak {
     private long id;

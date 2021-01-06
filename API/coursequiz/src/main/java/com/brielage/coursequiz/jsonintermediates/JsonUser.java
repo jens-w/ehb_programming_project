@@ -1,4 +1,7 @@
-package com.brielage.coursequiz.domain;
+package com.brielage.coursequiz.jsonintermediates;
+
+import com.brielage.coursequiz.domain.Rol;
+import com.brielage.coursequiz.domain.Validator;
 
 public class JsonUser {
     private long id;
