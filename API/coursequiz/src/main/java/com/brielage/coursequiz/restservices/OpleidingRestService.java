@@ -1,6 +1,6 @@
 package com.brielage.coursequiz.restservices;
 
-import com.brielage.coursequiz.domain.JsonOpleiding;
+import com.brielage.coursequiz.jsonintermediates.JsonOpleiding;
 import com.brielage.coursequiz.domain.Opleiding;
 import com.brielage.coursequiz.services.OpleidingService;
 import com.brielage.coursequiz.services.StudentService;

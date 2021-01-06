@@ -1,7 +1,7 @@
 package com.brielage.coursequiz.restservices;
 
 import com.brielage.coursequiz.domain.Hoofdstuk;
-import com.brielage.coursequiz.domain.JsonQuiz;
+import com.brielage.coursequiz.jsonintermediates.JsonQuiz;
 import com.brielage.coursequiz.domain.Quiz;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.services.DocentVakService;
