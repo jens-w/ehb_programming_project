@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 @Entity
@@ -15,13 +16,11 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank
-    private String naam;
-    @NotBlank
-    private String omschrijving;
-    @NotBlank
+    private String naam, omschrijving;
+    @NotNull
     private boolean isBeschikbaar;
-    @NotBlank
-    private long vakId;
+    @NotNull
+    private long vakId, hoofdstukId;
 
     protected Quiz() {
     }
@@ -29,12 +28,37 @@ public class Quiz {
     public Quiz(long id,
                 @NotBlank String naam,
                 @NotBlank String omschrijving,
-                @NotBlank boolean isBeschikbaar,
-                @NotBlank long vakId) {
+                @NotNull boolean isBeschikbaar,
+                @NotNull long vakId,
+                @NotNull long hoofdstukId) {
         this.id = id;
         this.naam = naam;
         this.omschrijving = omschrijving;
         this.isBeschikbaar = isBeschikbaar;
         this.vakId = vakId;
+        this.hoofdstukId = hoofdstukId;
+    }
+
+    public Quiz(@NotBlank String naam,
+                @NotBlank String omschrijving,
+                @NotNull boolean isBeschikbaar,
+                @NotNull long vakId,
+                @NotNull long hoofdstukId) {
+        this.naam = naam;
+        this.omschrijving = omschrijving;
+        this.isBeschikbaar = isBeschikbaar;
+        this.vakId = vakId;
+        this.hoofdstukId = hoofdstukId;
+    }
+
+    public Quiz(@NotBlank String naam,
+                @NotBlank String omschrijving,
+                @NotNull long vakId,
+                @NotNull long hoofdstukId) {
+        this.naam = naam;
+        this.omschrijving = omschrijving;
+        this.vakId = vakId;
+        this.hoofdstukId = hoofdstukId;
+        this.isBeschikbaar = false;
     }
 }

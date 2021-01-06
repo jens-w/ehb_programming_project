@@ -659,7 +659,7 @@ USER DOCENT KAN HOOFDSTUKKEN VERWIJDEREN
 			]
 		}
 
-
+api.brielage.com:8081/quiz/create/
 USER DOCENT KAN EEN QUIZ AANMAKEN EN AAN HOOFDSTUK TOEVOEGEN (default hoofdstuk = 0, aka gans het vak)
 	REQUEST
 		{
@@ -667,7 +667,7 @@ USER DOCENT KAN EEN QUIZ AANMAKEN EN AAN HOOFDSTUK TOEVOEGEN (default hoofdstuk 
 			"quiznaam" : "quiz_naam",
 			"omschrijving" : "quiz_omschrijving",
 			"vakid" : 8,
-			"hoofdstukid" : 13
+			"hoofdstuknummer" : 13
 		}
 		
 		hoofdstuk is optioneel, default 0 (ganse vak)
@@ -685,10 +685,11 @@ USER DOCENT KAN EEN QUIZ AANMAKEN EN AAN HOOFDSTUK TOEVOEGEN (default hoofdstuk 
 				"rechten_ongeldig" : true,
 				"quiznaam_ongeldig" : true,
 				"quiznaam_bestaat_al" : true,
+				"omschrijving_ongeldig" : true,
 				"vakid_ongeldig" : true,
 				"vakid_bestaat_niet" : true,
-				"hoofdstukid_ongeldig" : true,
-				"hoofdstukid_bestaat_niet" : true,
+				"hoofdstuknummer_ongeldig" : true,
+				"hoofdstuknummer_bestaat_niet" : true,
 				"andere" : true
 			]
 		}

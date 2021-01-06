@@ -49,7 +49,7 @@ public class OpleidingRestService {
 
             //TODO validate name?
 
-            if (!Tools.doesUserHaveRights(jsonOpleiding.getUserkey(), userService, userRolService))
+            if (!Tools.isUserAdminOrDocent(jsonOpleiding.getUserkey(), userService, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             if (jsonOpleiding.getOpleidingnaam().isEmpty())
@@ -86,7 +86,7 @@ public class OpleidingRestService {
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
 
-            if (!Tools.doesUserHaveRights(jsonOpleiding.getUserkey(), userService, userRolService))
+            if (!Tools.isUserAdminOrDocent(jsonOpleiding.getUserkey(), userService, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             Optional<Opleiding> optionalOpleiding = opleidingService.findById(jsonOpleiding.getId());
