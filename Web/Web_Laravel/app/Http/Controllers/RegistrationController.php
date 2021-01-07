@@ -36,8 +36,17 @@ class RegistrationController extends Controller
      * @return $response from api
      */
     protected function create(Request $request)
-
+     
+    
     {
+
+        if(strlen($request->input('password')) <= 8){
+            $key = array('wachtwoord_is_ongeldig');
+            // create array and fill it with the key
+            $a = array_fill_keys($key, 'error');
+            return Redirect::back()->withErrors($a)->withInput($request->all());
+        }
+
         $user = DB::table('users')->where('email', $request->input('email'))->first();
         // if user exists
         if ($user != null) { // if user does exist inform client that user exist

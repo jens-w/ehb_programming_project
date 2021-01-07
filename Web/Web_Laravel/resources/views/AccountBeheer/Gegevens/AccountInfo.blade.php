@@ -5,10 +5,10 @@
             <!-- tab links -->
             <div class="col-lg-3">
                 <ul class="nav nav-tabs border-0">
-                    <li class="d-flex align-items-center">
+                    <li class="d-flex align-items-center justify-content-center justify-content-md-start">
                         <a data-toggle="tab" class="d-flex" href="#AccountInfoTab"><i class="far fa-user"></i><span>Account</span></a>
                     </li>
-                    <li class="d-flex align-items-center">
+                    <li class="d-flex align-items-center justify-content-center justify-content-md-start">
                         <a data-toggle="tab" class="d-flex" href="#AccountCourses"><i class="fas fa-book-open"></i><span>Vakken</span></a>
                     </li>
                 </ul>

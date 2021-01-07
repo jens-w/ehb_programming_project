@@ -35,7 +35,7 @@ class AccountBeheerController extends BaseController
         // if not, get the data and create model
         $sessionData = Session::get('userData');
         // init cour
-        //decode request to proper object (thats why second param. = true !!)
+        //decode request to proper array with assosciation (thats why second param. = true !!)
         //$result = json_encode( $sessionData, true);
         $AccountViewModel = new User();
         $AccountViewModel->fill($sessionData);
@@ -59,7 +59,6 @@ class AccountBeheerController extends BaseController
             case "student":
                 $student = new Student();
                 $student->fill($student);
-
                 return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
                 break;
         }
@@ -151,6 +150,7 @@ class AccountBeheerController extends BaseController
 
     public function NewUserKey(Request $request)
     {
+
         $response = Http::post('api.brielage.com:8081/user/userkey', [
             'userkey' => $request->input('userKey'),
         ]);
@@ -162,7 +162,7 @@ class AccountBeheerController extends BaseController
                 case 'success':
                     if (boolval($output)) { //true, userkey request         
                         // if not, get the data and create model
-                        $sessionData = Session::pull('userData');
+                        $sessionData = Session::get('userData');
                         //decode request to proper object (thats why second param. = true !!)
                         //$result = json_encode( $sessionData, true);
                         $AccountViewModel = new User();
@@ -195,18 +195,30 @@ class AccountBeheerController extends BaseController
 
         $response = Self::getResponseBasedOnInputs($AccountViewModel, $request);
         $response = json_decode($response, true);
-        if($response != null){
-            Self::genUserForSession($response);
-            return Redirect::back()->withErrors(['Succesvol ge-updated!']);
+
+        if ($response != null) {
+            if (boolval($response['success'])) {
+                // retrieve user from db based on input email
+                $user = DB::table('users')->where('email', $AccountViewModel->email)->first();
+                // if user exists
+                if ($user != null) { // create md5 hashing appended with salt retrieved from local db
+                    DB::table('users')->where('email', $AccountViewModel->email)->update(['email' => $request->input('email')]);
+                } else {
+                    // if user doesn't exist don't return will error messages
+                    return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
+                }
+                Self::genUserForSession($response);
+                return Redirect::back();
+            } else {
+                $errorArray = array('andere' => true);
+            }
+        } else {
+            $errorArray = array('geen_aanpassingen' => true);
         }
-
-        // return redirect with error messages containing
-        // I use an array to be send with the messages, first value is the 'style classe' to be used, second value is the actual value of the msg
-        return Redirect::back()->withErrors(['error_gegevens_same']);
-        
-       
-
-        
+        // return redirect with error messages containing   
+        Session::put("errorsApi", $errorArray);
+        Session::save();
+        return Redirect::back();
     }
 
 
@@ -220,64 +232,57 @@ class AccountBeheerController extends BaseController
         $upAvatarpad = $request->input('avatarPad');
         $upPassword = $request->input('password');
 
-        /* retrieve user from db based on input email
-        $userFromDb = DB::table('users')->where('email', $upEmail)->first();
-        // if user exists
-        if ($userFromDb != null) { // create md5 hashing appended with salt retrieved from local db
-            $hashedPassword = md5($upPassword . $userFromDb->salt);
-        } else {
-            // if user doesn't exist don't return will error messages
-            return;
-        } */
-
 
         // BUILD API RESPONSE Array
-        
+
         $apiArray = array();
         $changed = false;
-       
 
-        if ($user->voornaam != $upFirstName) {    
-            $changed = true;     
-            $apiArray['voornaam'] = $upFirstName;    
+
+        if ($user->voornaam != $upFirstName) {
+            $changed = true;
+            $apiArray['voornaam'] = $upFirstName;
         };
         if ($user->familienaam != $upLastName) {
-            $changed = true;  
+            $changed = true;
             $apiArray['familienaam'] = $upLastName;
         };
         if ($user->avatarPad != $upAvatarpad) {
-            $changed = true;  
-            $apiArray['avatarpad'] = $upAvatarpad;          
+            $changed = true;
+            $apiArray['avatarpad'] = $upAvatarpad;
         };
         if ($user->email != $upEmail) {
-            $changed = true;  
-            $apiArray['email'] = $upEmail;    
+            $changed = true;
+            $apiArray['email'] = $upEmail;
         };
-        if($changed){
+        if ($changed) {
             $apiArray['userkey'] = $userKey;
             return Http::post('api.brielage.com:8081/user/edit', $apiArray);
         }
-            return Redirect::back();
-        
-    
+        return Redirect::back();
+
+
         //return View::make('test/test')->with('testResponse', $apiarray);
-        
+
     }
 
     function genUserForSession($apiResponse)
     {
-        $decodedArray = json_decode($apiResponse, true);
-        foreach ($decodedArray as $key => $output) {
+
+        foreach ($apiResponse as $key => $output) {
             switch ($key) {
                 case 'success':
                     if (!boolval($output)) {
-                        foreach ($decodedArray as $key => $output) {
-                            if ($key === 'errors') { }
+                        $errorArray = array();
+                        foreach ($apiResponse['errors'] as $key => $value) {
+                            $errorArray[$key] = $value;
                         }
+                        Session::put("errorsApi", $errorArray);
+                        return Redirect::back();
                     } else {
                         $user = new User();
                         // loop over the rest of the key values
-                        foreach ($decodedArray as $keyInner => $outputInner) {
+                        foreach ($apiResponse as $keyInner => $outputInner) {
                             switch ($keyInner) {
                                 case 'voornaam':
                                     $user->voornaam = $outputInner;
@@ -308,15 +313,15 @@ class AccountBeheerController extends BaseController
                                     }
                                     $user->vakken = $vakkenList;
                                     break;
-                                case 'userkey':
-                                    $user->userKey = $output;
-                                    break;
-                                case 'rol':
-                                    $user->type = $output;
-                                    break;
                             }
                         }
+                        // retrieve old UserKey
 
+                        $oldUser = Session::get('userData');
+                        $AccountViewModel = new User();
+                        $AccountViewModel->fill($oldUser);
+                        $user->userKey = $AccountViewModel->userKey;
+                        $user->vakken = $AccountViewModel->vakken;
                         // put user data in session called 'userData'
                         Session::put('userData', $user);
                         // save the session

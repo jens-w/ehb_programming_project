@@ -1,3 +1,5 @@
+<?php
+/*
 @extends('main')
 
 @section('style')
@@ -13,17 +15,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-        @if($errors->any())
-     
-            @foreach($errors->getMessages() as $key => $message)
-            <!--          
-            $key bevat de foutcode (bv. voornaam_ongeldig ), 
-            Deze is terug te vinden in de 'lang/en/auth.php' file, met respectievelijk zijn waarde
-            om deze waarde aan te roepen gebruik je FILENAME.STRINGKEYWAARDE
-            -->
-            <h2 class="alert alert-danger  p-1">{{ __("auth.".$key)}}</h2> <br />
-            @endforeach
-        @endif
+           @include('partials/_errors')
         </div>
     </div>
 </div>
@@ -44,3 +36,4 @@ Als je gebruik maakt van tabs - moet je de tab-links ook in een enclosing 'nav-t
 @section('script')
 <script src="{{asset('js/Account/Account.js')}}"></script>
 @endsection
+*/

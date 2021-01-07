@@ -18,6 +18,7 @@ class Docent extends User
         $this-> email = $user -> email;
         $this-> familienaam =$user -> familienaam;
         $this-> password = $user -> password;
+        $this->vakken = $user -> vakken;
         $this-> type = $user -> type;
         $this-> userKey = $user -> userKey;
     }

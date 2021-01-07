@@ -1,13 +1,21 @@
-<div class="col-md-6 sub-title d-flex align-items-center border">
-    <i class="fas fa-book-open"></i>
-    <span class="vak-title mx-2">
-        <?php echo $vak->naam ?>
-    </span>
-</div>
-<div class="col-md-6 d-flex align-items-center justify-content-md-end">
-    <ul class="nav nav-tabs border-0">
-        <li class="list-unstyled">
-            <a class="d-flex" href="{{route('detailCourse', ['vakId' =>  $vak['id'], 'naam' => $vak['naam'] ])}}"><span>Details & Quizzen</span><i class="fas fa-arrow-right"></i></i></a>
-        </li>
-    </ul>
+<div class="col-lg-6 d-flex justify-content-center justify-content-lg-start align-items-center">
+    <a href="{{route('detailCourse', ['vakId' =>  $vak['id'], 'naam' => $vak['naam'] ])}}">
+        <div class="vak-outer">
+            <div class="vak">
+                <div class="front">
+                    <div class="cover">                  
+                        <p class=author> <span class="vak-title mx-2 button-cst">
+                                <?php echo $vak->naam ?>
+                            </span></p>
+                    </div>
+                </div>
+                <div class="left-side">
+                    <h2>
+                        <span><?php echo $AccountViewModel->voornaam ?></span>
+                        <span><?php echo $AccountViewModel->familienaam ?></span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </a>
 </div>

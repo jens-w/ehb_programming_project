@@ -1,8 +1,9 @@
 <?php
 
-// authentication error messages
+// authentication error messages ( Registration )
 return [ 
     'voornaam_ongeldig' => 'voornaam is ongeldig.',
+    'wachtwoord_is_ongeldig' => 'Gelieve een geldig wachtwoord in te voeren.',
     'familienaam_ongeldig' => 'familienaam is ongeldig',
     'email_ongeldig' => 'Email is ongeldig',
     'email_bestaat_al' => 'Email bestaat al reeds',

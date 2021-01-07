@@ -61,10 +61,10 @@ Route::get('/Students/Overview', [StudentController::class, 'index']);
 Route::get('/vakken/{naam}/{vakId}', [VakkenController::class, 'detail'])->name('detailCourse');
 
 // -- QUIZZEN -- //
-
-Route::get('/quizzen/{naam}/{quizId}', [QuizController::class, 'GetQuiz'])->name('getQuiz');
-Route::post('/quizzen/indienen', [QuizController::class , 'sendQuiz'])->name('sendQuiz');
-
+Route::post('/quiz/questions/add', [QuizController::class, 'addNewQuestion'])->name('addNewQuestion');
+Route::get('/quiz/detail/{naam}/{quizId}', [QuizController::class, 'GetQuiz'])->name('getQuiz');
+Route::post('/quiz/indienen', [QuizController::class , 'sendQuiz'])->name('sendQuiz');
+Route::post('/quiz/add', [QuizController::class, 'addNewQuiz'])->name('addNewQuiz');
 // -- ACCOUNT -- //
 Route::get('/Account/overview', [AccountBeheerController::class, 'index'])->name('accountBeheer');
 Route::post('/Account/update', [AccountBeheerController::class, 'update'])->name('update');

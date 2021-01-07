@@ -121,69 +121,42 @@ class VakkenController extends \App\Http\Controllers\BaseController
         $apiArray['vakid'] = $vakId;
  
         
-
+        // API connection
 
         /*
-        $response = Http::get('api/linkHIER', $apiArray);
-        
-        USER KAN QUIZLIJST OPVRAGEN PER VAK/HOOFDSTUK
-        REQUEST
-            {
-                "userkey" : "userkey1234",
-                "vakid" : 2,
-                "hoofdstukid" : 3
-            }
-            
-            hoofdstukid optioneel
-            
-        RESPONSE SUCCESS
-        */
-        $response ='
-            {
-                "success" : true,
-                "eigenrol" : "rol",
-                "vak" : true,
-                "hoofdstuk" : true,
-                "quizlijst" : {
-                    "quiz1" : {
-                        "id" : "5",
-                        "quiznaam" : "Intro Quiz - Fundamentals",
-                        "quizomschrijving" : "Test je basiskennis van .Net in deze basis quiz"
-                    },
-                    "quiz2" : {
-                        "id" : "78",
-                        "quiznaam" : "Unit Testing",
-                        "quizomschrijving" : "Denk jij te weten wat unit testen allemaal inhoud? Test het hier!"
-                    }
-                }
-            }
-            ';
-            /*
-            
-            id1 = id quiz
-            
-        RESPONSE FAIL
-            {
-                "success" : false,
-                "error" : [
-                    "rechten_ongeldig" : true,
-                    "vakid_ongeldig" : true,
-                    "vakid_bestaat_niet" : true,
-                    "geen_docent_van_vak" : true,
-                    "hoofdstukid_ongeldig" : true,
-                    "hoofdstukid_bestaat_niet" : true,
-                    "geen_docent_van_hoofdstuk" : true,
-                    "geen_quizzen_gevonden" : true,
-                    "andere" : true
-                ]
-            }
- */
+        $response = '{
+			"success" : true,
+			"eigenrol" : "docent",
+			"vak" : true,
+			"hoofdstuk" : true,
+			"quizlijst" : {
+				"id1" : {
+                    "id":"1",
+					"naam" : "quiz_naam1",
+					"omschrijving" : "dit is de omschrijving"
+				},
+				"id2" : {
+                    "id":"2",
+					"naam" : "quiz_naam2",
+					"omschrijving" : "dit is de omschrijving"
+				}
+			}
+		}'; */
+        $response = Http::post('api.brielage.com:8081/quiz/list', $apiArray);             
+        $response = json_decode($response, true);
 
-        $req = json_decode($response, true);
-      
-       
 
-        return View::make('Vakken/_Detail')->with(['quizlijst' => $req['quizlijst'], 'vakName' => $naam]);
+        // check if success is true
+        if (boolval($response["success"])) {    
+            Session::put('rol', $response['eigenrol']);  
+            return View::make('Vakken/_Detail')->with(['quizlijst' => $response['quizlijst'], 'vakName' => $naam, 'vakId' => $vakId]);
+        } else {
+            foreach ($response['errors'] as $key => $value) {
+                $errorArray[$key] = $value;
+            }
+            Session::put("errorsApi", $errorArray);
+            return View::make('Vakken/_Detail')->with(['vakName' => $naam, 'vakId' => $vakId]);
+        }   
     }
 
 }

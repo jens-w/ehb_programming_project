@@ -58,22 +58,22 @@ class AuthController extends Controller
             return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
         }
 
-        // UNCOMMENT REQUEST TO API WHEN DONE TESTING 
+        /* API REQUEST ------ */
 
         /*try to login with email & hashed ( password + salt ) */
         $response = Http::post('http://api.brielage.com:8081/user/login/', [
             'email' => $request->input('email'),
             'password' => $hashedPassword
         ]);
-
+        /*
         
-        /*$response = '{
+        $response = '{
             "success" : true,
             "userkey" : "def456",
             "voornaam" : "Jos",
             "familienaam" : "Dewolf",
             "email": "jos@live.be",
-            "eigenrol":"Student",
+            "eigenrol":"docent",
             "opleiding" : {
                 "id" : 1,
                 "naam": "testopleiding"
@@ -90,7 +90,7 @@ class AuthController extends Controller
                 }
 
             }
-        }';
+        }'; 
         */
 
 
