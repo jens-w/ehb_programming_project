@@ -1,6 +1,7 @@
 package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.DocentVak;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,14 +23,17 @@ public class JpaDocentVakRepository
 
     @Override
     public List<DocentVak> findAll() {
-        return manager.createQuery("select dv from DocentVak dv order by dv.userid",
+        return manager.createQuery("select dv from DocentVak dv " +
+                        "order by dv.userid",
                 DocentVak.class).getResultList();
     }
 
     @Override
     public List<DocentVak> findByDocentId(long docentId) {
         return manager.createQuery(
-                "select dv from DocentVak dv where dv.userid = :docentId order by dv.vakid",
+                "select dv from DocentVak dv " +
+                        "where dv.userid = :docentId " +
+                        "order by dv.vakid",
                 DocentVak.class)
                 .setParameter("docentId", docentId)
                 .getResultList();
@@ -38,7 +42,22 @@ public class JpaDocentVakRepository
     @Override
     public List<DocentVak> findByVakId(long vakId) {
         return manager.createQuery(
-                "select dv from DocentVak dv where dv.vakid = :vakId order by dv.userid",
+                "select dv from DocentVak dv " +
+                        "where dv.vakid = :vakId " +
+                        "order by dv.userid",
                 DocentVak.class).getResultList();
+    }
+
+    @Override
+    public List<DocentVak> findByDocentIdAndVakId(long docentId, long vakId) {
+        return manager.createQuery(
+                "select dv from DocentVak dv " +
+                        "where dv.userid = :docentId " +
+                        "and dv.vakid = :vakId " +
+                        "order by dv.userid ",
+                DocentVak.class)
+                .setParameter("docentId", docentId)
+                .setParameter("vakId", vakId)
+                .getResultList();
     }
 }

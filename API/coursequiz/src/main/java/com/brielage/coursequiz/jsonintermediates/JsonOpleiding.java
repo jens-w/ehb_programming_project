@@ -1,4 +1,4 @@
-package com.brielage.coursequiz.domain;
+package com.brielage.coursequiz.jsonintermediates;
 
 public class JsonOpleiding {
     private long id;

@@ -1,4 +1,4 @@
-package com.brielage.coursequiz.domain;
+package com.brielage.coursequiz.singleton;
 
 import com.brielage.coursequiz.restresponses.JsonResponse;
 import com.brielage.coursequiz.restresponses.JsonUserResponse;

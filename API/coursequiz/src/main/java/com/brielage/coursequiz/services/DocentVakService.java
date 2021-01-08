@@ -12,4 +12,6 @@ public interface DocentVakService {
     List<DocentVak> findByDocentId(long docentId);
 
     List<DocentVak> findByVakId(long vakId);
+
+    List<DocentVak> findByDocentIdAndVakId(long docentId, long vakId);
 }

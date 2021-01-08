@@ -9,4 +9,6 @@ public interface StudentService {
     List<Student> findAll();
 
     Optional<Student> findById(long id);
+
+    List<Student> findByOpleidingId(long opleidingid);
 }

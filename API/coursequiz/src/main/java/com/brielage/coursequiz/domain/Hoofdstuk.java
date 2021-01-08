@@ -34,4 +34,20 @@ public class Hoofdstuk {
         this.nummer = nummer;
         this.vakId = vakId;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getTitel() {
+        return titel;
+    }
+
+    public float getNummer() {
+        return nummer;
+    }
+
+    public long getVakId() {
+        return vakId;
+    }
 }

@@ -1,10 +1,11 @@
 package com.brielage.coursequiz.restservices;
 
+import com.brielage.coursequiz.singleton.APIResponse;
 import com.brielage.coursequiz.domain.Docent;
 import com.brielage.coursequiz.domain.DocentVak;
-import com.brielage.coursequiz.domain.JsonUser;
+import com.brielage.coursequiz.jsonintermediates.JsonUser;
 import com.brielage.coursequiz.domain.Opleiding;
-import com.brielage.coursequiz.domain.ResponseLogger;
+import com.brielage.coursequiz.singleton.ResponseLogger;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.Student;
 import com.brielage.coursequiz.domain.StudentVak;
@@ -72,7 +73,7 @@ public class UserRestService {
     @SuppressWarnings("rawtypes")
     public String createUser(JsonNode jsonNode) throws JsonProcessingException {
         // LOG
-        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+        logRequest(jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
@@ -89,17 +90,14 @@ public class UserRestService {
                     !familienaamGeldig ||
                     !emailGeldig ||
                     !passwordGeldig) {
-                Map fouten = new LinkedHashMap();
+                List fouten = new ArrayList();
 
-                if (!voornaamGeldig) fouten.put("voornaam_ongeldig", true);
-                if (!familienaamGeldig) fouten.put("familienaam_ongeldig", true);
-                if (!emailGeldig) fouten.put("email_ongeldig", true);
-                if (!passwordGeldig) fouten.put("password_ongeldig", true);
+                if (!voornaamGeldig) fouten.add("voornaam_ongeldig");
+                if (!familienaamGeldig) fouten.add("familienaam_ongeldig");
+                if (!emailGeldig) fouten.add("email_ongeldig");
+                if (!passwordGeldig) fouten.add("password_ongeldig");
 
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
-
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+                return APIResponse.respond(false, fouten);
             } else {
                 String defaultAvatarPad = "\\public\\images\\account\\accountinfo\\avatar_default.png";
                 User u = new User(
@@ -120,40 +118,31 @@ public class UserRestService {
                         UserRol ur = new UserRol(u.getId(), Rol.USER);
                         userRolService.create(ur);
 
-                        // LOG
-                        ResponseLogger.logJsonResponse(new JsonResponse(true));
-
-                        return objectMapper.writeValueAsString(new JsonResponse(true));
+                        return APIResponse.respond(true);
                     }
 
-                    Map fouten = new LinkedHashMap();
-                    fouten.put("email_bestaat_al", true);
-
-                    //LOG
-                    ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
-
-                    return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+                    return APIResponse.respond(false,"email_bestaatl_al");
                 } catch (Exception e) {
                     e.printStackTrace();
 
-                    Map fouten = new LinkedHashMap();
-                    fouten.put("andere", true);
-
                     // LOG
                     logger.error("\n" + e.getMessage());
-                    ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
-                    return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+                    return APIResponse.respond(false,"andere");
                 }
             }
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+
+
             Map fouten = new LinkedHashMap();
             fouten.put("veld_ongeldig", e.getPropertyName());
 
-            // LOG
-            logger.error("\n" + e.getMessage());
+
             ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
             return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
@@ -174,7 +163,7 @@ public class UserRestService {
     @SuppressWarnings("rawtypes")
     public String login(JsonNode jsonNode) throws JsonProcessingException {
         // LOG
-        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+        logRequest(jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
@@ -315,7 +304,7 @@ public class UserRestService {
     @SuppressWarnings("rawtypes")
     public String edit(JsonNode jsonNode) throws JsonProcessingException {
         // LOG
-        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+        logRequest(jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
@@ -443,7 +432,7 @@ public class UserRestService {
     @SuppressWarnings("rawtypes")
     public String newUserkey(JsonNode jsonNode) throws JsonProcessingException {
         // LOG
-        logger.info("\nrequest:\n" + jsonNode.toPrettyString());
+        logRequest(jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
@@ -503,6 +492,12 @@ public class UserRestService {
             return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
         }
     }
+
+    public void logRequest(String s) {
+        logger.info("\nrequest:\n" + s);
+    }
+
+
 
     public String generateUserkey() {
         String chars = "abcdefghijklmnopqrstuvwxyz" +

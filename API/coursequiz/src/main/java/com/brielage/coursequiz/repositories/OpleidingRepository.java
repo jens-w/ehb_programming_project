@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface OpleidingRepository {
     void create(Opleiding opleiding);
 
+    void remove(Opleiding opleiding);
+
     Optional<Opleiding> findById(long id);
 
     List<Opleiding> findAll();

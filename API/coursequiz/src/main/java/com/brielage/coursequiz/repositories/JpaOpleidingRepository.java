@@ -27,6 +27,11 @@ public class JpaOpleidingRepository
     }
 
     @Override
+    public void remove(Opleiding opleiding) {
+        manager.remove(opleiding);
+    }
+
+    @Override
     public Optional<Opleiding> findById(long id) {
         return Optional.ofNullable(manager.find(Opleiding.class, id));
     }

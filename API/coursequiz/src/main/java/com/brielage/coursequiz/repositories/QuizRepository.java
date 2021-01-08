@@ -1,8 +1,17 @@
 package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.Quiz;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface QuizRepository
-        extends JpaRepository<Quiz, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface QuizRepository{
+    void create(Quiz quiz);
+
+    List<Quiz> findAll();
+
+    Optional<Quiz> findById(long id);
+
+    List<Quiz> findByNaam(String naam);
+
 }

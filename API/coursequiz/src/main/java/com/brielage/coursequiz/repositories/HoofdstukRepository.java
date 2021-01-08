@@ -1,8 +1,11 @@
 package com.brielage.coursequiz.repositories;
 
 import com.brielage.coursequiz.domain.Hoofdstuk;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HoofdstukRepository
-        extends JpaRepository<Hoofdstuk, Long> {
+import java.util.List;
+
+public interface HoofdstukRepository {
+    void create(Hoofdstuk hoofdstuk);
+
+    List<Hoofdstuk> findByVakId(long vakid);
 }
