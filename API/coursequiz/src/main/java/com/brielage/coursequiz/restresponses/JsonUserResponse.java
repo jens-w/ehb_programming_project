@@ -12,12 +12,46 @@ import java.util.Map;
 public class JsonUserResponse
         extends JsonResponse {
     @JsonInclude(Include.NON_NULL)
-    private final String userkey, voornaam, familienaam, email, avatarpad;
+    private String userkey;
+    @JsonInclude(Include.NON_NULL)
+    private final String voornaam;
+    @JsonInclude(Include.NON_NULL)
+    private final String familienaam;
+    @JsonInclude(Include.NON_NULL)
+    private final String email;
+    @JsonInclude(Include.NON_NULL)
+    private final String avatarpad;
     @JsonInclude(Include.NON_NULL)
     private Map opleiding;
     @JsonInclude(Include.NON_NULL)
     private List vakken;
     private Rol rol;
+
+    public JsonUserResponse(boolean success,
+                            String voornaam,
+                            String familienaam,
+                            String email,
+                            String avatarpad) {
+        super(success);
+        this.voornaam = voornaam;
+        this.familienaam = familienaam;
+        this.email = email;
+        this.avatarpad = avatarpad;
+    }
+
+    public JsonUserResponse(boolean success,
+                            String voornaam,
+                            String familienaam,
+                            String email,
+                            String avatarpad,
+                            Rol rol) {
+        super(success);
+        this.voornaam = voornaam;
+        this.familienaam = familienaam;
+        this.email = email;
+        this.avatarpad = avatarpad;
+        this.setRol(rol);
+    }
 
     public JsonUserResponse(boolean success,
                             String userkey,
@@ -31,6 +65,22 @@ public class JsonUserResponse
         this.familienaam = familienaam;
         this.email = email;
         this.avatarpad = avatarpad;
+    }
+
+    public JsonUserResponse(boolean success,
+                            String userkey,
+                            String voornaam,
+                            String familienaam,
+                            String email,
+                            String avatarpad,
+                            Rol rol) {
+        super(success);
+        this.userkey = userkey;
+        this.voornaam = voornaam;
+        this.familienaam = familienaam;
+        this.email = email;
+        this.avatarpad = avatarpad;
+        this.setRol(rol);
     }
 
     public void setRol(Rol rol) {

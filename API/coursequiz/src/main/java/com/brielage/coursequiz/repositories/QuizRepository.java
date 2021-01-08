@@ -5,7 +5,7 @@ import com.brielage.coursequiz.domain.Quiz;
 import java.util.List;
 import java.util.Optional;
 
-public interface QuizRepository{
+public interface QuizRepository {
     void create(Quiz quiz);
 
     List<Quiz> findAll();
@@ -14,4 +14,5 @@ public interface QuizRepository{
 
     List<Quiz> findByNaam(String naam);
 
+    List<Quiz> findByVakId(long vakid);
 }

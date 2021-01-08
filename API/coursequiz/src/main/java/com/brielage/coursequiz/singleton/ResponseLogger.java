@@ -24,4 +24,8 @@ public enum ResponseLogger {
         JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsString(jsonResponse));
         logger.info("\nresponse:\n" + jsonNode.toPrettyString());
     }
+
+    public static void logRequest(String s, String j) {
+        logger.info("\nrequest " + s + ":\n" + j);
+    }
 }

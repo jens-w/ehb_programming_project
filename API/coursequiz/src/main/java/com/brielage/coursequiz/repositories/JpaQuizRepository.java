@@ -42,4 +42,14 @@ public class JpaQuizRepository
                 .setParameter("naam", naam)
                 .getResultList();
     }
+
+    @Override
+    public List<Quiz> findByVakId(long vakid) {
+        return manager.createQuery(
+                "select q from Quiz q " +
+                        "where q.vakid = :vakid",
+                Quiz.class)
+                .setParameter("vakid", vakid)
+                .getResultList();
+    }
 }

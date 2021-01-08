@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,6 +22,11 @@ public class DefaultHoofdstukService
     @Override
     public void create(Hoofdstuk hoofdstuk) {
         hoofdstukRepository.create(hoofdstuk);
+    }
+
+    @Override
+    public Optional<Hoofdstuk> findById(long id) {
+        return hoofdstukRepository.findById(id);
     }
 
     @Override

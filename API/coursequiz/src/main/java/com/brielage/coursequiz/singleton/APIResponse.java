@@ -1,7 +1,9 @@
 package com.brielage.coursequiz.singleton;
 
 import com.brielage.coursequiz.domain.Rol;
+import com.brielage.coursequiz.restresponses.JsonQuizResponse;
 import com.brielage.coursequiz.restresponses.JsonResponse;
+import com.brielage.coursequiz.restresponses.JsonUserResponse;
 import com.brielage.coursequiz.restresponses.JsonVakResponse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -73,13 +75,81 @@ public enum APIResponse {
         return INSTANCE.output(new JsonResponse(false, eigenrol));
     }
 
+    public static String respond(boolean success,
+                                 Map data)
+            throws JsonProcessingException {
+        if (success) return INSTANCE.output(new JsonResponse(true, data));
+
+        return INSTANCE.output(new JsonResponse(false, data));
+    }
+
+    public static String respondUser(boolean success,
+                                     Map userdata,
+                                     Rol rol)
+            throws JsonProcessingException {
+        if (success)
+            return INSTANCE.output(new JsonUserResponse(true,
+                    (String) userdata.get("voornaam"),
+                    (String) userdata.get("familienaam"),
+                    (String) userdata.get("email"),
+                    (String) userdata.get("avatarpad"),
+                    rol));
+
+        return INSTANCE.output(new JsonResponse(false));
+    }
+
+    public static String respondUser(boolean success,
+                                     List users,
+                                     Rol eigenrol)
+            throws JsonProcessingException {
+        return INSTANCE.output(new JsonResponse(success, users, eigenrol));
+    }
+
+    public static String respondUser(boolean success,
+                                     List users,
+                                     Rol eigenrol,
+                                     Rol rol)
+            throws JsonProcessingException {
+        return INSTANCE.output(new JsonResponse(success, users, eigenrol, rol));
+    }
+
+    public static String respondUser(boolean success,
+                                     List docenten,
+                                     List studenten,
+                                     List users,
+                                     Rol eigenrol)
+            throws JsonProcessingException {
+        return INSTANCE.output(new JsonResponse(success, docenten, studenten, users, eigenrol));
+    }
+
+    public static String respondUser(boolean success,
+                                     List admins,
+                                     List docenten,
+                                     List studenten,
+                                     List users,
+                                     Rol eigenrol)
+            throws JsonProcessingException {
+        return INSTANCE.output(new JsonResponse(success, admins, docenten, studenten, users, eigenrol));
+    }
+
     public static String respondVak(boolean success,
                                     Rol eigenrol,
                                     List vakken)
             throws JsonProcessingException {
         if (success) return INSTANCE.output(new JsonVakResponse(true, eigenrol, vakken));
 
-        return null;
+        return INSTANCE.output(new JsonResponse(false));
+    }
+
+    public static String respondQuiz(boolean success,
+                                     Rol eigenrol,
+                                     String vaknaam,
+                                     List quizList)
+            throws JsonProcessingException {
+        if (success)
+            return INSTANCE.output(new JsonQuizResponse(true, eigenrol, vaknaam, quizList));
+
+        return INSTANCE.output(new JsonResponse(false));
     }
 
     public String output(JsonResponse jsonResponse) throws JsonProcessingException {

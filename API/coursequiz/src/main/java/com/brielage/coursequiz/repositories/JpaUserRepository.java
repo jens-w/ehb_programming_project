@@ -1,10 +1,13 @@
 package com.brielage.coursequiz.repositories;
 
+import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.User;
+import com.brielage.coursequiz.domain.UserRol;
 
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +15,12 @@ import java.util.Optional;
 public class JpaUserRepository
         implements UserRepository {
     private final EntityManager manager;
+    private final UserRolRepository userRolRepository;
 
-    public JpaUserRepository(EntityManager manager) {
+    public JpaUserRepository(EntityManager manager,
+                             UserRolRepository userRolRepository) {
         this.manager = manager;
+        this.userRolRepository = userRolRepository;
     }
 
     @Override
@@ -53,5 +59,48 @@ public class JpaUserRepository
     public List<String> findUserkeys() {
         return manager.createQuery("select u.userkey from User u",
                 String.class).getResultList();
+    }
+
+    @SuppressWarnings({"unchecked", "SqlDialectInspection", "OptionalGetWithoutIsPresent"})
+    @Override
+    // @Query(nativeQuery = true)
+    public List<User> findAllRegularUsers() {
+        //TODO optimize this method, below should work somehow but may not be entirely correct
+        /*
+        return manager.createNativeQuery(
+                "select users.* from users " +
+                        "inner join rollen " +
+                        "on users.id=rollen.userid " +
+                        "where rollen.rol = 0",
+                User.class)
+                .getResultList();
+        */
+        List<User> users = new ArrayList<>();
+        List<UserRol> userrollen = userRolRepository.findAllRol(Rol.USER);
+        List<Long> ids = new ArrayList<>();
+
+        for (UserRol userRol : userrollen)
+            ids.add(userRol.getUserId());
+
+        for (long id : ids)
+            users.add(this.findById(id).get());
+
+        return users;
+    }
+
+    @Override
+    public List<User> findAllAdmins() {
+        //TODO optimize this method to use nativequery or something, see findAllRegularUsers()
+        List<User> users = new ArrayList<>();
+        List<UserRol> userrollen = userRolRepository.findAllRol(Rol.ADMIN);
+        List<Long> ids = new ArrayList<>();
+
+        for (UserRol userRol : userrollen)
+            ids.add(userRol.getUserId());
+
+        for (long id : ids)
+            users.add(this.findById(id).get());
+
+        return users;
     }
 }

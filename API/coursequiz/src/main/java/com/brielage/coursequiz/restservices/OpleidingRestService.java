@@ -1,12 +1,14 @@
 package com.brielage.coursequiz.restservices;
 
-import com.brielage.coursequiz.jsonintermediates.JsonOpleiding;
 import com.brielage.coursequiz.domain.Opleiding;
+import com.brielage.coursequiz.domain.User;
+import com.brielage.coursequiz.jsonintermediates.JsonOpleiding;
 import com.brielage.coursequiz.services.OpleidingService;
 import com.brielage.coursequiz.services.StudentService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.singleton.APIResponse;
+import com.brielage.coursequiz.singleton.ResponseLogger;
 import com.brielage.coursequiz.singleton.Tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,8 +18,6 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @SuppressWarnings({"unchecked", "rawtypes", "DuplicatedCode"})
@@ -43,23 +43,30 @@ public class OpleidingRestService {
     public String createOpleiding(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("opleiding.create", jsonNode.toPrettyString());
 
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
 
             //TODO validate name?
 
-            if (!Tools.isUserAdminOrDocent(jsonOpleiding.getUserkey(), userService, userRolService))
+            if (!Tools.userExists(jsonOpleiding.getUserkey(), userService))
+                return APIResponse.respond(false, "andere");
+
+            User u = userService.findByUserkey(jsonOpleiding.getUserkey()).get(0);
+
+            if (!Tools.isUserAdminOrDocent(u, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
-            if (jsonOpleiding.getOpleidingnaam().isEmpty())
+            String opleidingNaam = jsonOpleiding.getOpleidingnaam();
+
+            if (opleidingNaam.isEmpty())
                 return APIResponse.respond(false, "opleidingnaam_leeg");
 
-            if (Tools.doesOpleidingExist(0, jsonOpleiding.getOpleidingnaam(), opleidingService))
+            if (Tools.doesOpleidingExist(0, opleidingNaam, opleidingService))
                 return APIResponse.respond(false, "opleidingnaam_bestaat_al");
 
-            Opleiding opleiding = new Opleiding(jsonOpleiding.getOpleidingnaam());
+            Opleiding opleiding = new Opleiding(opleidingNaam);
             opleidingService.create(opleiding);
 
             return APIResponse.respond(true);
@@ -83,17 +90,20 @@ public class OpleidingRestService {
     public String removeOpleiding(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("opleiding.remove", jsonNode.toPrettyString());
 
         try {
             JsonOpleiding jsonOpleiding = objectMapper.treeToValue(jsonNode, JsonOpleiding.class);
 
-            if (!Tools.isUserAdminOrDocent(jsonOpleiding.getUserkey(), userService, userRolService))
+            if (!Tools.userExists(jsonOpleiding.getUserkey(), userService))
+                return APIResponse.respond(false, "andere");
+
+            User u = userService.findByUserkey(jsonOpleiding.getUserkey()).get(0);
+
+            if (!Tools.isUserAdminOrDocent(u, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             Optional<Opleiding> optionalOpleiding = opleidingService.findById(jsonOpleiding.getId());
-
-            Map errors = new LinkedHashMap();
 
             if (optionalOpleiding.isEmpty())
                 return APIResponse.respond(false, "opleiding_id_bestaat_niet");
@@ -129,9 +139,5 @@ public class OpleidingRestService {
 
             return APIResponse.respond(false, "andere");
         }
-    }
-
-    public void logRequest(String s) {
-        logger.info("\nrequest:\n" + s);
     }
 }

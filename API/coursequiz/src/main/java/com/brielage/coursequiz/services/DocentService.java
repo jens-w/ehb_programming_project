@@ -6,7 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DocentService {
-    List<Docent> findAll();
+    void create(Docent docent);
+
+    void add(long userid);
+
+    void remove(Docent docent);
 
     Optional<Docent> findById(long id);
+
+    List<Docent> findAll();
 }

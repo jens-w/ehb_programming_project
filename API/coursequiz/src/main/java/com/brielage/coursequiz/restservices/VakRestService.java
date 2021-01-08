@@ -14,6 +14,7 @@ import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.services.VakService;
 import com.brielage.coursequiz.singleton.APIResponse;
+import com.brielage.coursequiz.singleton.ResponseLogger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -53,7 +54,7 @@ public class VakRestService {
 
     public String listVakken(JsonNode jsonNode) {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("vak.list", jsonNode.toPrettyString());
 
         try {
             JsonVak jsonVak = objectMapper.treeToValue(jsonNode, JsonVak.class);
@@ -104,9 +105,5 @@ public class VakRestService {
         }
 
         return null;
-    }
-
-    public void logRequest(String s) {
-        logger.info("\nrequest:\n" + s);
     }
 }
