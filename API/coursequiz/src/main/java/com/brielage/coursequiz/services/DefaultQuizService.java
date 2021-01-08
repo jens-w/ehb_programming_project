@@ -38,4 +38,9 @@ public class DefaultQuizService
     public List<Quiz> findByNaam(String naam) {
         return quizRepository.findByNaam(naam);
     }
+
+    @Override
+    public List<Quiz> findByVakId(long vakId) {
+        return quizRepository.findByVakId(vakId);
+    }
 }

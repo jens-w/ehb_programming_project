@@ -2,6 +2,7 @@ package com.brielage.coursequiz.services;
 
 import com.brielage.coursequiz.domain.Docent;
 import com.brielage.coursequiz.repositories.DocentRepository;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,12 +20,27 @@ public class DefaultDocentService
     }
 
     @Override
-    public List<Docent> findAll() {
-        return docentRepository.findAll();
+    public void create(Docent docent) {
+        docentRepository.create(docent);
+    }
+
+    @Override
+    public void add(long userid) {
+        docentRepository.add(userid);
+    }
+
+    @Override
+    public void remove(Docent docent) {
+        docentRepository.remove(docent);
     }
 
     @Override
     public Optional<Docent> findById(long id) {
         return docentRepository.findById(id);
+    }
+
+    @Override
+    public List<Docent> findAll() {
+        return docentRepository.findAll();
     }
 }

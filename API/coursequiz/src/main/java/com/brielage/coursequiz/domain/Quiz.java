@@ -20,7 +20,7 @@ public class Quiz {
     @NotNull
     private boolean isBeschikbaar;
     @NotNull
-    private long vakId, hoofdstukId;
+    private long vakid, hoofdstukid;
 
     protected Quiz() {
     }
@@ -29,36 +29,60 @@ public class Quiz {
                 @NotBlank String naam,
                 @NotBlank String omschrijving,
                 @NotNull boolean isBeschikbaar,
-                @NotNull long vakId,
-                @NotNull long hoofdstukId) {
+                @NotNull long vakid,
+                @NotNull long hoofdstukid) {
         this.id = id;
         this.naam = naam;
         this.omschrijving = omschrijving;
         this.isBeschikbaar = isBeschikbaar;
-        this.vakId = vakId;
-        this.hoofdstukId = hoofdstukId;
+        this.vakid = vakid;
+        this.hoofdstukid = hoofdstukid;
     }
 
     public Quiz(@NotBlank String naam,
                 @NotBlank String omschrijving,
                 @NotNull boolean isBeschikbaar,
-                @NotNull long vakId,
-                @NotNull long hoofdstukId) {
+                @NotNull long vakid,
+                @NotNull long hoofdstukid) {
         this.naam = naam;
         this.omschrijving = omschrijving;
         this.isBeschikbaar = isBeschikbaar;
-        this.vakId = vakId;
-        this.hoofdstukId = hoofdstukId;
+        this.vakid = vakid;
+        this.hoofdstukid = hoofdstukid;
     }
 
     public Quiz(@NotBlank String naam,
                 @NotBlank String omschrijving,
-                @NotNull long vakId,
-                @NotNull long hoofdstukId) {
+                @NotNull long vakid,
+                @NotNull long hoofdstukid) {
         this.naam = naam;
         this.omschrijving = omschrijving;
-        this.vakId = vakId;
-        this.hoofdstukId = hoofdstukId;
+        this.vakid = vakid;
+        this.hoofdstukid = hoofdstukid;
         this.isBeschikbaar = false;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getNaam() {
+        return naam;
+    }
+
+    public String getOmschrijving() {
+        return omschrijving;
+    }
+
+    public boolean isBeschikbaar() {
+        return isBeschikbaar;
+    }
+
+    public long getVakid() {
+        return vakid;
+    }
+
+    public long getHoofdstukid() {
+        return hoofdstukid;
     }
 }

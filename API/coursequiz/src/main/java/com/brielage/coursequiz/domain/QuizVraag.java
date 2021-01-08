@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 @Entity
@@ -14,18 +14,24 @@ public class QuizVraag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank
+    @NotNull
     private long quizId;
-    @NotBlank
+    @NotNull
     private long vraagId;
 
     protected QuizVraag() {
     }
 
     public QuizVraag(long id,
-                     @NotBlank long quizId,
-                     @NotBlank long vraagId) {
+                     @NotNull long quizId,
+                     @NotNull long vraagId) {
         this.id = id;
+        this.quizId = quizId;
+        this.vraagId = vraagId;
+    }
+
+    public QuizVraag(@NotNull long quizId,
+                     @NotNull long vraagId) {
         this.quizId = quizId;
         this.vraagId = vraagId;
     }

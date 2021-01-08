@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JpaHoofdstukRepository
@@ -19,6 +20,11 @@ public class JpaHoofdstukRepository
     @Override
     public void create(Hoofdstuk hoofdstuk) {
         manager.persist(hoofdstuk);
+    }
+
+    @Override
+    public Optional<Hoofdstuk> findById(long id) {
+        return Optional.ofNullable(manager.find(Hoofdstuk.class, id));
     }
 
     @Override

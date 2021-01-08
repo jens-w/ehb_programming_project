@@ -13,4 +13,6 @@ public interface QuizService {
     Optional<Quiz> findById(long id);
 
     List<Quiz> findByNaam(String naam);
+
+    List<Quiz> findByVakId(long vakId);
 }

@@ -1,17 +1,15 @@
 package com.brielage.coursequiz.restservices;
 
-import com.brielage.coursequiz.singleton.APIResponse;
 import com.brielage.coursequiz.domain.Docent;
 import com.brielage.coursequiz.domain.DocentVak;
-import com.brielage.coursequiz.jsonintermediates.JsonUser;
 import com.brielage.coursequiz.domain.Opleiding;
-import com.brielage.coursequiz.singleton.ResponseLogger;
 import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.Student;
 import com.brielage.coursequiz.domain.StudentVak;
 import com.brielage.coursequiz.domain.User;
 import com.brielage.coursequiz.domain.UserRol;
 import com.brielage.coursequiz.domain.Vak;
+import com.brielage.coursequiz.jsonintermediates.JsonUser;
 import com.brielage.coursequiz.restresponses.JsonResponse;
 import com.brielage.coursequiz.restresponses.JsonUserResponse;
 import com.brielage.coursequiz.services.DocentService;
@@ -22,6 +20,9 @@ import com.brielage.coursequiz.services.StudentVakService;
 import com.brielage.coursequiz.services.UserRolService;
 import com.brielage.coursequiz.services.UserService;
 import com.brielage.coursequiz.services.VakService;
+import com.brielage.coursequiz.singleton.APIResponse;
+import com.brielage.coursequiz.singleton.ResponseLogger;
+import com.brielage.coursequiz.singleton.Tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -71,16 +72,13 @@ public class UserRestService {
 
 
     @SuppressWarnings("rawtypes")
-    public String createUser(JsonNode jsonNode) throws JsonProcessingException {
+    public String createUser(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("user.create", jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
-
-            // LOG
-            logger.info("\njsonUser:\n" + jsonUser.toString());
-
             boolean voornaamGeldig = jsonUser.checkVoornaam();
             boolean familienaamGeldig = jsonUser.checkFamielienaam();
             boolean emailGeldig = jsonUser.checkEmail();
@@ -121,14 +119,14 @@ public class UserRestService {
                         return APIResponse.respond(true);
                     }
 
-                    return APIResponse.respond(false,"email_bestaatl_al");
+                    return APIResponse.respond(false, "email_bestaatl_al");
                 } catch (Exception e) {
                     e.printStackTrace();
 
                     // LOG
                     logger.error("\n" + e.getMessage());
 
-                    return APIResponse.respond(false,"andere");
+                    return APIResponse.respond(false, "andere");
                 }
             }
         } catch (UnrecognizedPropertyException e) {
@@ -137,11 +135,8 @@ public class UserRestService {
             // LOG
             logger.error("\n" + e.getMessage());
 
-
-
             Map fouten = new LinkedHashMap();
             fouten.put("veld_ongeldig", e.getPropertyName());
-
 
             ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
@@ -161,50 +156,36 @@ public class UserRestService {
     }
 
     @SuppressWarnings("rawtypes")
-    public String login(JsonNode jsonNode) throws JsonProcessingException {
+    public String login(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("user.login", jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
-
-            // LOG
-            logger.info("\njsonUser" + jsonUser.toString());
-
             boolean emailGeldig = jsonUser.checkEmail();
             boolean passwordGeldig = jsonUser.checkPassword();
 
-            if (!emailGeldig || !passwordGeldig) {
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false));
+            if (!emailGeldig || !passwordGeldig)
+                return APIResponse.respond(false);
 
-                return objectMapper.writeValueAsString(new JsonResponse(false));
-            }
+            String email = jsonUser.getEmail();
 
-            List<User> userList = userService.findByEmail(jsonUser.getEmail());
+            if (!Tools.doesUserEmailExist(email, userService))
+                return APIResponse.respond(false);
 
-            if (userList.size() != 1) {
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false));
+            User user = userService.findByEmail(email).get(0);
+            String password = jsonUser.getPassword();
 
-                return objectMapper.writeValueAsString(new JsonResponse(false));
-            }
-
-            User user = userList.get(0);
-
-            if (!jsonUser.getPassword().equals(user.getPassword())) {
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false));
-
-                return objectMapper.writeValueAsString(new JsonResponse(false));
-            }
+            if (!password.equals(user.getPassword()))
+                return APIResponse.respond(false);
 
             JsonUserResponse jsonUserResponse = new JsonUserResponse(
                     true,
                     user.getUserkey(),
                     user.getVoornaam(),
                     user.getFamilienaam(),
-                    user.getEmail(),
+                    email,
                     user.getAvatarPad()
             );
             Optional<UserRol> optionalUserRol = userRolService.findByUserId(user.getId());
@@ -216,12 +197,12 @@ public class UserRestService {
                 jsonUserResponse.setRol(optionalUserRol.get().getRol());
             }
 
-            Optional<Student> optionalStudent = studentService.findById(user.getId());
+            List<Student> studentListByUserId = studentService.findByUserId(user.getId());
             boolean isStudent = false;
 
-            if (optionalStudent.isPresent()) {
+            if (studentListByUserId.size() == 1) {
                 isStudent = true;
-                Student student = optionalStudent.get();
+                Student student = studentListByUserId.get(0);
                 Optional<Opleiding> optionalOpleiding = opleidingService.findById(student.getOpleidingid());
 
                 if (optionalOpleiding.isPresent()) {
@@ -235,14 +216,11 @@ public class UserRestService {
                 }
             }
 
-            Optional<Docent> optionalDocent = docentService.findById(user.getId());
-            boolean isDocent = optionalDocent.isPresent();
-
             List userVakkenList = null;
 
             if (isStudent) {
                 userVakkenList = studentVakService.findByStudentId(user.getId());
-            } else if (isDocent) {
+            } else if (Tools.isDocent(user, userRolService)) {
                 userVakkenList = docentVakService.findByDocentId(user.getId());
             }
 
@@ -287,107 +265,55 @@ public class UserRestService {
 
             // LOG
             logger.error("\n" + e.getMessage());
-            ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
-            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            return APIResponse.respond(false, fouten);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
 
             // LOG
             logger.error("\n" + e.getMessage());
-            ResponseLogger.logJsonResponse(new JsonResponse(false));
 
-            return objectMapper.writeValueAsString(new JsonResponse(false));
+            return APIResponse.respond(false, "andere");
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    public String edit(JsonNode jsonNode) throws JsonProcessingException {
+    @SuppressWarnings({"rawtypes", "OptionalGetWithoutIsPresent"})
+    public String edit(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("user.edit", jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
 
-            // LOG
-            logger.info("\njsonUser" + jsonUser.toString());
+            if (jsonUser.getVoornaam() != null && !jsonUser.checkVoornaam())
+                return APIResponse.respond(false, "voornaam_ongeldig");
 
-            if (jsonUser.getVoornaam() != null && !jsonUser.checkVoornaam()) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("voornaam_ongeldig", true);
+            if (jsonUser.getFamilienaam() != null && !jsonUser.checkFamielienaam())
+                return APIResponse.respond(false, "familienaam_ongeldig");
 
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
+            if (jsonUser.getEmail() != null && !jsonUser.checkEmail())
+                return APIResponse.respond(false, "email_ongeldig");
 
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
-            }
+            if (jsonUser.getAvatarpad() != null && !jsonUser.checkAvatarpad())
+                return APIResponse.respond(false, "avatarpad_ongeldig");
 
-            if (jsonUser.getFamilienaam() != null && !jsonUser.checkFamielienaam()) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("familienaam_ongeldig", true);
+            if (jsonUser.getPassword() != null && !jsonUser.checkPassword())
+                return APIResponse.respond(false, "password_ongeldig");
 
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
+            if (!Tools.doesUserEmailExist(jsonUser.getEmail(), userService))
+                return APIResponse.respond(false, "email_bestaat_al");
 
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
-            }
+            String userkey = jsonUser.getUserkey();
 
-            if (jsonUser.getEmail() != null && !jsonUser.checkEmail()) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("email_ongeldig", true);
-
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
-
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
-            }
-
-            if (jsonUser.getAvatarpad() != null && !jsonUser.checkAvatarpad()) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("avatarpad_ongeldig", true);
-
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
-
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
-            }
-
-            if (jsonUser.getPassword() != null && !jsonUser.checkPassword()) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("password_ongeldig", true);
-
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
-
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
-            }
-
-            List<User> userListByEmail = userService.findByEmail(jsonUser.getEmail());
-
-            if (userListByEmail.size() != 0) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("email_bestaat_al", true);
-
-                // LOG
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
-
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
-            }
-
-            List<User> userListByUserkey = userService.findByUserkey(jsonUser.getUserkey());
-
-            if (userListByUserkey.size() != 1) {
-                Map fouten = new LinkedHashMap();
-                fouten.put("andere", true);
-
+            if (!Tools.userExists(userkey, userService)) {
                 // LOG
                 logger.info("\nUSERKEY BESTAAT NIET OF MEERDERE KEREN");
-                ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
-                return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+                return APIResponse.respond(false, "andere");
             }
 
-            User user = userListByUserkey.get(0);
+            User user = userService.findByUserkey(userkey).get(0);
 
             if (jsonUser.getVoornaam() != null) user.setVoornaam(jsonUser.getVoornaam());
             if (jsonUser.getFamilienaam() != null) user.setFamilienaam(jsonUser.getFamilienaam());
@@ -397,13 +323,17 @@ public class UserRestService {
 
             // needed to update the db?
             // maybe there's another way, but without this it would not update the db
-            //noinspection UnusedAssignment,OptionalGetWithoutIsPresent
             user = userService.findById(user.getId()).get();
 
-            // LOG
-            ResponseLogger.logJsonResponse(new JsonResponse(true));
+            Map userData = new LinkedHashMap();
 
-            return objectMapper.writeValueAsString(new JsonResponse(true));
+            userData.put("voornaam", user.getVoornaam());
+            userData.put("familienaam", user.getFamilienaam());
+            userData.put("email", user.getEmail());
+            userData.put("eigenrol", userRolService.findByUserId(user.getId()).get().getRol());
+
+            return APIResponse.respondUser(true, userData,
+                    userRolService.findByUserId(user.getId()).get().getRol());
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
@@ -412,9 +342,8 @@ public class UserRestService {
 
             // LOG
             logger.error("\n" + e.getMessage());
-            ResponseLogger.logJsonResponse(new JsonResponse(false, fouten));
 
-            return objectMapper.writeValueAsString(new JsonResponse(false, fouten));
+            return APIResponse.respond(false, fouten);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
 
@@ -430,15 +359,13 @@ public class UserRestService {
     }
 
     @SuppressWarnings("rawtypes")
-    public String newUserkey(JsonNode jsonNode) throws JsonProcessingException {
+    public String newUserkey(JsonNode jsonNode)
+            throws JsonProcessingException {
         // LOG
-        logRequest(jsonNode.toPrettyString());
+        ResponseLogger.logRequest("user.newuserkey", jsonNode.toPrettyString());
 
         try {
             JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
-
-            // LOG
-            logger.info("\njsonUser" + jsonUser.toString());
 
             if (!jsonUser.getUserkey().isEmpty()) {
                 List<User> userListByUserkey = userService.findByUserkey(jsonUser.getUserkey());
@@ -454,9 +381,13 @@ public class UserRestService {
                 u.setUserkey(generateUserkey());
 
                 JsonUserResponse jsonUserResponse = new JsonUserResponse(
-                        true, u.getUserkey(), null, null, null, null);
-                //noinspection OptionalGetWithoutIsPresent
-                jsonUserResponse.setRol(userRolService.findByUserId(u.getId()).get().getRol());
+                        true,
+                        u.getUserkey(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        userRolService.findByUserId(u.getId()).get().getRol());
 
                 // LOG
                 ResponseLogger.logJsonResponse(jsonUserResponse);
@@ -493,11 +424,204 @@ public class UserRestService {
         }
     }
 
-    public void logRequest(String s) {
-        logger.info("\nrequest:\n" + s);
+    @SuppressWarnings({"rawtypes", "OptionalGetWithoutIsPresent"})
+    public String list(JsonNode jsonNode)
+            throws JsonProcessingException {
+        // LOG
+        ResponseLogger.logRequest("user.list", jsonNode.toPrettyString());
+
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
+            String userkey = jsonUser.getUserkey();
+
+            if (!Tools.userExists(userkey, userService)) {
+                // LOG
+                logger.info("\nERR::userkey does not exist");
+
+                return APIResponse.respond(false, "andere");
+            }
+
+            User u = userService.findByUserkey(userkey).get(0);
+
+            if (!Tools.isUserAdminOrDocent(u, userRolService))
+                return APIResponse.respond(false, "rechten_ongeldig");
+
+            String r = jsonUser.getRol();
+
+            if (r == null || r.isEmpty() || r.isBlank())
+                return APIResponse.respond(false, "rol_leeg");
+
+            Rol eigenrol = userRolService.findByUserId(u.getId()).get().getRol();
+
+            if (!r.equals("ALL")) {
+                Rol rol = Rol.valueOf(jsonUser.getRol());
+                boolean isDocent = Tools.isDocent(u, userRolService);
+
+                if ((isDocent && rol == Rol.DOCENT) ||
+                        (isDocent && rol == Rol.ADMIN))
+                    return APIResponse.respond(false, "rechten_ongeldig");
+
+                if (rol == Rol.STUDENT)
+                    return APIResponse.respondUser(true, findStudenten(), eigenrol, Rol.STUDENT);
+
+                if (rol == Rol.DOCENT)
+                    return APIResponse.respondUser(true, findDocenten(), eigenrol, Rol.DOCENT);
+
+                if (rol == Rol.USER)
+                    return APIResponse.respondUser(true, findRegularUsers(), eigenrol, Rol.USER);
+            }
+
+            List docenten = findDocenten();
+            List studenten = findStudenten();
+            List users = findRegularUsers();
+
+            if (eigenrol.equals(Rol.ADMIN)) {
+                List<User> allAdmins = userService.findAllAdmins();
+                List admins = new ArrayList<>();
+
+                for (User ua : allAdmins) {
+                    Map admin = new LinkedHashMap();
+
+                    admin.put("id", ua.getId());
+                    admin.put("voornaam", ua.getVoornaam());
+                    admin.put("familienaam", ua.getFamilienaam());
+                    admin.put("email", ua.getEmail());
+
+                    admins.add(admin);
+                }
+
+
+                return APIResponse.respondUser(true, admins, docenten, studenten, users, eigenrol);
+            }
+
+            return APIResponse.respondUser(true, docenten, studenten, users, eigenrol);
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            Map fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, fouten);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
     }
 
+    @SuppressWarnings({"OptionalGetWithoutIsPresent", "rawtypes"})
+    public String changeRol(JsonNode jsonNode)
+            throws JsonProcessingException {
+        // LOG
+        ResponseLogger.logRequest("user.changeRol", jsonNode.toPrettyString());
 
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
+
+            if (!Tools.userExists(jsonUser.getUserkey(), userService)) {
+                // LOG
+                logger.info("\nERR::userkey does not exist");
+
+                return APIResponse.respond(false, "andere");
+            }
+
+            long userid = jsonUser.getId();
+
+            if (!Tools.userExists(userid, userService))
+                return APIResponse.respond(false, "user_bestaat_niet");
+
+            Rol nieuwerol = null;
+            boolean isRolGeldig = false;
+            String nieuweroltekst = jsonUser.getNieuwerol();
+
+            for (Rol rol : Rol.values()) {
+                if (nieuweroltekst.equals(rol.name())) {
+                    isRolGeldig = true;
+                    nieuwerol = rol;
+                    break;
+                }
+            }
+
+            if (!isRolGeldig)
+                return APIResponse.respond(false, "rol_bestaat_niet");
+
+            User u = userService.findById(userid).get();
+            Rol rol = userRolService.findByUserId(userid).get().getRol();
+
+            if (nieuwerol == Rol.STUDENT) {
+                long opleidingid = jsonUser.getOpleidingid();
+
+                if (opleidingid < 1)
+                    return APIResponse.respond(false, "opleidingid_ongeldig");
+
+                if (!Tools.doesOpleidingExist(opleidingid, opleidingService))
+                    return APIResponse.respond(false, "opleidingid_bestaat_niet");
+
+                if (rol == Rol.ADMIN ||
+                        rol == Rol.DOCENT)
+                    return APIResponse.respond(false, "user_heeft_meer_rechten");
+
+                if (nieuwerol == rol)
+                    return APIResponse.respond(false, "user_heeft_zelfde_rechten");
+
+                studentService.add(userid, opleidingid);
+                UserRol userRol = userRolService.findByUserId(userid).get();
+                userRol.setRol(Rol.STUDENT);
+            }
+
+            if (nieuwerol == Rol.DOCENT) {
+                long vakid = jsonUser.getVakid();
+
+                if (vakid < 1)
+                    return APIResponse.respond(false, "vakid_ongeldig");
+
+                if (!Tools.doesVakExist(vakid, vakService))
+                    return APIResponse.respond(false, "vakid_bestaat_niet");
+
+                if (rol == Rol.ADMIN)
+                    return APIResponse.respond(false, "user_heeft_meer_rechten");
+
+                if (rol == nieuwerol) {
+                    if (Tools.isDocentVanVak(u, vakid, docentVakService))
+                        return APIResponse.respond(false, "user_heeft_zelfde_rechten");
+                }
+
+                docentService.add(userid);
+                UserRol userRol = userRolService.findByUserId(userid).get();
+                userRol.setRol(Rol.DOCENT);
+                docentVakService.create(new DocentVak(userid, vakid));
+            }
+
+            Rol eigenrol = userRolService.findByUserId(
+                    userService.findByUserkey(
+                            jsonUser.getUserkey()).get(0).getId())
+                    .get().getRol();
+            return APIResponse.respond(true, eigenrol);
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            Map fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, fouten);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
+    }
 
     public String generateUserkey() {
         String chars = "abcdefghijklmnopqrstuvwxyz" +
@@ -522,5 +646,59 @@ public class UserRestService {
         }
 
         return String.valueOf(userkey);
+    }
+
+    public List<Student> findStudenten() {
+        List<Student> sl = studentService.findAll();
+        List studenten = new ArrayList();
+
+        for (Student s : sl) {
+            Map student = new LinkedHashMap();
+
+            student.put("id", s.getId());
+            student.put("voornaam", s.getVoornaam());
+            student.put("familienaam", s.getFamilienaam());
+            student.put("email", s.getEmail());
+
+            studenten.add(student);
+        }
+
+        return studenten;
+    }
+
+    public List<Docent> findDocenten() {
+        List<Docent> dl = docentService.findAll();
+        List docenten = new ArrayList();
+
+        for (Docent d : dl) {
+            Map docent = new LinkedHashMap();
+
+            docent.put("id", d.getId());
+            docent.put("voornaam", d.getVoornaam());
+            docent.put("familienaam", d.getFamilienaam());
+            docent.put("email", d.getEmail());
+
+            docenten.add(docent);
+        }
+
+        return docenten;
+    }
+
+    public List<User> findRegularUsers() {
+        List<User> ul = userService.findAllRegularUsers();
+        List users = new ArrayList();
+
+        for (User us : ul) {
+            Map user = new LinkedHashMap();
+
+            user.put("id", us.getId());
+            user.put("voornaam", us.getVoornaam());
+            user.put("familienaam", us.getFamilienaam());
+            user.put("email", us.getEmail());
+
+            users.add(user);
+        }
+
+        return users;
     }
 }

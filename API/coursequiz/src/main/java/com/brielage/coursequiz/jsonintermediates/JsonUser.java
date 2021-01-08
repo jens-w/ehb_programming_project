@@ -1,55 +1,13 @@
 package com.brielage.coursequiz.jsonintermediates;
 
-import com.brielage.coursequiz.domain.Rol;
 import com.brielage.coursequiz.domain.Validator;
 
 public class JsonUser {
-    private long id;
-    private String voornaam, familienaam, email, userkey, avatarpad, password;
-    private Rol rol;
+    private long id, opleidingid, vakid;
+    private String voornaam, familienaam, email, userkey, avatarpad, password, nieuwerol, rol;
 
     public JsonUser() {
         super();
-    }
-
-    public JsonUser(String voornaam,
-                    String familienaam,
-                    String email,
-                    String password) {
-        this.voornaam = voornaam;
-        this.familienaam = familienaam;
-        this.email = email;
-        this.password = password;
-    }
-
-    public JsonUser(String voornaam,
-                    String familienaam,
-                    String email,
-                    String userkey,
-                    String avatarpad,
-                    String password) {
-        this.voornaam = voornaam;
-        this.familienaam = familienaam;
-        this.email = email;
-        this.userkey = userkey;
-        this.avatarpad = avatarpad;
-        this.password = password;
-    }
-
-    public JsonUser(long id,
-                    String voornaam,
-                    String familienaam,
-                    String email,
-                    String userkey,
-                    String avatarpad,
-                    String password) {
-        this.id = id;
-        this.voornaam = voornaam;
-        this.familienaam = familienaam;
-        this.email = email;
-        this.userkey = userkey;
-        this.avatarpad = avatarpad;
-        this.password = password;
     }
 
     public long getId() {
@@ -137,6 +95,38 @@ public class JsonUser {
         return true;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getNieuwerol() {
+        return nieuwerol;
+    }
+
+    public void setNieuwerol(String nieuwerol) {
+        this.nieuwerol = nieuwerol;
+    }
+
+    public long getOpleidingid() {
+        return opleidingid;
+    }
+
+    public void setOpleidingid(long opleidingid) {
+        this.opleidingid = opleidingid;
+    }
+
+    public long getVakid() {
+        return vakid;
+    }
+
+    public void setVakid(long vakid) {
+        this.vakid = vakid;
+    }
+
     @Override
     public String toString() {
         return id + "; " +
@@ -145,6 +135,8 @@ public class JsonUser {
                 email + "; " +
                 userkey + "; " +
                 avatarpad + "; " +
-                password;
+                password + "; " +
+                nieuwerol + "; " +
+                rol;
     }
 }

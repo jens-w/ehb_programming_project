@@ -13,7 +13,6 @@ public class JsonVakResponse
     @JsonInclude(Include.NON_NULL)
     private final List vakken;
 
-
     public JsonVakResponse(boolean success,
                            Rol rol,
                            List vakken) {

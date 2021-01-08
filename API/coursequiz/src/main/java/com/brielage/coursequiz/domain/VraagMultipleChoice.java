@@ -16,11 +16,23 @@ public class VraagMultipleChoice
 
     public VraagMultipleChoice(long id,
                                @NotBlank String vraag,
-                               @NotBlank int aantalAntwoordenTonen,
+                               @NotBlank long aantalAntwoordenTonen,
                                @NotBlank boolean juisteAntwoordTonen,
                                @NotBlank long hoofdstukId) {
         super(
                 id,
+                vraag,
+                aantalAntwoordenTonen,
+                juisteAntwoordTonen,
+                hoofdstukId
+        );
+    }
+
+    public VraagMultipleChoice(@NotBlank String vraag,
+                               @NotBlank long aantalAntwoordenTonen,
+                               @NotBlank boolean juisteAntwoordTonen,
+                               @NotBlank long hoofdstukId) {
+        super(
                 vraag,
                 aantalAntwoordenTonen,
                 juisteAntwoordTonen,
