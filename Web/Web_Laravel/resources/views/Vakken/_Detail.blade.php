@@ -36,12 +36,19 @@
             </div>
             <div class="tab-content border-0">
                 <div class="tab-pane fade in active show" id="AccountInfoTab">
-                    <?php echo Session::get('errorsApi'); ?>
 
                     <div class="quizzes-list-wrapper">
+                        @if(isset($quizlijst))
                         @foreach($quizlijst as $quiz)
                         @include('Vakken/partials/._quiz')
                         @endforeach
+                        @else
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <span>Er zijn nog geen quizzen toegewezen aan dit vak.</span>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -88,9 +95,11 @@
                     </div>
                 </div>
                 <!-- new question tab -->
+                @if(isset($quizlijst))
                 @foreach($quizlijst as $quiz)
                 @include('Vakken/partials/._form_add_question')
                 @endforeach
+                @endif
 
             </div>
         </div>

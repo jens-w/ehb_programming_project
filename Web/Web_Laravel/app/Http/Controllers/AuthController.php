@@ -28,6 +28,15 @@ use phpDocumentor\Reflection\Types\This;
 
 class AuthController extends Controller
 {
+    public static function CheckUser(){
+        if (!Session::has('userData')) {
+            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
+        }
+        $sessionData = Session::get('userData');
+        $user = new User();
+        $user->fill($sessionData);
+        return $user;
+    }
 
     public function loginInit()
     {

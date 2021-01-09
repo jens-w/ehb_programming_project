@@ -65,7 +65,9 @@ Route::post('/quiz/questions/add', [QuizController::class, 'addNewQuestion'])->n
 Route::get('/quiz/detail/{naam}/{quizId}', [QuizController::class, 'GetQuiz'])->name('getQuiz');
 Route::post('/quiz/indienen', [QuizController::class , 'sendQuiz'])->name('sendQuiz');
 Route::post('/quiz/add', [QuizController::class, 'addNewQuiz'])->name('addNewQuiz');
+
 // -- ACCOUNT -- //
+Route::post('/Account/edit', [AccountBeheerController::class, 'changeUserRole'])->name('changeUserRole');
 Route::get('/Account/overview', [AccountBeheerController::class, 'index'])->name('accountBeheer');
 Route::post('/Account/update', [AccountBeheerController::class, 'update'])->name('update');
 Route::get('/Account/GetAccountInfo', [AccountBeheerController::class, 'GetAccountInfo'])->name('accountInfo');

@@ -12,6 +12,8 @@ use \App\Models\Users\UserTemp;
 use \App\Models\Courses\Course;
 use \App\Models\Vakken\Vak;
 use \App\Http\Controllers\BaseController;
+use \App\Http\Controllers\AuthController;
+use App\Http\Controllers\Vakken\VakkenController;
 use Illuminate\Support\Facades\DB;
 use View;
 use Session;
@@ -45,16 +47,14 @@ class AccountBeheerController extends BaseController
                 $admin = new Admin();
                 $admin->fill($AccountViewModel);
                 $admin->userList = Self::GetUserList($admin->userKey, 'admin');
-                // enkel admin kan courses zien
-                $admin->coursesList = $this->courseService::GetCoursesList($admin->userKey, 'admin');
-                return view('AccountBeheer/Gegevens.Overview_Admin')->with('AccountViewModel', $admin);
+                $admin->vakkenList = VakkenController::GetVakkenList($admin->userKey);
+                return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $admin);
                 break;
             case 'docent':
                 $docent = new Docent();
                 $docent->fill($AccountViewModel);
                 $docent->userList = Self::GetUserList($docent->userKey, 'docent');
-                $docent->coursesList = $this->courseService::GetCoursesList($docent->userKey, 'docent');
-                return view('AccountBeheer/Gegevens.Overview_Docent')->with('AccountViewModel', $docent);
+                return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $docent);
                 break;
             case "student":
                 $student = new Student();
@@ -66,84 +66,65 @@ class AccountBeheerController extends BaseController
         return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $AccountViewModel);
     }
 
+
+    public function changeUserRole(Request $request){
+
+        $user = AuthController::CheckUser();
+        $apiArray = array();
+        $apiArray['userkey'] = $user->userKey;
+        $apiArray['id'] = $request->input('id');
+        $newRol = strtoupper($request->rollen[0]);
+        $apiArray['nieuwerol'] = $newRol;
+        if($newRol == "DOCENT"){
+            $apiArray['vakid'] = 2;
+        }
+        elseif($newRol == "STUDENT") {
+            $apiArray["opleidingid"] = 1;
+        }
+
+        $response = Http::post('api.brielage.com:8081/user/rol/', $apiArray);
+
+       // check if success is true
+        if (boolval($response["success"])) {    
+            $errorArray["succesvol_aangemaakt"] = true;
+            Session::put("errorsApi", $errorArray);
+            return Redirect::back();
+
+         } else {
+            foreach ($response['errors'] as $key => $value) {
+                $errorArray[$key] = $value;
+            }
+            Session::put("errorsApi", $errorArray);
+            return Redirect::back();
+        }  
+        
+        
+    }
+
+
     public function GetUserList($userKey, $type)
     {
         // link voor api
-        /* $response = Http::post('URL HERE',  [
-               'userkey' => $userKey]
-            ); */
+        $apiArray = array();
+        $apiArray['userkey'] = $userKey;
+        $apiArray['rol'] = strtoupper($type);
+        $response = Http::post('api.brielage.com:8081/user/list', $apiArray );
 
-        $response = '{
-			"success" : true,
-			"eigenrol" : "Docent",
-			"users" : {
-				"user1" : {
-					"id" : 38,
-					"voornaam" : "een_voornaam",
-					"familienaam" : "een_familienaam",
-					"email" : "een@ema.il",
-					"rol" : "student"
-				},
-				"user2" : {
-					"id" : 12,
-					"voornaam" : "een_voornaam",
-					"familienaam" : "een_familienaam",
-					"email" : "een@ema.il",
-					"rol" : "docent"
-				}
-			}
-        }';
+        
+        $response = json_decode($response, true);
 
-        $decodedArray = json_decode($response, true);
-        foreach ($decodedArray as $key => $output) {
-            switch ($key) {
-                case 'success':
-                    if (!boolval($output)) {
-                        foreach ($decodedArray as $key => $output) {
-                            if ($key === 'errors') { }
-                        }
-                    } else {
-                        // if not, get the data and create model
-                        $sessionData = Session::get('userData');
-                        //decode request to proper object (thats why second param. = true !!)
-                        //$result = json_encode( $sessionData, true);
-                        if ($type == 'docent') {
-                            $AccountViewModel = new Docent();
-                        } else {
-                            $AccountViewModel = new Admin();
-                        }
-                        $AccountViewModel->fill($sessionData);
-                        // loop over the rest of the key values
-                        foreach ($decodedArray as $keyInner => $outputInner) {
-                            switch ($keyInner) {
-                                case 'eigenrol':
-                                    $AccountViewModel->type = $outputInner;
-                                    break;
-                                case 'users':
-                                    $userList = [];
-                                    foreach ($outputInner as $key => $out) {
-                                        // define vak with class - init the var.
-                                        $user = new UserTemp();
-                                        // fill the object (vak) with the array data
-                                        $user->fill($out);
-                                        // add each 'vak' to an array called 'vakkenList'
-                                        $userList[] = $user;
-                                    }
-
-                                    break;
-                            }
-                        }
-
-                        // put user data in session called 'userData'
-                        Session::put('userData', $AccountViewModel);
-                        Session::put('userListForCourse', $userList);
-                        // save the session
-                        Session::save();
-                    }
-                    break;
+        // check if success is true
+        if (boolval($response["success"])) {    
+            Session::put('rol', $response['eigenrol']);  
+            return $response;
+        } else {
+            foreach ($response['errors'] as $key => $value) {
+                $errorArray[$key] = $value;
             }
-        }
-        return $userList;
+            Session::put("errorsApi", $errorArray);
+            return view('AccountBeheer/Gegevens.Overview');
+        }   
+
     }
 
 

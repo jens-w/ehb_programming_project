@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Quizzen;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use \App\Models\Users\Docent;
@@ -24,21 +25,15 @@ class QuizController extends BaseController
     public function getQuiz($naam, $quizId)
     {
 
-        if (!Session::has('userData')) {
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
-        }
-
-        $sessionData = Session::get('userData');
-        $user = new User();
-        $user->fill($sessionData);
-        $uKey = $user->userKey;
+        $user = AuthController::CheckUser();
+       
 
         // create array for request to api
 
         $apiArray = array();
-        $apiArray['userkey'] = $uKey;
+        $apiArray['userkey'] = $user->userKey;;
         $apiArray['quizid'] = $quizId;
-
+     
         // respone api
         // $response = Http::get('api/linkHIER', $apiArray);
 
@@ -120,22 +115,15 @@ class QuizController extends BaseController
 
     public function addNewQuiz(Request $request)
     {
-        if (!Session::has('userData')) {
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
-        }
-
-        $errorArray = array();
-        $sessionData = Session::get('userData');
-        $user = new User();
-        $user->fill($sessionData);
-        $uKey = $user->userKey;
+        $user = AuthController::CheckUser();
+        
 
         // inputs 
-
+        $errorArray = array();
         $quizName = $request->input('quizName');
         $quizDescription = $request->input('quizDescription');
         $vakId = $request->input('vakId');
-
+        $uKey = $user->userKey;
         // Create Array for api
 
         $apiArray = array();
@@ -163,16 +151,9 @@ class QuizController extends BaseController
 
     public function addNewQuestion(Request $request)
     {
-        $errorArray = array();
+       
 
-        if (!Session::has('userData')) {
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
-        }
-
-        $errorArray = array();
-        $sessionData = Session::get('userData');
-        $user = new User();
-        $user->fill($sessionData);
+        $user = AuthController::CheckUser();
         
 
         // inputs 
@@ -180,8 +161,9 @@ class QuizController extends BaseController
         $simpleQuestion = boolval($request->simpelQuestion);
         $uKey = $user->userKey;
         $answers = $request->answers;
+        $showHowManyAnswers = $request->showHowmanyAnswers;
         $correctAnsw = $request->correctAnswersQuestion;
-
+        $errorArray = array();
         
 
 
@@ -196,7 +178,7 @@ class QuizController extends BaseController
 
         $array['userkey'] = $uKey;
         $array['vraag'] = $questionName;
-        $array['hoofdstukid'] = 0;
+        $array['aantal_antwoorden_tonen'] = $showHowManyAnswers[0];
         $array['quizid'] = $request->input('quizId');
         $array['simpele_vraag'] = $simpleQuestion;
         if($simpleQuestion){
@@ -233,12 +215,7 @@ class QuizController extends BaseController
     {
 
 
-        if (!Session::has('userData')) {
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
-        }
-        $sessionData = Session::get('userData');
-        $user = new User();
-        $user->fill($sessionData);
+        $user = AuthController::CheckUser();
         $uKey = $user->userKey;
 
         // get quiz info from session
@@ -300,6 +277,8 @@ class QuizController extends BaseController
         }
     }
 
+
+    
 
     public function GetQuizzes($userKey, $vakid, $hoofdstukId = null)
     {

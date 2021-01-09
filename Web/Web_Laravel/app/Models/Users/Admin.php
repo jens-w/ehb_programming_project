@@ -10,7 +10,7 @@ class Admin extends User
     
   // param eigen aan model nog te voorzien
 
-  public $coursesList;
+  public $vakkenList;
   public $userList;
 
   public function fill(User $user){

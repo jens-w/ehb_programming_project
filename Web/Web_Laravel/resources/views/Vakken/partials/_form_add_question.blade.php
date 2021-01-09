@@ -5,13 +5,21 @@
             <input type="hidden" name="quizId" id="quizId" value="{{$quiz['id']}}">
             <div class="row">
                 <div class="col-12">
-                    <div class="form-group">
-                        <label>Vraag: </label>
-                        <input name="questionName" id="questionName" class="form-control">
+                    <div class="form-group">                        
+                        <input name="questionName" id="questionName" placeholder="Vul hier de vraag in..." class="form-control inpt-cst">
                     </div>
                     <label for="simpelQuestion">Kan de vraag maar één juist antwoord hebben?</label>
                     <input type="checkbox" name="simpelQuestion[]" id="simpleQuestionChkbx">
-
+                    <div class="form-group">
+                            <label>Aantal antwoorden tonen: </label>
+                            <select name="showHowmanyAnswers[]">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
                     <div class="form-simple">
                         <div class="form-group">
                             <label>Het juiste antwoord weergeven?: </label>

@@ -9,8 +9,13 @@
                         <a data-toggle="tab" class="d-flex" href="#AccountInfoTab"><i class="far fa-user"></i><span>Account</span></a>
                     </li>
                     <li class="d-flex align-items-center justify-content-center justify-content-md-start">
-                        <a data-toggle="tab" class="d-flex" href="#AccountCourses"><i class="fas fa-book-open"></i><span>Vakken</span></a>
+                        <a data-toggle="tab" class="d-flex" href="#VakDetail"><i class="fas fa-book-open"></i><span>Vakken</span></a>
                     </li>
+                    @if(strtolower($AccountViewModel->type) == 'docent' or strtolower($AccountViewModel->type) == 'admin')
+                    <li class="d-flex align-items-center justify-content-center justify-content-md-start">
+                        <a data-toggle="tab" class="d-flex" href="#UserList"><i class="fas fa-users"></i></i><span>Gebruikers</span></a>
+                    </li>
+                    @endif
                 </ul>
             </div>
             <!-- tab effective -->
@@ -111,13 +116,17 @@
                         <button type="update" class="btn btn-dark">Refresh Key</button>
                         {{ Form::close() }}
                     </div>
-                    <div class="tab-pane fade" id="AccountCourses">
+                   @if(strtolower($AccountViewModel->type) == 'docent' or strtolower($AccountViewModel->type) == 'admin')
+                   <div class="tab-pane fade" id="UserList">
                         <div class="row">
-                            @foreach($AccountViewModel->vakken as $vak)
-                              @include('AccountBeheer/Gegevens/partials._vak')
-                            @endforeach
+                            <div class="col-12">
+                                <div class="userListWrapper">
+                                       @include('AccountBeheer/Gegevens/partials._users')
+                                </div>
+                            </div>
                         </div>
                     </div>
+                   @endif
                     <div class="tab-pane fade" id="VakDetail">
                         <div class="row">
                             @foreach($AccountViewModel->vakken as $vak)

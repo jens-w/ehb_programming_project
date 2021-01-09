@@ -33,6 +33,25 @@ class VakkenController extends \App\Http\Controllers\BaseController
     }
 
 
+    public static function GetVakkenList($userKey){
+        $apiArray = array();
+        $apiArray['userkey'] = $userKey;
+        $response = Http::post('api.brielage.com:8081/vak/list/all', $apiArray);
+         // check if success is true
+         if (boolval($response["success"])) {    
+            Session::put('rol', $response['eigenrol']);  
+            return $response;;
+        } else {
+            foreach ($response['errors'] as $key => $value) {
+                $errorArray[$key] = $value;
+            }
+            Session::put("errorsApi", $errorArray);
+            return Redirect::back();
+        }   
+        
+    }
+
+
   
     public function GetHoofdstukken($userkey, $vakId){
         $response = '
@@ -103,21 +122,15 @@ class VakkenController extends \App\Http\Controllers\BaseController
     }
 
     public function detail($naam,$vakId){
-                /* hier nog checken of user wel aangemeld is */
+                
+        /* hier nog checken of user wel aangemeld is */
 
-        if(!Session::has('userData')){
-            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
-        }
-               
-        $sessionData = Session::get('userData');
-        $user = new User();
-        $user->fill($sessionData);
-        $uKey = $user->userKey;
+        $user = Self::CheckUser();
 
         // create array for request to api
          
         $apiArray = array();
-        $apiArray['userkey'] = $uKey;
+        $apiArray['userkey'] = $user->userKey;
         $apiArray['vakid'] = $vakId;
  
         
@@ -157,6 +170,17 @@ class VakkenController extends \App\Http\Controllers\BaseController
             Session::put("errorsApi", $errorArray);
             return View::make('Vakken/_Detail')->with(['vakName' => $naam, 'vakId' => $vakId]);
         }   
+    }
+
+
+    public function CheckUser(){
+        if (!Session::has('userData')) {
+            return Redirect('/loginInit')->withErrors(['Je moet aangemeld zijn om je account te kunnen bekijken']);
+        }
+        $sessionData = Session::get('userData');
+        $user = new User();
+        $user->fill($sessionData);
+        return $user;
     }
 
 }

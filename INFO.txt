@@ -1,0 +1,24 @@
+DOCENT ----
+docent@ehb.be
+test12345
+STUDENT ----
+michaelbracke@live.be
+test
+
+
+
+- Authenticatie error messages
+- Aanpassen van gegevens met API en juiste foute errors weergeven adh van keys
+
+
+
+
+LEGE LIJSTEN VAN QUIZZEN OPVANGEN
+
+
+input name="cars[]" value="text"
+in larvavel conroller
+$cars = $request->cars
+foreach($cars as $key => $value){
+
+}
