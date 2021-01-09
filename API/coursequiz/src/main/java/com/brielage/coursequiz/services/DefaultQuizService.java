@@ -2,6 +2,7 @@ package com.brielage.coursequiz.services;
 
 import com.brielage.coursequiz.domain.Quiz;
 import com.brielage.coursequiz.repositories.QuizRepository;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,11 @@ public class DefaultQuizService
     }
 
     @Override
+    public void create(Quiz quiz) {
+        quizRepository.create(quiz);
+    }
+
+    @Override
     public List<Quiz> findAll() {
         return quizRepository.findAll();
     }
@@ -26,5 +32,15 @@ public class DefaultQuizService
     @Override
     public Optional<Quiz> findById(long id) {
         return quizRepository.findById(id);
+    }
+
+    @Override
+    public List<Quiz> findByNaam(String naam) {
+        return quizRepository.findByNaam(naam);
+    }
+
+    @Override
+    public List<Quiz> findByVakId(long vakId) {
+        return quizRepository.findByVakId(vakId);
     }
 }

@@ -62,28 +62,48 @@ public class UserRestController {
     @PostMapping(value = "/create",
             consumes = "application/json",
             produces = "application/json")
-    public String createUser(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String createUser(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return userRestService.createUser(jsonNode);
     }
 
     @PostMapping(value = "/login",
             consumes = "application/json",
             produces = "application/json")
-    public String login(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String login(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return userRestService.login(jsonNode);
     }
 
     @PostMapping(value = "/edit",
             consumes = "application/json",
             produces = "application/json")
-    public String edit(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String edit(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return userRestService.edit(jsonNode);
     }
 
     @PostMapping(value = "/userkey",
             consumes = "application/json",
             produces = "application/json")
-    public String newUserkey(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String newUserkey(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return userRestService.newUserkey(jsonNode);
+    }
+
+    @PostMapping(value = "/list",
+            consumes = "application/json",
+            produces = "application/json")
+    public String list(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
+        return userRestService.list(jsonNode);
+    }
+
+    @PostMapping(value = "/rol",
+            consumes = "application/json",
+            produces = "application/json")
+    public String changeRol(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
+        return userRestService.changeRol(jsonNode);
     }
 }

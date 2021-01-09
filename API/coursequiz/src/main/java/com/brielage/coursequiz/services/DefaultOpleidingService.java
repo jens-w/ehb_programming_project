@@ -35,6 +35,11 @@ public class DefaultOpleidingService
     }
 
     @Override
+    public void remove(Opleiding opleiding) {
+        opleidingRepository.remove(opleiding);
+    }
+
+    @Override
     public List<Opleiding> findByNaam(String naam) {
         return opleidingRepository.findByNaam(naam);
     }

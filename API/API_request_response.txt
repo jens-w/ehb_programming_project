@@ -147,7 +147,7 @@ USER KAN NIEUWE USERKEY AANVRAGEN
 
 		waarschuwing sturen naar admins? (via API)
 
-
+api.brielage.com:8081/user/list/
 USER ADMIN/DOCENT KAN USERLIJST OPVRAGEN
 	REQUEST
 		{
@@ -189,13 +189,15 @@ USER ADMIN/DOCENT KAN USERLIJST OPVRAGEN
 
 		enkel de toepasselijke error sturen
 
-
-USER ADMIN KAN ROLLEN TOEWIJZEN (automatisch op email adres, maar hier ook door admins)
+api.brielage.com:8081/user/rol/
+USER ADMIN KAN ROLLEN TOEWIJZEN
 	REQUEST
 		{
 			"userkey" : "userkey1234",
 			"userid" : 19,
-			"nieuwerol" : "rol"
+			"nieuwerol" : "rol",
+			"opleidingid" : 3, // enkel bij student
+			"vakid" : 4 // enkel bij docent
 		}
 
 	RESPONSE SUCCESS
@@ -278,6 +280,7 @@ USER ADMIN KAN OPLEIDING AANMAKEN
 			]
 		}
 
+api.brielage.com:8081/opleiding/remove/
 USER ADMIN KAN OPLEIDING VERWIJDEREN
 	REQUEST
 		{
@@ -298,6 +301,7 @@ USER ADMIN KAN OPLEIDING VERWIJDEREN
 				"rechten_ongeldig" : true,
 				"opleidingid_ongeldig" : true,
 				"opleidingid_bestaat_niet" : true,
+				"opleiding_heeft_nog_studenten" : true,
 				"andere" : true
 			]
 		}
@@ -356,7 +360,7 @@ USER ADMIN/DOCENT KAN STUDENTEN VERWIJDEREN VAN OPLEIDING
 
 		enkel meegeven wat van toepassing is
 
-
+api.brielage.com:8081/vak/list/
 USER ADMIN KAN VAKKENLIJST OPVRAGEN
 	REQUEST
 		{
@@ -494,7 +498,7 @@ USER ADMIN KAN VAKKEN TOEWIJZEN (student/docent)
 			]
 		}
 
-
+api.brielage.com:8081/vak/list/
 USER KAN VAKKENLIJST OPVRAGEN
 	REQUEST
 		{
@@ -657,15 +661,15 @@ USER DOCENT KAN HOOFDSTUKKEN VERWIJDEREN
 			]
 		}
 
-
+api.brielage.com:8081/quiz/create/
 USER DOCENT KAN EEN QUIZ AANMAKEN EN AAN HOOFDSTUK TOEVOEGEN (default hoofdstuk = 0, aka gans het vak)
 	REQUEST
 		{
 			"userkey" : "userkey1234",
-			"quiznaam" : "quiz_naam",
+			"naam" : "quiz_naam",
 			"omschrijving" : "quiz_omschrijving",
 			"vakid" : 8,
-			"hoofdstukid" : 13
+			"hoofdstuknummer" : 13
 		}
 		
 		hoofdstuk is optioneel, default 0 (ganse vak)
@@ -683,15 +687,16 @@ USER DOCENT KAN EEN QUIZ AANMAKEN EN AAN HOOFDSTUK TOEVOEGEN (default hoofdstuk 
 				"rechten_ongeldig" : true,
 				"quiznaam_ongeldig" : true,
 				"quiznaam_bestaat_al" : true,
+				"omschrijving_ongeldig" : true,
 				"vakid_ongeldig" : true,
 				"vakid_bestaat_niet" : true,
-				"hoofdstukid_ongeldig" : true,
-				"hoofdstukid_bestaat_niet" : true,
+				"hoofdstuknummer_ongeldig" : true,
+				"hoofdstuknummer_bestaat_niet" : true,
 				"andere" : true
 			]
 		}
 
-
+api.brielage.com:8081/quiz/create/question/
 USER DOCENT KAN VRAGEN AANMAKEN EN ANTWOORDEN ERAAN TOEVOEGEN, EN AAN EEN QUIZ TOEVOEGEN, EN AAN HET BIJHORENDE HOOFDSTUK (van de quiz)
 	REQUEST
 		{
@@ -705,22 +710,18 @@ USER DOCENT KAN VRAGEN AANMAKEN EN ANTWOORDEN ERAAN TOEVOEGEN, EN AAN EEN QUIZ T
 			"aantal_juiste_antwoorden_nodig" : "3", // enkel tonen bij de meerdre meerkeuzevraag
 			"hoofdstukid" : 34,
 			"antwoorden" : [
-				"antwoord1" : {
+				{
 					"antwoord" : "dit is het antwoord tralalala",
 					"isjuist" : true
 				},
-				"antwoord2" : {
+				{
 					"antwoord" : "dit is het antwoord tralalala",
 					"isjuist" : true
 				}
-			],
+			]
 		}
 		
-		antwoorden toevoegen is optioneel
 		aan quiz toevoegen is optioneel
-		aan hoofdstuk toevoegen is optioneel
-		
-		default simpelevraag
 		
 		let op verschil simpele vs meerdere meerkeuzevraag
 		waarschuwing voor niet genoeg antwoorden? (minimum aantal tonen vs aantal bestaande) (voor Michaël)
@@ -1057,36 +1058,32 @@ USER DOCENT KAN QUIZ VERWIJDEREN (vragen blijven beschikbaar)
 			]
 		}
 
-
-USER KAN QUIZLIJST OPVRAGEN PER VAK/HOOFDSTUK
+api.brielage.com:8081/quiz/list/
+USER KAN QUIZLIJST OPVRAGEN PER VAK
 	REQUEST
 		{
 			"userkey" : "userkey1234",
-			"vakid" : 2,
-			"hoofdstukid" : 3
+			"vakid" : 2
 		}
-		
-		hoofdstukid optioneel
 		
 	RESPONSE SUCCESS
 		{
 			"success" : true,
 			"eigenrol" : "rol",
-			"vak" : true,
-			"hoofdstuk" : true,
+			"vaknaam" : "vak_naam",
 			"quizlijst" : [
-				"id1" : {
-					"quiznaam" : "quiz_naam1",
-					"quizomschrijving" : "dit is de omschrijving"
+				{
+					"id" : 1,
+					"naam" : "quiz_naam1",
+					"omschrijving" : "dit is de omschrijving"
 				},
-				"id2" : {
-					"quiznaam" : "quiz_naam2",
-					"quizomschrijving" : "dit is de omschrijving"
+				{
+					"id" : 2,
+					"naam" : "quiz_naam2",
+					"omschrijving" : "dit is de omschrijving"
 				}
 			]
 		}
-		
-		id1 = id quiz
 		
 	RESPONSE FAIL
 		{
@@ -1095,10 +1092,6 @@ USER KAN QUIZLIJST OPVRAGEN PER VAK/HOOFDSTUK
 				"rechten_ongeldig" : true,
 				"vakid_ongeldig" : true,
 				"vakid_bestaat_niet" : true,
-				"geen_docent_van_vak" : true,
-				"hoofdstukid_ongeldig" : true,
-				"hoofdstukid_bestaat_niet" : true,
-				"geen_docent_van_hoofdstuk" : true,
 				"geen_quizzen_gevonden" : true,
 				"andere" : true
 			]

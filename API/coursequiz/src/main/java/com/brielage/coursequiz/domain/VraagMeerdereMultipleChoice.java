@@ -14,30 +14,46 @@ public class VraagMeerdereMultipleChoice
         extends Vraag {
     @NotBlank
     @Column
-    private int aantalJuisteAntwoordenNodig;
+    private long aantalJuisteAntwoordenNodig;
     @NotBlank
     @Column
-    private boolean minimumAantalJuisteAntwoordenTonen;
+    private long minimumAantalJuisteAntwoordenTonen;
 
     protected VraagMeerdereMultipleChoice() {
     }
 
     public VraagMeerdereMultipleChoice(@NotBlank long vraagId,
-                                       @NotBlank int aantalJuisteAntwoordenNodig,
-                                       @NotBlank boolean minimumAantalJuisteAntwoordenTonen) {
+                                       @NotBlank long aantalJuisteAntwoordenNodig,
+                                       @NotBlank long minimumAantalJuisteAntwoordenTonen) {
         this.aantalJuisteAntwoordenNodig = aantalJuisteAntwoordenNodig;
         this.minimumAantalJuisteAntwoordenTonen = minimumAantalJuisteAntwoordenTonen;
     }
 
     public VraagMeerdereMultipleChoice(long id,
                                        @NotBlank String vraag,
-                                       @NotBlank int aantalAntwoordenTonen,
+                                       @NotBlank long aantalAntwoordenTonen,
                                        @NotBlank boolean juisteAntwoordTonen,
                                        @NotBlank long hoofdstukId,
-                                       @NotBlank int aantalJuisteAntwoordenNodig,
-                                       @NotBlank boolean minimumAantalJuisteAntwoordenTonen) {
+                                       @NotBlank long aantalJuisteAntwoordenNodig,
+                                       @NotBlank long minimumAantalJuisteAntwoordenTonen) {
         super(
                 id,
+                vraag,
+                aantalAntwoordenTonen,
+                juisteAntwoordTonen,
+                hoofdstukId
+        );
+        this.aantalJuisteAntwoordenNodig = aantalJuisteAntwoordenNodig;
+        this.minimumAantalJuisteAntwoordenTonen = minimumAantalJuisteAntwoordenTonen;
+    }
+
+    public VraagMeerdereMultipleChoice(@NotBlank String vraag,
+                                       @NotBlank long aantalAntwoordenTonen,
+                                       @NotBlank boolean juisteAntwoordTonen,
+                                       @NotBlank long hoofdstukId,
+                                       @NotBlank long aantalJuisteAntwoordenNodig,
+                                       @NotBlank long minimumAantalJuisteAntwoordenTonen) {
+        super(
                 vraag,
                 aantalAntwoordenTonen,
                 juisteAntwoordTonen,

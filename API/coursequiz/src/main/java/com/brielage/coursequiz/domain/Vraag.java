@@ -1,7 +1,15 @@
 package com.brielage.coursequiz.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 @Entity
@@ -15,13 +23,13 @@ public class Vraag {
     @NotBlank
     @Column
     private String vraag;
-    @NotBlank
+    @NotNull
     @Column
-    private int aantalAntwoordenTonen;
-    @NotBlank
+    private long aantalAntwoordenTonen;
+    @NotNull
     @Column
     private boolean juisteAntwoordTonen;
-    @NotBlank
+    @NotNull
     @Column
     private long hoofdstukId;
 
@@ -30,13 +38,43 @@ public class Vraag {
 
     public Vraag(long id,
                  @NotBlank String vraag,
-                 @NotBlank int aantalAntwoordenTonen,
-                 @NotBlank boolean juisteAntwoordTonen,
-                 @NotBlank long hoofdstukId) {
+                 @NotNull long aantalAntwoordenTonen,
+                 @NotNull boolean juisteAntwoordTonen,
+                 @NotNull long hoofdstukId) {
         this.id = id;
         this.vraag = vraag;
         this.aantalAntwoordenTonen = aantalAntwoordenTonen;
         this.juisteAntwoordTonen = juisteAntwoordTonen;
         this.hoofdstukId = hoofdstukId;
+    }
+
+    public Vraag(@NotBlank String vraag,
+                 @NotNull long aantalAntwoordenTonen,
+                 @NotNull boolean juisteAntwoordTonen,
+                 @NotNull long hoofdstukId) {
+        this.vraag = vraag;
+        this.aantalAntwoordenTonen = aantalAntwoordenTonen;
+        this.juisteAntwoordTonen = juisteAntwoordTonen;
+        this.hoofdstukId = hoofdstukId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getVraag() {
+        return vraag;
+    }
+
+    public long getAantalAntwoordenTonen() {
+        return aantalAntwoordenTonen;
+    }
+
+    public boolean isJuisteAntwoordTonen() {
+        return juisteAntwoordTonen;
+    }
+
+    public long getHoofdstukId() {
+        return hoofdstukId;
     }
 }

@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 @SuppressWarnings("unused")
 @Entity
@@ -17,14 +16,26 @@ public class Student extends User {
     protected Student() {
     }
 
+    public Student(long id,
+                   String voornaam,
+                   String familienaam,
+                   String email,
+                   String userkey,
+                   String avatarpad,
+                   String password,
+                   long opleidingid) {
+        super(id, voornaam, familienaam, email, userkey, avatarpad, password);
+        this.opleidingid = opleidingid;
+    }
+
     public Student(long userid,
                    long opleidingid) {
         this.opleidingid = opleidingid;
     }
 
-    public Student(@NotBlank String voornaam,
-                   @NotBlank String familienaam,
-                   @NotBlank String email,
+    public Student(String voornaam,
+                   String familienaam,
+                   String email,
                    String userkey,
                    String avatarpad,
                    long opleidingid) {

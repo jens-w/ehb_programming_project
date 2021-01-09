@@ -198,6 +198,30 @@ UNLOCK TABLES;
 
 LOCK TABLES `hoofdstukken` WRITE;
 /* INSERT INTO tablename(field1,field2,...) VALUES ('value1','value2',...); */
+INSERT INTO `hoofdstukken` (
+  `id`,
+  `titel`,
+  `nummer`,
+  `vakid`
+)
+VALUES (
+  1,
+  "vak",
+  0.0,
+  1
+);
+INSERT INTO `hoofdstukken` (
+  `id`,
+  `titel`,
+  `nummer`,
+  `vakid`
+)
+VALUES (
+  2,
+  "vak",
+  0.0,
+  1
+);
 UNLOCK TABLES;
 
 LOCK TABLES `studentenvakken` WRITE;

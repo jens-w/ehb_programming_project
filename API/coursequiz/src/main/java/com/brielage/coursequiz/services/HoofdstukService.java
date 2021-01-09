@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HoofdstukService {
-    List<Hoofdstuk> findAll();
+    void create(Hoofdstuk hoofdstuk);
 
     Optional<Hoofdstuk> findById(long id);
+
+    List<Hoofdstuk> findByVakId(long vakid);
 }

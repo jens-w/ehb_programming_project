@@ -1,4 +1,4 @@
-package com.brielage.coursequiz.domain;
+package com.brielage.coursequiz.singleton;
 
 import com.brielage.coursequiz.restresponses.JsonResponse;
 import com.brielage.coursequiz.restresponses.JsonUserResponse;
@@ -23,5 +23,9 @@ public enum ResponseLogger {
     public static void logJsonResponse(JsonResponse jsonResponse) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsString(jsonResponse));
         logger.info("\nresponse:\n" + jsonNode.toPrettyString());
+    }
+
+    public static void logRequest(String s, String j) {
+        logger.info("\nrequest " + s + ":\n" + j);
     }
 }

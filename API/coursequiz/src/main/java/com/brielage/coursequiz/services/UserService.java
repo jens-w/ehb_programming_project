@@ -17,4 +17,8 @@ public interface UserService {
     List<User> findByUserkey(String userkey);
 
     List<String> findUserkeys();
+
+    List<User> findAllRegularUsers();
+
+    List<User> findAllAdmins();
 }

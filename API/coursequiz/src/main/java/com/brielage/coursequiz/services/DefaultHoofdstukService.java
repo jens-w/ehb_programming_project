@@ -2,6 +2,7 @@ package com.brielage.coursequiz.services;
 
 import com.brielage.coursequiz.domain.Hoofdstuk;
 import com.brielage.coursequiz.repositories.HoofdstukRepository;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,12 +20,17 @@ public class DefaultHoofdstukService
     }
 
     @Override
-    public List<Hoofdstuk> findAll() {
-        return hoofdstukRepository.findAll();
+    public void create(Hoofdstuk hoofdstuk) {
+        hoofdstukRepository.create(hoofdstuk);
     }
 
     @Override
     public Optional<Hoofdstuk> findById(long id) {
         return hoofdstukRepository.findById(id);
+    }
+
+    @Override
+    public List<Hoofdstuk> findByVakId(long vakid) {
+        return hoofdstukRepository.findByVakId(vakid);
     }
 }

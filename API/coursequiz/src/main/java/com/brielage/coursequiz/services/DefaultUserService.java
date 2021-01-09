@@ -48,4 +48,14 @@ public class DefaultUserService
     public List<String> findUserkeys() {
         return userRepository.findUserkeys();
     }
+
+    @Override
+    public List<User> findAllRegularUsers() {
+        return userRepository.findAllRegularUsers();
+    }
+
+    @Override
+    public List<User> findAllAdmins() {
+        return userRepository.findAllAdmins();
+    }
 }

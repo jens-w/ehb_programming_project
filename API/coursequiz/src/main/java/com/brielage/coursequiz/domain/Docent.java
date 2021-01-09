@@ -26,4 +26,7 @@ public class Docent extends User {
                 avatarpad
         );
     }
+
+    public Docent(long userid) {
+    }
 }

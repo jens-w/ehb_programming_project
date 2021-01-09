@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VraagService {
-    List<Vraag> findAll();
+    void create(Vraag vraag);
 
     Optional<Vraag> findById(long id);
+
+    List<Vraag> findAll();
+
+    List<Vraag> findByVraag(String vraag);
 }

@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 @SuppressWarnings("unused")
 @Entity
@@ -19,13 +18,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private long id;
-    @NotBlank
     @Column
     private String voornaam;
-    @NotBlank
     @Column
     private String familienaam;
-    @NotBlank
     @Column
     private String email;
     @Column
@@ -38,9 +34,29 @@ public class User {
     protected User() {
     }
 
-    public User(@NotBlank String voornaam,
-                @NotBlank String familienaam,
-                @NotBlank String email,
+    public User(long id) {
+        this.id = id;
+    }
+
+    public User(long id,
+                String voornaam,
+                String familienaam,
+                String email,
+                String userkey,
+                String avatarpad,
+                String password) {
+        this.id = id;
+        this.voornaam = voornaam;
+        this.familienaam = familienaam;
+        this.email = email;
+        this.userkey = userkey;
+        this.avatarpad = avatarpad;
+        this.password = password;
+    }
+
+    public User(String voornaam,
+                String familienaam,
+                String email,
                 String avatarpad,
                 String password) {
         this.voornaam = voornaam;
@@ -50,9 +66,9 @@ public class User {
         this.password = password;
     }
 
-    public User(@NotBlank String voornaam,
-                @NotBlank String familienaam,
-                @NotBlank String email,
+    public User(String voornaam,
+                String familienaam,
+                String email,
                 String userkey,
                 String avatarpad,
                 String password) {
