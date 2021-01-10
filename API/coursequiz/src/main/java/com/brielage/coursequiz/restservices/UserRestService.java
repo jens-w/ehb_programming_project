@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-@SuppressWarnings({"unchecked", "DuplicatedCode"})
+@SuppressWarnings({"unchecked", "DuplicatedCode", "OptionalGetWithoutIsPresent", "rawtypes"})
 public class UserRestService {
     private final UserService userService;
     private final UserRolService userRolService;
@@ -71,7 +71,6 @@ public class UserRestService {
     }
 
 
-    @SuppressWarnings("rawtypes")
     public String createUser(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
@@ -113,8 +112,7 @@ public class UserRestService {
                         u.setUserkey(generateUserkey());
                         userService.create(u);
 
-                        UserRol ur = new UserRol(u.getId(), Rol.USER);
-                        userRolService.create(ur);
+                        userRolService.create(new UserRol(u.getId(), Rol.USER));
 
                         return APIResponse.respond(true);
                     }
@@ -155,7 +153,6 @@ public class UserRestService {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     public String login(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
@@ -166,8 +163,7 @@ public class UserRestService {
             boolean emailGeldig = jsonUser.checkEmail();
             boolean passwordGeldig = jsonUser.checkPassword();
 
-            if (!emailGeldig || !passwordGeldig)
-                return APIResponse.respond(false);
+            if (!emailGeldig || !passwordGeldig) return APIResponse.respond(false);
 
             String email = jsonUser.getEmail();
 
@@ -177,8 +173,7 @@ public class UserRestService {
             User user = userService.findByEmail(email).get(0);
             String password = jsonUser.getPassword();
 
-            if (!password.equals(user.getPassword()))
-                return APIResponse.respond(false);
+            if (!password.equals(user.getPassword())) return APIResponse.respond(false);
 
             JsonUserResponse jsonUserResponse = new JsonUserResponse(
                     true,
@@ -218,11 +213,10 @@ public class UserRestService {
 
             List userVakkenList = null;
 
-            if (isStudent) {
+            if (isStudent)
                 userVakkenList = studentVakService.findByStudentId(user.getId());
-            } else if (Tools.isDocent(user, userRolService)) {
+            else if (Tools.isDocent(user, userRolService))
                 userVakkenList = docentVakService.findByDocentId(user.getId());
-            }
 
             if (userVakkenList != null && !userVakkenList.isEmpty()) {
                 List vakkenList = new ArrayList();
@@ -277,7 +271,6 @@ public class UserRestService {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "OptionalGetWithoutIsPresent"})
     public String edit(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
@@ -332,7 +325,9 @@ public class UserRestService {
             userData.put("email", user.getEmail());
             userData.put("eigenrol", userRolService.findByUserId(user.getId()).get().getRol());
 
-            return APIResponse.respondUser(true, userData,
+            return APIResponse.respondUser(
+                    true,
+                    userData,
                     userRolService.findByUserId(user.getId()).get().getRol());
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
@@ -358,7 +353,6 @@ public class UserRestService {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     public String newUserkey(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
@@ -370,12 +364,7 @@ public class UserRestService {
             if (!jsonUser.getUserkey().isEmpty()) {
                 List<User> userListByUserkey = userService.findByUserkey(jsonUser.getUserkey());
 
-                if (userListByUserkey.isEmpty()) {
-                    // LOG
-                    ResponseLogger.logJsonResponse(new JsonResponse(false));
-
-                    return objectMapper.writeValueAsString(new JsonResponse(false));
-                }
+                if (userListByUserkey.isEmpty()) return APIResponse.respond(false);
 
                 User u = userListByUserkey.get(0);
                 u.setUserkey(generateUserkey());
@@ -395,10 +384,7 @@ public class UserRestService {
                 return objectMapper.writeValueAsString(jsonUserResponse);
             }
 
-            // LOG
-            ResponseLogger.logJsonResponse(new JsonResponse(false));
-
-            return objectMapper.writeValueAsString(new JsonResponse(false));
+            return APIResponse.respond(false);
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
 
@@ -424,7 +410,6 @@ public class UserRestService {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "OptionalGetWithoutIsPresent"})
     public String list(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
@@ -443,7 +428,7 @@ public class UserRestService {
 
             User u = userService.findByUserkey(userkey).get(0);
 
-            if (!Tools.isUserAdminOrDocent(u, userRolService))
+            if (!Tools.isAdminOrDocent(u, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             String r = jsonUser.getRol();
@@ -461,6 +446,14 @@ public class UserRestService {
                         (isDocent && rol == Rol.ADMIN))
                     return APIResponse.respond(false, "rechten_ongeldig");
 
+                boolean isAdmin = Tools.isAdmin(u, userRolService);
+
+                if (!isAdmin && rol == Rol.ADMIN)
+                    return APIResponse.respond(false, "rechten_ongeldig");
+
+                if (isAdmin && rol == Rol.ADMIN)
+                    return APIResponse.respondUser(true, findAdmins(), eigenrol, Rol.ADMIN);
+
                 if (rol == Rol.STUDENT)
                     return APIResponse.respondUser(true, findStudenten(), eigenrol, Rol.STUDENT);
 
@@ -475,24 +468,8 @@ public class UserRestService {
             List studenten = findStudenten();
             List users = findRegularUsers();
 
-            if (eigenrol.equals(Rol.ADMIN)) {
-                List<User> allAdmins = userService.findAllAdmins();
-                List admins = new ArrayList<>();
-
-                for (User ua : allAdmins) {
-                    Map admin = new LinkedHashMap();
-
-                    admin.put("id", ua.getId());
-                    admin.put("voornaam", ua.getVoornaam());
-                    admin.put("familienaam", ua.getFamilienaam());
-                    admin.put("email", ua.getEmail());
-
-                    admins.add(admin);
-                }
-
-
-                return APIResponse.respondUser(true, admins, docenten, studenten, users, eigenrol);
-            }
+            if (eigenrol.equals(Rol.ADMIN))
+                return APIResponse.respondUser(true, findAdmins(), docenten, studenten, users, eigenrol);
 
             return APIResponse.respondUser(true, docenten, studenten, users, eigenrol);
         } catch (UnrecognizedPropertyException e) {
@@ -515,7 +492,6 @@ public class UserRestService {
         }
     }
 
-    @SuppressWarnings({"OptionalGetWithoutIsPresent", "rawtypes"})
     public String changeRol(JsonNode jsonNode)
             throws JsonProcessingException {
         // LOG
@@ -563,8 +539,7 @@ public class UserRestService {
                 if (!Tools.doesOpleidingExist(opleidingid, opleidingService))
                     return APIResponse.respond(false, "opleidingid_bestaat_niet");
 
-                if (rol == Rol.ADMIN ||
-                        rol == Rol.DOCENT)
+                if (rol == Rol.ADMIN || rol == Rol.DOCENT)
                     return APIResponse.respond(false, "user_heeft_meer_rechten");
 
                 if (nieuwerol == rol)
@@ -602,6 +577,7 @@ public class UserRestService {
                     userService.findByUserkey(
                             jsonUser.getUserkey()).get(0).getId())
                     .get().getRol();
+
             return APIResponse.respond(true, eigenrol);
         } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
@@ -648,7 +624,7 @@ public class UserRestService {
         return String.valueOf(userkey);
     }
 
-    public List<Student> findStudenten() {
+    public List findStudenten() {
         List<Student> sl = studentService.findAll();
         List studenten = new ArrayList();
 
@@ -666,7 +642,7 @@ public class UserRestService {
         return studenten;
     }
 
-    public List<Docent> findDocenten() {
+    public List findDocenten() {
         List<Docent> dl = docentService.findAll();
         List docenten = new ArrayList();
 
@@ -684,7 +660,7 @@ public class UserRestService {
         return docenten;
     }
 
-    public List<User> findRegularUsers() {
+    public List findRegularUsers() {
         List<User> ul = userService.findAllRegularUsers();
         List users = new ArrayList();
 
@@ -700,5 +676,23 @@ public class UserRestService {
         }
 
         return users;
+    }
+
+    public List findAdmins() {
+        List<User> allAdmins = userService.findAllAdmins();
+        List admins = new ArrayList<>();
+
+        for (User ua : allAdmins) {
+            Map admin = new LinkedHashMap();
+
+            admin.put("id", ua.getId());
+            admin.put("voornaam", ua.getVoornaam());
+            admin.put("familienaam", ua.getFamilienaam());
+            admin.put("email", ua.getEmail());
+
+            admins.add(admin);
+        }
+
+        return admins;
     }
 }

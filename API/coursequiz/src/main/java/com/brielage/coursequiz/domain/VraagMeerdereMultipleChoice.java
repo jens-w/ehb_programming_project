@@ -62,4 +62,20 @@ public class VraagMeerdereMultipleChoice
         this.aantalJuisteAntwoordenNodig = aantalJuisteAntwoordenNodig;
         this.minimumAantalJuisteAntwoordenTonen = minimumAantalJuisteAntwoordenTonen;
     }
+
+    public long getAantalJuisteAntwoordenNodig() {
+        return aantalJuisteAntwoordenNodig;
+    }
+
+    public void setAantalJuisteAntwoordenNodig(long aantalJuisteAntwoordenNodig) {
+        this.aantalJuisteAntwoordenNodig = aantalJuisteAntwoordenNodig;
+    }
+
+    public long getMinimumAantalJuisteAntwoordenTonen() {
+        return minimumAantalJuisteAntwoordenTonen;
+    }
+
+    public void setMinimumAantalJuisteAntwoordenTonen(long minimumAantalJuisteAntwoordenTonen) {
+        this.minimumAantalJuisteAntwoordenTonen = minimumAantalJuisteAntwoordenTonen;
+    }
 }

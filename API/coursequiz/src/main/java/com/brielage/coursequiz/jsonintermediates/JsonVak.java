@@ -1,5 +1,6 @@
 package com.brielage.coursequiz.jsonintermediates;
 
+@SuppressWarnings("unused")
 public class JsonVak {
     private long id;
     private String vaknaam, userkey;

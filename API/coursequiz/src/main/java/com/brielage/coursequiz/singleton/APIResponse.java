@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "unused"})
 public enum APIResponse {
     INSTANCE;
 
@@ -88,7 +88,8 @@ public enum APIResponse {
                                      Rol rol)
             throws JsonProcessingException {
         if (success)
-            return INSTANCE.output(new JsonUserResponse(true,
+            return INSTANCE.output(new JsonUserResponse(
+                    true,
                     (String) userdata.get("voornaam"),
                     (String) userdata.get("familienaam"),
                     (String) userdata.get("email"),
@@ -102,7 +103,10 @@ public enum APIResponse {
                                      List users,
                                      Rol eigenrol)
             throws JsonProcessingException {
-        return INSTANCE.output(new JsonResponse(success, users, eigenrol));
+        return INSTANCE.output(new JsonResponse(
+                success,
+                users,
+                eigenrol));
     }
 
     public static String respondUser(boolean success,
@@ -110,7 +114,11 @@ public enum APIResponse {
                                      Rol eigenrol,
                                      Rol rol)
             throws JsonProcessingException {
-        return INSTANCE.output(new JsonResponse(success, users, eigenrol, rol));
+        return INSTANCE.output(new JsonResponse(
+                success,
+                users,
+                eigenrol,
+                rol));
     }
 
     public static String respondUser(boolean success,
@@ -119,7 +127,12 @@ public enum APIResponse {
                                      List users,
                                      Rol eigenrol)
             throws JsonProcessingException {
-        return INSTANCE.output(new JsonResponse(success, docenten, studenten, users, eigenrol));
+        return INSTANCE.output(new JsonResponse(
+                success,
+                docenten,
+                studenten,
+                users,
+                eigenrol));
     }
 
     public static String respondUser(boolean success,
@@ -129,14 +142,23 @@ public enum APIResponse {
                                      List users,
                                      Rol eigenrol)
             throws JsonProcessingException {
-        return INSTANCE.output(new JsonResponse(success, admins, docenten, studenten, users, eigenrol));
+        return INSTANCE.output(new JsonResponse(
+                success,
+                admins,
+                docenten,
+                studenten,
+                users,
+                eigenrol));
     }
 
     public static String respondVak(boolean success,
                                     Rol eigenrol,
                                     List vakken)
             throws JsonProcessingException {
-        if (success) return INSTANCE.output(new JsonVakResponse(true, eigenrol, vakken));
+        if (success) return INSTANCE.output(new JsonVakResponse(
+                true,
+                eigenrol,
+                vakken));
 
         return INSTANCE.output(new JsonResponse(false));
     }
@@ -147,12 +169,64 @@ public enum APIResponse {
                                      List quizList)
             throws JsonProcessingException {
         if (success)
-            return INSTANCE.output(new JsonQuizResponse(true, eigenrol, vaknaam, quizList));
+            return INSTANCE.output(new JsonQuizResponse(
+                    true,
+                    eigenrol,
+                    vaknaam,
+                    quizList));
 
         return INSTANCE.output(new JsonResponse(false));
     }
 
-    public String output(JsonResponse jsonResponse) throws JsonProcessingException {
+    public static String respondQuiz(boolean success,
+                                     Rol eigenrol,
+                                     long quizid,
+                                     List vragenlijst)
+            throws JsonProcessingException {
+        if (success)
+            return INSTANCE.output(new JsonQuizResponse(
+                    true,
+                    eigenrol,
+                    quizid,
+                    vragenlijst));
+
+        return INSTANCE.output(new JsonResponse(false));
+    }
+
+    public static String respondQuiz(boolean success,
+                                     Rol eigenrol,
+                                     List vragen_bestaan_niet,
+                                     List antwoorden_bestaan_niet)
+            throws JsonProcessingException {
+        if (!success)
+            return INSTANCE.output(new JsonQuizResponse(
+                    true,
+                    eigenrol,
+                    vragen_bestaan_niet,
+                    antwoorden_bestaan_niet));
+
+        return INSTANCE.output(new JsonResponse(true));
+    }
+
+    public static String respondQuiz(boolean success,
+                                     Rol eigenrol,
+                                     long quizid,
+                                     double score,
+                                     double max)
+            throws JsonProcessingException {
+        if (success)
+            return INSTANCE.output(new JsonQuizResponse(
+                    true,
+                    eigenrol,
+                    quizid,
+                    score,
+                    max));
+
+        return INSTANCE.output(new JsonResponse(false));
+    }
+
+    public String output(JsonResponse jsonResponse)
+            throws JsonProcessingException {
         // LOG
         ResponseLogger.logJsonResponse(jsonResponse);
 

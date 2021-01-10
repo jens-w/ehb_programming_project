@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public class JpaQuizVraagRepository
-implements QuizVraagRepository{
+        implements QuizVraagRepository {
     private final EntityManager manager;
 
     public JpaQuizVraagRepository(EntityManager manager) {
@@ -23,6 +23,12 @@ implements QuizVraagRepository{
 
     @Override
     public List<QuizVraag> findByQuizId(long quizId) {
-        return null;
+        return manager.createQuery(
+                "select qv from QuizVraag qv " +
+                        "where qv.quizId = :quizId " +
+                        "order by qv.id",
+                QuizVraag.class)
+                .setParameter("quizId", quizId)
+                .getResultList();
     }
 }

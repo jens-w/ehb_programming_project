@@ -77,4 +77,15 @@ public class Vraag {
     public long getHoofdstukId() {
         return hoofdstukId;
     }
+
+    @Override
+    public String toString() {
+        return "Vraag{" +
+                "id=" + id +
+                ", vraag='" + vraag + '\'' +
+                ", aantalAntwoordenTonen=" + aantalAntwoordenTonen +
+                ", juisteAntwoordTonen=" + juisteAntwoordTonen +
+                ", hoofdstukId=" + hoofdstukId +
+                '}';
+    }
 }

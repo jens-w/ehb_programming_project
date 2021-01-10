@@ -2,6 +2,7 @@ package com.brielage.coursequiz.jsonintermediates;
 
 import com.brielage.coursequiz.domain.Validator;
 
+@SuppressWarnings("unused")
 public class JsonUser {
     private long id, opleidingid, vakid;
     private String voornaam, familienaam, email, userkey, avatarpad, password, nieuwerol, rol;

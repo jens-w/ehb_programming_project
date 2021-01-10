@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 @Entity
@@ -16,9 +17,9 @@ public class Vak {
     private long id;
     @NotBlank
     private String naam;
-    @NotBlank
+    @NotNull
     private int jaar;
-    @NotBlank
+    @NotNull
     private long opleidingid;
 
     protected Vak() {
@@ -26,8 +27,8 @@ public class Vak {
 
     public Vak(long id,
                @NotBlank String naam,
-               @NotBlank int jaar,
-               @NotBlank long opleidingId) {
+               @NotNull int jaar,
+               @NotNull long opleidingId) {
         this.id = id;
         this.naam = naam;
         this.jaar = jaar;
@@ -54,11 +55,11 @@ public class Vak {
         this.jaar = jaar;
     }
 
-    public long getOpledingId() {
+    public long getOpleidingid() {
         return opleidingid;
     }
 
-    public void setOpledingId(long opleidingId) {
+    public void setOpleidingid(long opleidingId) {
         this.opleidingid = opleidingId;
     }
 }

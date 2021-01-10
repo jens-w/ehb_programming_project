@@ -35,4 +35,21 @@ public class QuizVraag {
         this.quizId = quizId;
         this.vraagId = vraagId;
     }
+
+    public long getQuizId() {
+        return quizId;
+    }
+
+    public long getVraagId() {
+        return vraagId;
+    }
+
+    @Override
+    public String toString() {
+        return "QuizVraag{" +
+                "id=" + id +
+                ", quizId=" + quizId +
+                ", vraagId=" + vraagId +
+                '}';
+    }
 }

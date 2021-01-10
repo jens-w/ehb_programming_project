@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 @RestController
 @RequestMapping(value = "/vak")
 public class VakRestController {
@@ -52,7 +53,16 @@ public class VakRestController {
     @PostMapping(value = "/list",
             consumes = "application/json",
             produces = "application/json")
-    public String listVakken(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String listVakken(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return vakRestService.listVakken(jsonNode);
+    }
+
+    @PostMapping(value = "/list/all",
+            consumes = "application/json",
+            produces = "application/json")
+    public String listAllVakken(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
+        return vakRestService.listAllVakken(jsonNode);
     }
 }

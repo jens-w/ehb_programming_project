@@ -2,6 +2,7 @@ package com.brielage.coursequiz.jsonintermediates;
 
 import java.util.List;
 
+@SuppressWarnings({"unused", "rawtypes"})
 public class JsonVraag {
     private String userkey, vraag;
     long aantal_antwoorden_tonen, quizid, minimum_aantal_juiste_antwoorden_tonen,

@@ -1,5 +1,6 @@
 package com.brielage.coursequiz.jsonintermediates;
 
+@SuppressWarnings("unused")
 public class JsonOpleiding {
     private long id;
     private String opleidingnaam, userkey;

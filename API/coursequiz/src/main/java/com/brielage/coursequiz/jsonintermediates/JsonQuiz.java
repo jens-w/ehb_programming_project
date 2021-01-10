@@ -2,8 +2,9 @@ package com.brielage.coursequiz.jsonintermediates;
 
 import com.brielage.coursequiz.domain.Validator;
 
+@SuppressWarnings("unused")
 public class JsonQuiz {
-    private long id, vakid;
+    private long id, vakid, quizid;
     private float hoofdstuknummer;
     private String naam, omschrijving, userkey;
     private boolean isBeschikbaar;
@@ -68,6 +69,14 @@ public class JsonQuiz {
 
     public void setVakid(long vakid) {
         this.vakid = vakid;
+    }
+
+    public long getQuizid() {
+        return quizid;
+    }
+
+    public void setQuizid(long quizid) {
+        this.quizid = quizid;
     }
 
     public String getNaam() {
