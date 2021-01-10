@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 @RestController
 @RequestMapping(value = "/opleiding")
 public class OpleidingRestController {
@@ -42,14 +43,16 @@ public class OpleidingRestController {
     @PostMapping(value = "/create",
             consumes = "application/json",
             produces = "application/json")
-    public String createOpleiding(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String createOpleiding(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return opleidingRestService.createOpleiding(jsonNode);
     }
 
     @PostMapping(value = "/remove",
             consumes = "application/json",
             produces = "application/json")
-    public String removeOpleiding(@RequestBody JsonNode jsonNode) throws JsonProcessingException {
+    public String removeOpleiding(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
         return opleidingRestService.removeOpleiding(jsonNode);
     }
 }

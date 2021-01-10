@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-@SuppressWarnings({"unchecked", "rawtypes", "DuplicatedCode"})
+@SuppressWarnings({"DuplicatedCode"})
 public class OpleidingRestService {
     private final UserService userService;
     private final UserRolService userRolService;
@@ -55,7 +55,7 @@ public class OpleidingRestService {
 
             User u = userService.findByUserkey(jsonOpleiding.getUserkey()).get(0);
 
-            if (!Tools.isUserAdminOrDocent(u, userRolService))
+            if (!Tools.isAdminOrDocent(u, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             String opleidingNaam = jsonOpleiding.getOpleidingnaam();
@@ -100,7 +100,7 @@ public class OpleidingRestService {
 
             User u = userService.findByUserkey(jsonOpleiding.getUserkey()).get(0);
 
-            if (!Tools.isUserAdminOrDocent(u, userRolService))
+            if (!Tools.isAdminOrDocent(u, userRolService))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
             Optional<Opleiding> optionalOpleiding = opleidingService.findById(jsonOpleiding.getId());

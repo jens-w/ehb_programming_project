@@ -10,6 +10,7 @@ import com.brielage.coursequiz.domain.Vraag;
 import com.brielage.coursequiz.domain.VraagMeerdereMultipleChoice;
 import com.brielage.coursequiz.domain.VraagMultipleChoice;
 import com.brielage.coursequiz.jsonintermediates.JsonQuiz;
+import com.brielage.coursequiz.jsonintermediates.JsonQuizSubmission;
 import com.brielage.coursequiz.jsonintermediates.JsonVraag;
 import com.brielage.coursequiz.services.AntwoordService;
 import com.brielage.coursequiz.services.DocentVakService;
@@ -33,10 +34,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
+@SuppressWarnings({"DuplicatedCode", "OptionalGetWithoutIsPresent", "CommentedOutCode"})
 public class QuizRestService {
     private final UserService userService;
     private final UserRolService userRolService;
@@ -210,10 +214,10 @@ public class QuizRestService {
                 if (!Tools.doesHoofdstukExist(hoofdstukid, hoofdstukService))
                     return APIResponse.respond(false, "hoofdstukid_bestaat_niet");
                 hoofdstuk = hoofdstukService.findById(hoofdstukid).get();
-            } else if (optionalQuiz.isPresent()) {
+            } else if (optionalQuiz.isPresent())
                 hoofdstuk = hoofdstukService.findById(optionalQuiz.get().getHoofdstukid()).get();
-            }
 
+            //noinspection ConstantConditions
             if (!Tools.isDocentVanHoofdstuk(u, docentVakService, hoofdstuk))
                 return APIResponse.respond(false, "rechten_ongeldig");
 
@@ -283,7 +287,7 @@ public class QuizRestService {
                         isJuist));
             }
 
-            Vraag v = null;
+            Vraag v;
 
             if (isSimpelevraag)
                 v = new VraagMultipleChoice(
@@ -312,8 +316,10 @@ public class QuizRestService {
                     antwoordService.create(a);
                 }
 
-                if (optionalQuiz.isPresent())
-                    quizVraagService.create(new QuizVraag(optionalQuiz.get().getId(), gemaakteVraag.getId()));
+                optionalQuiz.ifPresent(quiz ->
+                        quizVraagService.create(new QuizVraag(
+                                quiz.getId(),
+                                gemaakteVraag.getId())));
             } catch (Exception e) {
                 e.printStackTrace();
                 return APIResponse.respond(false, "other");
@@ -353,8 +359,6 @@ public class QuizRestService {
             if (!Tools.userExists(jsonQuiz.getUserkey(), userService))
                 return APIResponse.respond(false, "andere");
 
-            User u = userService.findByUserkey(jsonQuiz.getUserkey()).get(0);
-
             long vakid = jsonQuiz.getVakid();
 
             if (vakid < 1)
@@ -367,6 +371,8 @@ public class QuizRestService {
 
             if (quizList.size() < 1)
                 return APIResponse.respond(false, "geen_quizzen_gevonden");
+
+            User u = userService.findByUserkey(jsonQuiz.getUserkey()).get(0);
 
             return APIResponse.respondQuiz(
                     true,
@@ -388,5 +394,312 @@ public class QuizRestService {
 
             return APIResponse.respond(false, "andere");
         }
+    }
+
+    @SuppressWarnings({"OptionalGetWithoutIsPresent", "rawtypes", "unchecked"})
+    public String getQuiz(JsonNode jsonNode)
+            throws JsonProcessingException {
+        // LOG
+        ResponseLogger.logRequest("quiz.get", jsonNode.toPrettyString());
+
+        //TODO chapter stuff
+
+        try {
+            JsonQuiz jsonQuiz = objectMapper.treeToValue(jsonNode, JsonQuiz.class);
+
+            if (!Tools.userExists(jsonQuiz.getUserkey(), userService))
+                return APIResponse.respond(false, "andere");
+
+            User u = userService.findByUserkey(jsonQuiz.getUserkey()).get(0);
+            Rol eigenrol = userRolService.findByUserId(u.getId()).get().getRol();
+
+            if (eigenrol == Rol.USER || eigenrol == Rol.ADMIN)
+                return APIResponse.respond(false, "rechten_ongeldig");
+
+            long quizid = jsonQuiz.getQuizid();
+
+            if (quizid < 1)
+                return APIResponse.respond(false, "quizid_ongeldig");
+
+            if (!Tools.doesQuizExist(quizid, quizService))
+                return APIResponse.respond(false, "quizid_bestaat_niet");
+
+            List<QuizVraag> quizVragen = quizVraagService.findByQuizId(quizid);
+            List vragenlijst = new ArrayList();
+
+            for (QuizVraag qv : quizVragen) {
+                Vraag v = vraagService.findById(qv.getVraagId()).get();
+
+                boolean isMultiple = isMultiple(v);
+                Map m = new LinkedHashMap();
+                m.put("vraagid", v.getId());
+                m.put("vraag", v.getVraag());
+                m.put("multiplemultiplechoice", isMultiple);
+
+                long aantalAntwoordenTonen = v.getAantalAntwoordenTonen();
+                List<Antwoord> antwoorden = new ArrayList<>();
+
+                if (isMultiple) {
+                    VraagMeerdereMultipleChoice vmmc = (VraagMeerdereMultipleChoice) v;
+                    long minimumAantalJuisteAntwoordenTonen = vmmc.getMinimumAantalJuisteAntwoordenTonen();
+                    long aantalJuisteAntwoordenNodig = vmmc.getAantalJuisteAntwoordenNodig();
+
+                    if (aantalAntwoordenTonen < minimumAantalJuisteAntwoordenTonen) {
+                        // LOG
+                        logger.info("\nERR::MEER MINIMUM AANTAL JUISTE ANTWOORDEN " +
+                                "DAN AANTAL ANTWOORDEN");
+
+                        return APIResponse.respond(false, "andere");
+                    }
+
+                    if (aantalJuisteAntwoordenNodig < minimumAantalJuisteAntwoordenTonen) {
+                        // LOG
+                        logger.info("\nERR::MEER MINIMUM AANTAL JUISTE ANTWOORDEN " +
+                                "DAN AANTAL JUISTE ANTWOORDEN NODIG");
+
+                        return APIResponse.respond(false, "andere");
+                    }
+
+                    if (aantalAntwoordenTonen < aantalJuisteAntwoordenNodig) {
+                        // LOG
+                        logger.info("\nERR::MEER JUISTE ANTWOORDEN NODIG " +
+                                "DAN AANTAL ANTWOORDEN TONEN");
+
+                        return APIResponse.respond(false, "andere");
+                    }
+
+                    List<Antwoord> al = antwoordService.findByVraagId(v.getId());
+                    List<Antwoord> juisteAntwoorden = new ArrayList<>();
+                    List<Antwoord> fouteAntwoorden = new ArrayList<>();
+
+                    for (Antwoord a : al)
+                        if (a.isJuist()) juisteAntwoorden.add(a);
+                        else fouteAntwoorden.add(a);
+
+                    if (juisteAntwoorden.size() < aantalJuisteAntwoordenNodig) {
+                        // LOG
+                        logger.info("\nERR::MINDER JUISTE ANTWOORDEN " +
+                                "DAN AANTAL JUISTE ANTWOORDEN NODIG");
+
+                        return APIResponse.respond(false, "andere");
+                    }
+
+                    List<Integer> ids = getAntwoordIds(
+                            juisteAntwoorden.size(),
+                            (int) aantalJuisteAntwoordenNodig);
+
+                    for (int i : ids)
+                        antwoorden.add(juisteAntwoorden.get(i));
+
+                    if (aantalAntwoordenTonen > aantalJuisteAntwoordenNodig) {
+                        ids = getAntwoordIds(
+                                fouteAntwoorden.size(),
+                                (int) (aantalAntwoordenTonen - aantalJuisteAntwoordenNodig));
+
+                        for (int i : ids) antwoorden.add(fouteAntwoorden.get(i));
+                    }
+                } else {
+                    List<Antwoord> al = antwoordService.findByVraagId(v.getId());
+                    List<Antwoord> juisteAntwoorden = new ArrayList<>();
+                    List<Antwoord> fouteAntwoorden = new ArrayList<>();
+
+                    for (Antwoord a : al)
+                        if (v.isJuisteAntwoordTonen())
+                            if (a.isJuist()) juisteAntwoorden.add(a);
+                            else fouteAntwoorden.add(a);
+
+                    List<Integer> ids;
+
+                    if (v.isJuisteAntwoordTonen())
+                        antwoorden.add(juisteAntwoorden.get(getAntwoordIds(juisteAntwoorden.size(), 1).get(0)));
+                    else
+                        antwoorden.add(new Antwoord("Geen van bovenstaande", true));
+
+                    int aantal = (int) (v.getAantalAntwoordenTonen() - 1);
+                    ids = getAntwoordIds(
+                            fouteAntwoorden.size(),
+                            aantal);
+
+                    for (int i : ids) antwoorden.add(fouteAntwoorden.get(i));
+                }
+
+                m.put("antwoorden", randomizeAntwoorden(antwoorden));
+                vragenlijst.add(m);
+            }
+
+            return APIResponse.respondQuiz(true, eigenrol, quizid, vragenlijst);
+        } catch (UnrecognizedPropertyException |
+                InvalidFormatException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "veld_ongeldig");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public String submitQuiz(JsonNode jsonNode)
+            throws JsonProcessingException {
+        // LOG
+        ResponseLogger.logRequest("quiz.submit", jsonNode.toPrettyString());
+
+        //TODO chapter stuff
+
+        try {
+            JsonQuizSubmission jsonQuizSubmission =
+                    objectMapper.treeToValue(jsonNode, JsonQuizSubmission.class);
+
+            if (!Tools.userExists(jsonQuizSubmission.getUserkey(), userService))
+                return APIResponse.respond(false, "andere");
+
+            User u = userService.findByUserkey(jsonQuizSubmission.getUserkey()).get(0);
+            Rol eigenrol = userRolService.findByUserId(u.getId()).get().getRol();
+
+            if (eigenrol == Rol.USER || eigenrol == Rol.ADMIN)
+                return APIResponse.respond(false, "rechten_ongeldig");
+
+            long quizid = jsonQuizSubmission.getQuizid();
+
+            if (quizid < 1)
+                return APIResponse.respond(false, "quizid_ongeldig");
+
+            if (!Tools.doesQuizExist(quizid, quizService))
+                return APIResponse.respond(false, "quizid_bestaat_niet");
+
+            List<Map> antwoordenlijst = jsonQuizSubmission.getAntwoordenlijst();
+
+            if (antwoordenlijst.isEmpty())
+                return APIResponse.respond(false, "antwoordenlijst_leeg");
+
+            List<Long> vragenBestaanNiet = new ArrayList<>();
+            List<Long> antwoordenBestaanNiet = new ArrayList<>();
+            // Map<vraagid, antwoordids[]>
+            Map<Long, List<Long>> gegevenAntwoorden = new LinkedHashMap<>();
+
+            for (Map m : antwoordenlijst) {
+                // first to int then to long otherwise we get error
+                long vraagid = (int) m.get("vraagid");
+                Optional<Vraag> optionalVraag = vraagService.findById(vraagid);
+
+                if (optionalVraag.isEmpty()) vragenBestaanNiet.add(vraagid);
+
+                List<Map> antwoorden = (List) m.get("antwoorden");
+                List<Long> antwoordids = new ArrayList<>();
+                boolean verkeerdantwoorid = false;
+
+                for (Map antwoordMap : antwoorden) {
+                    // first to int then to long otherwise we get error
+                    long antwoordid = (int) antwoordMap.get("id");
+
+                    if (antwoordid < 1) {
+                        antwoordenBestaanNiet.add(antwoordid);
+                        verkeerdantwoorid = true;
+                    } else {
+                        Optional<Antwoord> optionalAntwoord = antwoordService.findById(antwoordid);
+
+                        if (optionalAntwoord.isEmpty()) {
+                            antwoordenBestaanNiet.add(antwoordid);
+                            verkeerdantwoorid = true;
+                        } else antwoordids.add(antwoordid);
+                    }
+                }
+
+                if (!verkeerdantwoorid) gegevenAntwoorden.put(vraagid, antwoordids);
+            }
+
+            if (!vragenBestaanNiet.isEmpty() || !antwoordenBestaanNiet.isEmpty())
+                return APIResponse.respondQuiz(
+                        false,
+                        eigenrol,
+                        vragenBestaanNiet,
+                        antwoordenBestaanNiet);
+
+            double quiztotaal = 0.0;
+            List<QuizVraag> quizVragen = quizVraagService.findByQuizId(quizid);
+
+            for (QuizVraag qv : quizVragen) {
+                Vraag v = vraagService.findById(qv.getVraagId()).get();
+
+                if (isMultiple(v)) {
+                    VraagMeerdereMultipleChoice vmmc = (VraagMeerdereMultipleChoice) v;
+                    quiztotaal += (vmmc.getAantalJuisteAntwoordenNodig() * 0.5);
+                } else quiztotaal += 1;
+            }
+
+            double quizverdiend = 0.0;
+
+            for (Map.Entry e : gegevenAntwoorden.entrySet()) {
+                long vraagid = (long) e.getKey();
+                Vraag v = vraagService.findById(vraagid).get();
+                List<Long> antwoordids = (List<Long>) e.getValue();
+
+                for (long id : antwoordids) {
+                    Antwoord a = antwoordService.findById(id).get();
+
+                    if (a.isJuist()) {
+                        if (isMultiple(v)) quizverdiend += 0.5;
+                        else {
+                            quizverdiend += 1;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return APIResponse.respondQuiz(true, eigenrol, quizid, quizverdiend, quiztotaal);
+        } catch (UnrecognizedPropertyException |
+                InvalidFormatException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "veld_ongeldig");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
+    }
+
+    public boolean isMultiple(Vraag v) {
+        return v instanceof VraagMeerdereMultipleChoice;
+    }
+
+    public List<Integer> getAntwoordIds(int size, int aantal) {
+        Random random = new Random();
+        List<Integer> ids = new ArrayList<>();
+
+        for (int i = 0; i < aantal; ) {
+            int x = (int) (random.nextFloat() * size);
+
+            if (!ids.contains(x)) {
+                ids.add(x);
+                i++;
+            }
+        }
+
+        return ids;
+    }
+
+    private List<Antwoord> randomizeAntwoorden(List<Antwoord> antwoorden) {
+        List<Antwoord> temp = new ArrayList<>();
+        List<Integer> ids = getAntwoordIds(antwoorden.size(), antwoorden.size());
+
+        for (int i : ids) temp.add(antwoorden.get(i));
+
+        return temp;
     }
 }

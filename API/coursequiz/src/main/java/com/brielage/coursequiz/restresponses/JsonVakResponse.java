@@ -7,17 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import java.util.List;
 
+@SuppressWarnings({"rawtypes", "unused"})
 public class JsonVakResponse
         extends JsonResponse {
-    private final Rol rol;
+    private final Rol eigenrol;
     @JsonInclude(Include.NON_NULL)
     private final List vakken;
 
     public JsonVakResponse(boolean success,
-                           Rol rol,
+                           Rol eigenrol,
                            List vakken) {
         super(success);
-        this.rol = rol;
+        this.eigenrol = eigenrol;
         this.vakken = vakken;
     }
 
@@ -25,7 +26,7 @@ public class JsonVakResponse
         return vakken;
     }
 
-    public Rol getRol() {
-        return rol;
+    public Rol getEigenrol() {
+        return eigenrol;
     }
 }

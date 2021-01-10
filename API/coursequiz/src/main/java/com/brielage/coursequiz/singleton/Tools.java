@@ -16,7 +16,7 @@ import com.brielage.coursequiz.services.VraagService;
 
 import java.util.Optional;
 
-@SuppressWarnings("BooleanMethodIsAlwaysInverted")
+@SuppressWarnings({"BooleanMethodIsAlwaysInverted", "unused"})
 public enum Tools {
     INSTANCE;
 
@@ -30,8 +30,8 @@ public enum Tools {
         return userService.findById(userid).isPresent();
     }
 
-    public static boolean isUserAdminOrDocent(User user,
-                                              UserRolService userRolService) {
+    public static boolean isAdminOrDocent(User user,
+                                          UserRolService userRolService) {
         Rol rol = getRol(user, userRolService);
         return rol == Rol.ADMIN || rol == Rol.DOCENT;
     }
@@ -39,6 +39,11 @@ public enum Tools {
     public static boolean isDocent(User user,
                                    UserRolService userRolService) {
         return getRol(user, userRolService) == Rol.DOCENT;
+    }
+
+    public static boolean isAdmin(User user,
+                                  UserRolService userRolService) {
+        return getRol(user, userRolService) == Rol.ADMIN;
     }
 
     public static boolean isDocentVanVak(User user,

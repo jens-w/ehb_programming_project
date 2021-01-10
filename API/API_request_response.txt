@@ -151,7 +151,8 @@ api.brielage.com:8081/user/list/
 USER ADMIN/DOCENT KAN USERLIJST OPVRAGEN
 	REQUEST
 		{
-			"userkey" : "userkey1234"
+			"userkey" : "userkey1234",
+			"rol" : "STUDENT"
 		}
 
 	RESPONSE SUCCESS
@@ -159,14 +160,14 @@ USER ADMIN/DOCENT KAN USERLIJST OPVRAGEN
 			"success" : true,
 			"eigenrol" : "rol",
 			"users" : [
-				"user1" : {
+				{
 					"id" : 38,
 					"voornaam" : "een_voornaam",
 					"familienaam" : "een_familienaam",
 					"email" : "een@ema.il",
 					"rol" : "admin/docent/student"
 				},
-				"user2" : {
+				{
 					"id" : 12,
 					"voornaam" : "een_voornaam",
 					"familienaam" : "een_familienaam",
@@ -1097,7 +1098,7 @@ USER KAN QUIZLIJST OPVRAGEN PER VAK
 			]
 		}
 		
-		
+api.brielage.com:8081/quiz/get/
 USER KAN QUIZ AFNEMEN/DOEN
 	REQUEST
 		{
@@ -1107,39 +1108,46 @@ USER KAN QUIZ AFNEMEN/DOEN
 		
 	RESPONSE SUCCESS
 		{
-			"success" : true,
-			"eigenrol" : "rol",
-			"quizid" : 38,
-			"vragenlijst" : [
-				"vraag1" : {
-					"vraagid" : 48,
-					"vraag" : "dit is de vraaginhoud",
-					"multiplemultiplechoice" : true,
-					"antwoorden" : [
-						"antwoord1" : {
-							"antwoordid" : 83,
-							"antwoord" : "dit is het antwoord",
+			"success": true,
+			"eigenrol": rol
+			"quizid": 1,
+			"vragenlijst": [
+				{
+					"vraagid": 1,
+					"vraag": "vraag",
+					"multiplemultiplechoice": true,
+					"antwoorden": [
+						{
+							"id": 5,
+							"vraagId": 1,
+							"antwoord": "antwoord",
+							"juist": true
 						},
-						"antwoord2" : {
-							"antwoordid" : 17,
-							"antwoord" : "dit is het antwoord",
+						{
+							"id": 1,
+							"vraagId": 1,
+							"antwoord": "antwoord",
+							"juist": false
 						}
 					]
 				},
-				"vraag2" : {
-					"vraagid" : 48,
-					"vraag" : "dit is de vraaginhoud",
-					"multiplemultiplechoice" : true,
-					"antwoorden" : [
-						"antwoord1" : {
-							"antwoordid" : 83,
-							"antwoord" : "dit is het antwoord",
+				{
+					"vraagid": 2,
+					"vraag": "vraag",
+					"multiplemultiplechoice": false,
+					"antwoorden": [
+						{
+							"id": 10,
+							"vraagId": 2,
+							"antwoord": "antwoord",
+							"juist": true
 						},
-						"antwoord2" : {
-							"antwoordid" : 17,
-							"antwoord" : "dit is het antwoord",
+						{
+							"id": 9,
+							"vraagId": 2,
+							"antwoord": "antwoord",
+							"juist": false
 						}
-					]
 				}
 			]
 		}
@@ -1155,45 +1163,41 @@ USER KAN QUIZ AFNEMEN/DOEN
 			]
 		}
 		
-		
+api.brielage.com:8081/quiz/submit/
 USER KAN QUIZ INDIENEN
 	REQUEST
 		{
 			"userkey" : "userkey1234",
 			"quizid" : 38,
 			"antwoordenlijst" : [
-				"vraag1" : {
+				{
 					"vraagid" : 48,
 					"antwoorden" : [
-						"antwoord1" : {
-							"antwoordid" : 83,
+						{
+							"id" : 83,
 							"gekozen" : true
 						},
-						"antwoord2" : {
-							"antwoordid" : 17,
+						{
+							"id" : 17,
 							"gekozen" : false
 						}
 					]
 				},
-				"vraag2" : {
+				{
 					"vraagid" : 18,
 					"antwoorden" : [
-						"antwoord1" : {
-							"antwoordid" : 843,
+						{
+							"id" : 843,
 							"gekozen" : true
 						},
-						"antwoord2" : {
-							"antwoordid" : 117,
+						{
+							"id" : 117,
 							"gekozen" : true
 						}
 					]
 				}
 			]
 		}
-		
-		simpele multiple choice heeft slechts 1 gekozen antwoord, dus niet ieder antwoord moet meegegeven worden als het niet gekozen is (wordt wel voorzien dat het kan)
-		indien een vraag niet beantwoord is kan een lege array van antwoorden meegegeven worden of kan je ieder antwoord op false zetten
-		multiplemultiplechoice kan meerdere hebben
 		
 	RESPONSE SUCCESS
 		{

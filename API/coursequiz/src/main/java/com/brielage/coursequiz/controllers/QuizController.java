@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 @RestController
 @RequestMapping(value = "/quiz")
 public class QuizController {
@@ -88,4 +89,19 @@ public class QuizController {
         return quizRestService.listQuiz(jsonNode);
     }
 
+    @PostMapping(value = "/get",
+            consumes = "application/json",
+            produces = "application/json")
+    public String getQuiz(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
+        return quizRestService.getQuiz(jsonNode);
+    }
+
+    @PostMapping(value = "/submit",
+            consumes = "application/json",
+            produces = "application/json")
+    public String submitQuiz(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
+        return quizRestService.submitQuiz(jsonNode);
+    }
 }
