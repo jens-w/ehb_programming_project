@@ -106,4 +106,12 @@ public class UserRestController {
             throws JsonProcessingException {
         return userRestService.changeRol(jsonNode);
     }
+
+    @PostMapping(value = "/vak/add",
+            consumes = "application/json",
+            produces = "application/json")
+    public String vakAdd(@RequestBody JsonNode jsonNode)
+            throws JsonProcessingException {
+        return userRestService.vakAdd(jsonNode);
+    }
 }

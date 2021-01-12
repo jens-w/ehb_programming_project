@@ -294,7 +294,7 @@ public class UserRestService {
             if (jsonUser.getPassword() != null && !jsonUser.checkPassword())
                 return APIResponse.respond(false, "password_ongeldig");
 
-            if (!Tools.doesUserEmailExist(jsonUser.getEmail(), userService))
+            if (jsonUser.getEmail() != null && !Tools.doesUserEmailExist(jsonUser.getEmail(), userService))
                 return APIResponse.respond(false, "email_bestaat_al");
 
             String userkey = jsonUser.getUserkey();
@@ -562,10 +562,12 @@ public class UserRestService {
                 if (rol == Rol.ADMIN)
                     return APIResponse.respond(false, "user_heeft_meer_rechten");
 
-                if (rol == nieuwerol) {
+                if (rol == nieuwerol)
                     if (Tools.isDocentVanVak(u, vakid, docentVakService))
                         return APIResponse.respond(false, "user_heeft_zelfde_rechten");
-                }
+
+                if (rol == Rol.STUDENT)
+                    return APIResponse.respond(false, "user_is_student");
 
                 docentService.add(userid);
                 UserRol userRol = userRolService.findByUserId(userid).get();
@@ -577,6 +579,93 @@ public class UserRestService {
                     userService.findByUserkey(
                             jsonUser.getUserkey()).get(0).getId())
                     .get().getRol();
+
+            return APIResponse.respond(true, eigenrol);
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+
+            Map fouten = new LinkedHashMap();
+            fouten.put("veld_ongeldig", e.getPropertyName());
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, fouten);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            // LOG
+            logger.error("\n" + e.getMessage());
+
+            return APIResponse.respond(false, "andere");
+        }
+    }
+
+    public String vakAdd(JsonNode jsonNode)
+            throws JsonProcessingException {
+        // LOG
+        ResponseLogger.logRequest("user.vakAdd", jsonNode.toPrettyString());
+
+        try {
+            JsonUser jsonUser = objectMapper.treeToValue(jsonNode, JsonUser.class);
+
+            if (!Tools.userExists(jsonUser.getUserkey(), userService)) {
+                // LOG
+                logger.info("\nERR::userkey does not exist");
+
+                return APIResponse.respond(false, "andere");
+            }
+
+            long userid = jsonUser.getId();
+
+            if (!Tools.userExists(userid, userService))
+                return APIResponse.respond(false, "user_bestaat_niet");
+
+            Rol rol = userRolService.findByUserId(userid).get().getRol();
+
+            boolean isStudent = rol == Rol.STUDENT;
+            boolean isDocent = rol == Rol.DOCENT;
+
+            if (!(isStudent || isDocent))
+                return APIResponse.respond(false, "ongeldige_rol");
+
+            long vakid = jsonUser.getVakid();
+
+            if (vakid < 1)
+                return APIResponse.respond(false, "vakid_ongeldig");
+
+            if (!Tools.doesVakExist(vakid, vakService))
+                return APIResponse.respond(false, "vakid_bestaat_niet");
+
+            List<Vak> vakkenlijst = new ArrayList<>();
+
+            if (isStudent) {
+                List<StudentVak> studentVakList = studentVakService.findByStudentId(userid);
+                for (StudentVak sv : studentVakList)
+                    vakkenlijst.add(vakService.findById(sv.getVakId()).get());
+            }
+
+            if (isDocent) {
+                List<DocentVak> docentVakList = docentVakService.findByDocentId(userid);
+                for (DocentVak dv : docentVakList)
+                    vakkenlijst.add(vakService.findById(dv.getVakId()).get());
+            }
+
+            Vak vak = vakService.findById(vakid).get();
+
+            if (vakkenlijst.contains(vak))
+                return APIResponse.respond(false, "user_heeft_vak_al");
+
+            if (isStudent)
+                studentVakService.create(new StudentVak(userid, vakid));
+
+            if (isDocent)
+                docentVakService.create(new DocentVak(userid, vakid));
+
+            Rol eigenrol =
+                    userRolService.findByUserId(userService.findByUserkey(
+                            jsonUser.getUserkey()).get(0).getId()
+                    ).get().getRol();
 
             return APIResponse.respond(true, eigenrol);
         } catch (UnrecognizedPropertyException e) {
