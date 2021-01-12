@@ -9,7 +9,7 @@ return [
     'password_ongeldig' => 'Wachtwoord is ongeldig' ,
     'gebruiker_bestaat_al' => 'Deze gebruiker bestaat al reeds', 
     'geen_aanpassingen' => 'Gegevens zijn hetzelfde', 
-    'succesvol_aangemaakt' => 'succesvol aangemaakt!',
+    'succesvol_aangemaakt' => 'succes!',
     'omschrijving_ongeldig' => 'Gelieve een geldige omschrijving in te vullen',
     'quiznaam_ongeldig' => 'Gelieve een geldige naam in te vullen',
     'rechten_ongeldig' => 'Je hebt hiervoor niet de juiste rechten',

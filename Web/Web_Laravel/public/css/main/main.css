@@ -475,3 +475,8 @@ border-radius: 5px;
     padding: 5px;
     float: right;
 }
+
+
+.loader a, .loader div {
+    display: none !important;
+}

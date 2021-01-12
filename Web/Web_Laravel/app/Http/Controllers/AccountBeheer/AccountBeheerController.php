@@ -46,14 +46,14 @@ class AccountBeheerController extends BaseController
             case "admin":
                 $admin = new Admin();
                 $admin->fill($AccountViewModel);
-                $admin->userList = Self::GetUserList($admin->userKey, 'admin');
+                $admin->userList = Self::GetUserListAll($admin->userKey, 'admin');
                 $admin->vakkenList = VakkenController::GetVakkenList($admin->userKey);
                 return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $admin);
                 break;
             case 'docent':
                 $docent = new Docent();
                 $docent->fill($AccountViewModel);
-                $docent->userList = Self::GetUserList($docent->userKey, 'docent');
+                $docent->userList = Self::GetUserStudents($docent->userKey, 'docent');
                 return view('AccountBeheer/Gegevens.Overview')->with('AccountViewModel', $docent);
                 break;
             case "student":
@@ -101,13 +101,39 @@ class AccountBeheerController extends BaseController
         
     }
 
-
-    public function GetUserList($userKey, $type)
+    // GET ALL USERS (ENKEL ALS ADMIN)
+    public function GetUserListAll($userKey, $type)
     {
         // link voor api
         $apiArray = array();
         $apiArray['userkey'] = $userKey;
-        $apiArray['rol'] = strtoupper($type);
+        $apiArray['rol'] = "ALL";
+        $response = Http::post('api.brielage.com:8081/user/list', $apiArray );
+
+        
+        $response = json_decode($response, true);
+
+        // check if success is true
+        if (boolval($response["success"])) {    
+            Session::put('rol', $response['eigenrol']);  
+            return $response;
+        } else {
+            foreach ($response['errors'] as $key => $value) {
+                $errorArray[$key] = $value;
+            }
+            Session::put("errorsApi", $errorArray);
+            return view('AccountBeheer/Gegevens.Overview');
+        }   
+
+    }
+
+    // GET ALL USERS (ENKEL ALS ADMIN)
+    public function GetUserStudents($userKey, $type)
+    {
+        // link voor api
+        $apiArray = array();
+        $apiArray['userkey'] = $userKey;
+        $apiArray['rol'] = "STUDENT";
         $response = Http::post('api.brielage.com:8081/user/list', $apiArray );
 
         
@@ -189,17 +215,18 @@ class AccountBeheerController extends BaseController
                     return Redirect::back()->withErrors(['Foute username/wachtwoord combinatie!'])->withInput($request->all());
                 }
                 Self::genUserForSession($response);
-                return Redirect::back();
+                $errorArray["succesvol_aangemaakt"] = true;
+            Session::put("errorsApi", $errorArray);
+            return Redirect::back();
             } else {
                 $errorArray = array('andere' => true);
             }
         } else {
             $errorArray = array('geen_aanpassingen' => true);
+            Session::put("errorsApi", $errorArray);
+            return Redirect::back();
         }
-        // return redirect with error messages containing   
-        Session::put("errorsApi", $errorArray);
-        Session::save();
-        return Redirect::back();
+      
     }
 
 

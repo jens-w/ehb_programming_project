@@ -1,4 +1,6 @@
 // ACCOUNT.JS -- ENKEL OP DE ACCOUNT PAGINA GERENDERD // 
+
+
 $('.nav-tabs a').click(function(){
     $('a').each(function(){
         $(this).removeClass('active');
@@ -19,5 +21,9 @@ $(document).ready(function () {
     } else {
         $('a[href="#AccountInfoTab"]').tab('show');
     }
+    
 })
+
+
+
 

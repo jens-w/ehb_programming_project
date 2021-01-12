@@ -1,4 +1,4 @@
-<div class="account-info-wrapper">
+<div class="account-info-wrapper" >
 
     <div class="container">
         <div class="row">
@@ -20,7 +20,7 @@
             </div>
             <!-- tab effective -->
             <div class="col-lg-9">
-                <div class="tab-content border-0">
+                <div class="tab-content border-0" id="loading">
                     <div class="tab-pane fade in active" id="AccountInfoTab">
                         <div class="row">
                             <div class="col-6 sub-title">
