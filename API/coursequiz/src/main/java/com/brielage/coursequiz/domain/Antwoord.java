@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
@@ -20,7 +19,6 @@ public class Antwoord {
     private long vraagId;
     @NotBlank
     private String antwoord;
-    @NotEmpty
     private boolean isJuist;
 
     protected Antwoord() {
@@ -28,7 +26,7 @@ public class Antwoord {
 
     public Antwoord(@NotNull long vraagId,
                     @NotBlank String antwoord,
-                    @NotEmpty boolean isJuist) {
+                    boolean isJuist) {
         this.vraagId = vraagId;
         this.antwoord = antwoord;
         this.isJuist = isJuist;
@@ -37,7 +35,7 @@ public class Antwoord {
     public Antwoord(long id,
                     @NotNull long vraagId,
                     @NotBlank String antwoord,
-                    @NotEmpty boolean isJuist) {
+                    boolean isJuist) {
         this.id = id;
         this.vraagId = vraagId;
         this.antwoord = antwoord;
@@ -45,9 +43,9 @@ public class Antwoord {
     }
 
     public Antwoord(@NotBlank String antwoord,
-                    @NotEmpty boolean isJuist) {
-        this.antwoord=antwoord;
-        this.isJuist=isJuist;
+                    boolean isJuist) {
+        this.antwoord = antwoord;
+        this.isJuist = isJuist;
     }
 
     public long getId() {
